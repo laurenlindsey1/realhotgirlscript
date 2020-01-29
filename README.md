@@ -11,10 +11,9 @@
 - digitz = integers
 - wordz = strings
 
-## Variable Declaration and Assignment
-# Declaration
+## Variable Declaration
 
-# Assignment
+## Variable Assignment
 
 ## Operators
 
