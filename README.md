@@ -7,5 +7,25 @@
 ## Features
 - features here
 
+## Types
+- digitz = integers
+- wordz = strings
+
+## Variable Declaration and Assignment
+# Declaration
+
+# Assignment
+
+## Operators
+
+## Conditionals
+
+## Loops
+
+## Comments
+
+## Errors
+
+
 ## Example Programs
 - examples here
