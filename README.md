@@ -11,22 +11,12 @@
 - digitz = integers
 - wordz = strings
 
-## Variable Declaration
+## Variable Declaration and Assignment
+digitz count = 0
+wordz names = "Keanna, Lauren, Sage, Shanaya"
+stayz PI = 3.145
 
-## Variable Assignment
-
-## Operators
-
-## Conditionals
-
-## Loops
-
-## Comments
-
-## Errors
-
-
-## Example Programs
+## Function Declaration
 Hello World
 ```gangscript
 oop program to print hello world
@@ -40,6 +30,37 @@ periottt
 // program to print hello world
 console.log(“Hello World!”);
 ```
+
+## Operators
+
+## Conditionals
+
+## Loops
+### For Loops
+openHerUp(digitz i: 0; i < 10; i++) heyFuckers
+  suplilbitch(i);
+periottt
+
+### While Loops
+
+
+## Comments
+oop This program outputs the sum of the inputted numbers
+
+Getting thicc on u hoes
+  This program takes in four numbers and outputs:
+  Sum
+  Average
+  Largest number
+I don’t care for the commentary
+
+
+## Errors
+- Stack Overflow Error: lifesabeachandyoureheredude?
+- Syntax Error: youKnOWyOUsEEme
+- Unexpected Argument Error: fuckYou
+
+## Example Programs
 
 Adding Two Numbers
 ```gangscript
