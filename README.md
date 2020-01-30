@@ -12,13 +12,17 @@
 - wordz = strings
 
 ## Variable Declaration and Assignment
+```
 digitz count = 0
 wordz names = "Keanna, Lauren, Sage, Shanaya"
 stayz PI = 3.145
+```
 
 ## Function Declaration
-Hello World
-```gangscript
+#### Hello World
+
+GangScript
+```
 oop program to print hello world
 heyFuckers
   suplilbitch(“Hello World!”);
@@ -26,7 +30,8 @@ periottt
 
 ```
 
-```JavaScript
+JavaScript
+```
 // program to print hello world
 console.log(“Hello World!”);
 ```
@@ -37,22 +42,28 @@ console.log(“Hello World!”);
 
 ## Loops
 ### For Loops
+```
 openHerUp(digitz i: 0; i < 10; i++) heyFuckers
   suplilbitch(i);
 periottt
+```
 
 ### While Loops
 
 
 ## Comments
+```
 oop This program outputs the sum of the inputted numbers
+```
 
+```
 Getting thicc on u hoes
   This program takes in four numbers and outputs:
   Sum
   Average
   Largest number
 I don’t care for the commentary
+```
 
 
 ## Errors
@@ -62,8 +73,10 @@ I don’t care for the commentary
 
 ## Example Programs
 
-Adding Two Numbers
-```gangscript
+#### Adding Two Numbers
+
+GangScript
+```
 Getting thicc on u hoes
   adds two
   numbers
@@ -78,7 +91,8 @@ heyFuckers
 periott
 ```
 
-```JavaScript
+JavaScript
+```
 /* adds two
 numbers
 */
@@ -88,8 +102,10 @@ let num2 = 2;
 let printVal = "The sum is : ";
 console.log(printVal + `${num1 + num2}`);
 ```
-Switch Statement
-```gangscript
+#### Switch Statement
+
+GangScript
+```
 oop switch statement based off of a digitz
 heyFuckers
   digitz number: 0;
@@ -109,7 +125,8 @@ heyFuckers
 periott
 ```
 
-```JavaScript
+JavaScript
+```
 // switch statement based off of a number
 let number = 0; 
 let day;
