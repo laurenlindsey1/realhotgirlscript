@@ -1,0 +1,19 @@
+{
+  "name": "realhotgirlscript",
+  "version": "1.0.0",
+  "description": "Compilers project",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laurenlindsey1/realhotgirlscript.git"
+  },
+  "author": "KeAnna Anglin, Lauren Lindsey, Shanaya Nagendran, Sage Strieker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laurenlindsey1/realhotgirlscript/issues"
+  },
+  "homepage": "https://github.com/laurenlindsey1/realhotgirlscript#readme"
+}
