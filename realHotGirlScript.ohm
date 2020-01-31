@@ -1,4 +1,4 @@
-Gangscript {
+realHotGirlScript {
   Program     =  newline* Stmt+ newline*
   Stmt        =  SimpleStmt newline+                        -- simple
               |  "wylin" Exp Block                          -- while
