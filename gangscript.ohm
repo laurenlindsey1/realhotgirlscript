@@ -1,0 +1,76 @@
+Gangscript {
+  Program     =  newline* Stmt+ newline*
+  Stmt        =  SimpleStmt newline+                        -- simple
+              |  "wylin" Exp Block                          -- while
+              |  "if" Exp Block
+                 ("else if" Exp Block)*
+                 ("else" Block)?                            -- if
+              |  "openHerUp" Exp Block                      -- loop
+              |  "function"(Type | "void")
+                 id "(" Params ")" Block                    -- function
+  SimpleStmt  =  Type DeclIds ":" Exps                      -- vardecl
+              |  VarExps ":" Exps                           -- assign
+              |  Call                                       -- call
+              |  "GTFO"                                    	-- break
+              |   Exp? "and them's the facts"               -- return
+              |  Exp
+  Block       =  "<" Program ">"
+  Exp         =  Exp "||" Exp1                              -- or
+              |  Exp "&&" Exp1                             -- and
+              |  Exp1
+  Exp1        =  Exp2 relop Exp2                            -- binary
+              |  Exp2
+  Exp2        =  Exp2 addop Exp3                            -- binary
+              |  Exp3
+  Exp3        =  Exp3 mulop Exp4                            -- binary
+              |  Exp4
+  Exp4        =  prefixop Exp5                              -- unary
+              |  Exp5
+  Exp5        =  boollit
+              |  numlit
+              |  strlit
+              |  nonelit
+              |  "[" ListOf<Exp, ","> "]"                   -- arrays
+              |  "set" "<" ListOf<Exp, ","> ">"             -- set
+              |  "<" ListOf<KeyValue, ","> ">"              -- dict
+              |  Call                                       -- call
+              |  VarExp
+              |  "(" Exp ")"                                -- parens
+  KeyValue    =  Exp ":" Exp
+  Call        =  VarExp "(" Args ")"
+  Exps        =  NonemptyListOf<Exp, ",">
+  DeclId      =  id
+  DeclIds     =  NonemptyListOf<DeclId, ",">
+  VarExp      =  VarExp "[" Exp "]"                         -- subscripted
+              |  id                                         -- simple
+  VarExps     =  NonemptyListOf<VarExp, ",">
+  Param       =  Type id ("=" Exp)?
+  Params      =  ListOf<Param, ",">
+  Arg         =  Exp
+  Args        =  ListOf<Arg, ",">
+  Type        =  ( NumType | StringType | BooleanType | ArrayType | SetType | DictType )
+  NumType     =  "digitz"
+  StringType  =  "wordz"
+  BooleanType =  "boolz"
+  ConstType   =  "stayz"
+  ArrayType   =  "arrayz"Type "[]"
+  SetType     =  "setz<" Type ">"
+  DictType    =  "dictz<" Type ":" Type ">"
+  keyword     =  ("wylin" | "if" | "else" | "and them's the facts" | "yeet"
+              | "&&" | "||" | "suplilBitch" | "not" | "true" | "false") ~idrest
+  id          =  ~keyword ("_" | letter) idrest*
+  idrest      =  "_" | alnum
+  numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)?
+  boollit     =  "true" | "false"
+  strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""
+  nonelit     = "none"
+  escape      =  "\\" ("\\" | "\"" | "n")                   -- simple
+  addop       =  "+" | "-"
+  relop       =  "<=" | "<" | "==" | "!=" | "is" | ">=" | ">"
+  mulop       =  "*" | "//" | "/" | "%"
+  prefixop    =  "-" | "BANGENERGY"
+  newline     =  "\n"+
+  space      :=  " " | "\t" | comment
+  comment     =  "oop" (~"\n" any)* "\n"                    -- singleline
+              |  ":/" (~"/:" any)* "/:"                     -- multiline
+}
