@@ -7,7 +7,8 @@ Gangscript {
                  ("else" Block)?                            -- if
               |  "openHerUp" Exp Block                      -- loop
               |  "function"(Type | "void")
-                 id "(" Params ")" Block                    -- function
+                  id "(" Params ")" Block                   -- function
+              |  Print
   SimpleStmt  =  Type DeclIds ":" Exps                      -- vardecl
               |  VarExps ":" Exps                           -- assign
               |  Call                                       -- call
@@ -15,6 +16,7 @@ Gangscript {
               |   Exp? "and them's the facts"               -- return
               |  Exp
   Block       =  "<" Program ">"
+  Print 	  =  "supLilBitch" "(" Exp ")" ";"
   Exp         =  Exp "||" Exp1                              -- or
               |  Exp "&&" Exp1                             -- and
               |  Exp1
@@ -48,8 +50,9 @@ Gangscript {
   Params      =  ListOf<Param, ",">
   Arg         =  Exp
   Args        =  ListOf<Arg, ",">
-  Type        =  ( NumType | StringType | BooleanType | ArrayType | SetType | DictType )
+  Type        =  ( NumType | LongType| StringType | BooleanType | ArrayType | SetType | DictType )
   NumType     =  "digitz"
+  LongType    =  "longz"
   StringType  =  "wordz"
   BooleanType =  "boolz"
   ConstType   =  "stayz"
