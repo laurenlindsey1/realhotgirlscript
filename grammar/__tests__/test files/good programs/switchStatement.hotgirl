@@ -1,0 +1,15 @@
+digitz number: 0;
+wordz day;
+
+switchItUp (number)<
+   case 0:
+  		 day : "Sunday";
+  		  GTFO💩;
+  	   case 6:
+   		 day : "Saturday";
+    		GTFO💩;
+  	   default:
+    		day : "Weekday";
+>
+
+suplilbitch(“today is a %w”,  day);

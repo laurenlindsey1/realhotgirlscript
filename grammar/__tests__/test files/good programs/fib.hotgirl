@@ -1,0 +1,6 @@
+function digitz fibonacci(digitz x) <
+    if (x <= 1) <
+        x and them's the facts;
+    >
+    fibonacci(x - 1) + fibonacci(x - 2) and them's the facts;
+>

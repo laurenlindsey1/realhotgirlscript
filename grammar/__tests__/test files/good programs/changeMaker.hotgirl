@@ -1,0 +1,26 @@
+function arrayz makeChange(digitz amount)<
+
+    if (amount === 0) <
+        return [0, 0, 0, 0];
+    >
+
+    if (amount < 0) <
+        yeet new RangeError('Amount cannot be negative');
+    >
+
+    digitz initAmount: amount;
+    digitz newAmount;
+
+    digitz quarters: (initAmount / 25).getDown;
+    newAmount: initAmount % 25;
+
+    digitz dimes: (newAmount / 10).getDown;
+    newAmount %= 10;
+
+    digitz nickels: (newAmount / 5).getDown;
+    newAmount: newAmount % 5;
+
+    digitz pennies: newAmount;
+
+    [quarters, dimes, nickels, pennies] and them’s the facts;
+>

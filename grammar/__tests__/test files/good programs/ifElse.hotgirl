@@ -1,0 +1,9 @@
+digitz grade: 75;
+
+if (grade > 75)<
+    supLilBitch( "you passed!");
+> else if (grade == 75) <
+    supLilBitch( "you did ok");
+> else <
+   supLilBitch( "you failed :(");
+  >

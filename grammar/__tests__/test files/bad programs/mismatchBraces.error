@@ -1,0 +1,7 @@
+if (grade > 75)<
+    "you passed!" and them's the facts;
+> else if (grade == 75) <
+    "you did ok" and them's the facts;
+ else <
+    "you failed :(" and them's the facts;
+  >
