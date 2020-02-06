@@ -5,7 +5,15 @@
 Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax pulls from some of the sayings that the members of the team have each used as they programmed throughout the years together, as well references to pop culture icons, such as Meghan the Stallion, Ricky Thompson, and Trevor Wallace. 
 
 ## Features
-- features here
+- optional parameters
+- keywords for variables ending with z
+- data structures similar to arrays, sets, and dictionaries
+- closures that mimic Swift and Haskell styles
+- spread operations
+- object oriented programming langauge
+- switch statements
+- ```.hotgirl``` file extension
+- static typing
 
 ## Types
 | JavaScript  | RealHotGirlScript |
