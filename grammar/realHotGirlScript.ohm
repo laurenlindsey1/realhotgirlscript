@@ -5,7 +5,11 @@ realHotGirlScript {
               |  "if" Exp Block
                  ("else if" Exp Block)*
                  ("else" Block)?                            -- if
-              |  "openHerUp" Exp Block                      -- loop
+              |  "openHerUp"((NumType | LongType)
+              	 id "=" numlit ";" 
+                 id relop Exp ";"
+                 id incremop) Block  -- forloop1
+              |  "openHerUp"(GenericType id : ? ) Block  -- forloop2
               |  "function"(Type | "void")
                   id "(" Params ")" Block                   -- function
               |  Print
@@ -13,14 +17,14 @@ realHotGirlScript {
               |  VarExps ":" Exps                           -- assign
               |  Call                                       -- call
               |  "GTFO"                                    	-- break
-              |   Exp? "and them's the facts"               -- return
+              |  "and them's the facts" Exp?               -- return
               |  Exp
   Block       =  "<" Program ">"
   Print 	  =  "supLilBitch" "(" Exp ")" ";"
   Exp         =  Exp "||" Exp1                              -- or
               |  Exp "&&" Exp1                             -- and
               |  Exp1
-  Exp1        =  Exp2 relop Exp2                            -- binary
+  Exp1        =  Exp1 relop Exp2                            -- binary
               |  Exp2
   Exp2        =  Exp2 addop Exp3                            -- binary
               |  Exp3
@@ -38,6 +42,8 @@ realHotGirlScript {
               |  Call                                       -- call
               |  VarExp
               |  "(" Exp ")"                                -- parens
+              | Exp6 
+  Exp6        =  Exp6 incremop
   KeyValue    =  Exp ":" Exp
   Call        =  VarExp "(" Args ")"
   Exps        =  NonemptyListOf<Exp, ",">
@@ -63,13 +69,14 @@ realHotGirlScript {
               | "&&" | "||" | "suplilBitch" | "not" | "true" | "false") ~idrest
   id          =  ~keyword ("_" | letter) idrest*
   idrest      =  "_" | alnum
-  numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)?
+  numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)? 
   boollit     =  "true" | "false"
   strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""
   nonelit     = "none"
   escape      =  "\\" ("\\" | "\"" | "n")                   -- simple
+  incremop 	  =  "++" | "--"
   addop       =  "+" | "-"
-  relop       =  "<=" | "<" | "==" | "!=" | "is" | ">=" | ">"
+  relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"
   mulop       =  "*" | "//" | "/" | "%"
   prefixop    =  "-" | "BANGENERGY"
   newline     =  "\n"+
@@ -77,3 +84,9 @@ realHotGirlScript {
   comment     =  "oop" (~"\n" any)* "\n"                    -- singleline
               |  ":/" (~"/:" any)* "/:"                     -- multiline
 }
+
+AND FUNC AS A KEYWORD FOR THE HW 
+GENERIC TYPE 
+TUPLES 
+ALL THE QUESTIONS AND GO OVER THE TABLE 
+
