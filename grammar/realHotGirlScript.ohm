@@ -6,13 +6,13 @@ realHotGirlScript {
               |  "iHaveSomethingToSay🙅🏾‍♀️" Exp Block
                  ("becauseWhyyyyyyy😼" Exp Block)*
                  ("BECAUSEIMONFUCKINGVACATION👅" Block)?            -- if
-              |  "shutUpGirlfriend" Case+ DefaultCase? "😈"         -- switch
+              |  "shutUpGirlfriend😈"  Case+ DefaultCase?        -- switch
               |  "openHerUp"((NumType | LongType)
               	  id "=" numlit "🔥" 
                  id relop Exp "🔥"
                  id incremop) Block                                 -- forloop1
-              |  "openHerUp🍑"(id ":" ArrayType) Block              -- forloop2
-              |  "sheWaits😩"? "function"(Type | "void")
+              |  "openHerUp🍑"(id "|" ArrayType) Block              -- forloop2
+              |  "sheWaits😩"? "weOutHereTryinToFunction"(Type | "void")
                  id "(" Params ")" Block                            -- function
   SimpleStmt  =  Type DeclIds ":" Exps                              -- vardecl
               |  VarExps ":" Exps                                   -- assign
@@ -38,10 +38,10 @@ realHotGirlScript {
               |  Exp4
   Exp4        =  prefixop Exp5                                     -- unary
               |  Exp5
-  Exp5        =  Exp6 incremop?                                    -- increment+decrement
+  Exp5        =  Exp6 incremop?                                    -- increment
   Exp6        =  Exp7 "^" Exp6                                     -- exponentiation
               |  Exp7
-  Exp7        = "seeYa" id "=" ((Exp8";")+) "wouldntWannBeYa" | "<"ListOf<Exp, ",">"💋"Exp">" | "<""$"id(",""$"id)* Exp">"  
+  Exp7        = "seeYa" id ":" ((Exp8";")+) "wouldntWannBeYa"      --closure
   Exp8        =  boollit
               |  numlit
               |  strlit
@@ -49,7 +49,7 @@ realHotGirlScript {
               |  ArrayType"[" ListOf<Exp, ","> "]"                 -- arrays
               |  SetType "<" ListOf<Exp, ","> ">"                  -- set
               |  DictType"<" ListOf<KeyValue, ","> ">"             -- dict
-              |  TupleType"(" ListOf<Exp, ","> ")" --tuple         -- tuple
+              |  TupleType"(" ListOf<Exp, ","> ")"                 -- tuple
               |  Call                                              -- call
               |  VarExp
               |  "(" Exp ")"                                       -- parens
@@ -62,7 +62,7 @@ realHotGirlScript {
   VarExp      =  VarExp "[" Exp "]"                                -- subscripted
               |  id                                                -- simple
   VarExps     =  NonemptyListOf<VarExp, ",">
-  Param       =  Type id ("=" Exp)?
+  Param       =  Type id (":" Exp)?
   Params      =  ListOf<Param, ",">
   Arg         =  Exp
   Args        =  ListOf<Arg, ",">
@@ -78,10 +78,10 @@ realHotGirlScript {
   DictType    =  "dictz<" Type ":" Type ">"
   TupleType   =  "tuplez"Type"()"
   keyword     =  ("ATTENTIONATTENTION 🗣" | "!!!" | "wylin🤪" | "yeet" | "iHaveSomethingToSay🙅🏾‍♀️"
-              | "&&" | "becauseWhyyyyyyy😼" | "BECAUSEIMONFUCKINGVACATION👅" | "shutUpGirlfriend" | "😈"
+              | "&&" | "becauseWhyyyyyyy😼" | "BECAUSEIMONFUCKINGVACATION👅" | "shutUpGirlfriend😈"
               | "openHerUp" | "🔥"  | "openHerUp🍑" | "sheWaits😩" | "andWhatAboutIt" | "||" | "suplilBitch" 
               | "andLetMeDoMe🤑" | "newBootzBeeeeatch✨" | "hotlineBling💎" | "autoz" | "digitz" | "longz" | "wordz" | "boolz" |"trueShit" | "stayz" 
-              | "arrayz" | "setz" | "dictz" | "tuplez" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!") ~idrest
+              | "arrayz" | "setz" | "dictz" | "tuplez" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!" | "weOutHereTryinToFunction" | "?" | "andThemsTheFacts" | "GTFO") ~idrest
   id          =  ~keyword ("_" | letter) idrest*
   idrest      =  "_" | alnum
   numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)? 
@@ -95,6 +95,7 @@ realHotGirlScript {
   relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"
   mulop       =  "*" | "//" | "/" | "%"
   prefixop    =  "-" | "BANGENERGY"
+  postfixop   =  "?"
   newline     =  "\n"+
   space      :=  " " | "\t" | comment
   comment     =  "oop" (~"\n" any)* "\n"                          -- singleline

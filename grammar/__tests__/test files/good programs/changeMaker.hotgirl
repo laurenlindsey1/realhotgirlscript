@@ -1,10 +1,10 @@
-function arrayz makeChange(digitz amount)<
+weOutHereTryinToFunction arrayz makeChange(digitz amount) <
 
-    if (amount === 0) <
-        return [0, 0, 0, 0];
+    iHaveSomethingToSay🙅🏾‍♀️ (amount === 0) <
+        andThemsTheFacts [0, 0, 0, 0];
     >
 
-    if (amount < 0) <
+    iHaveSomethingToSay🙅🏾‍♀️ (amount < 0) <
         yeet new RangeError('Amount cannot be negative');
     >
 
@@ -22,5 +22,5 @@ function arrayz makeChange(digitz amount)<
 
     digitz pennies: newAmount;
 
-    [quarters, dimes, nickels, pennies] and them’s the facts;
+    andThemsTheFacts [quarters, dimes, nickels, pennies] ;
 >
