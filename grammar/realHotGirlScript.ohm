@@ -1,27 +1,30 @@
 realHotGirlScript {
-  Program     =  newline* Stmt+ newline*
-  Stmt        =  SimpleStmt newline+                        -- simple
-              |"nicenclassy" id "(" Params ")" Block -- class
-              |"wylin" Exp Block                          -- while
+  Program     =  Stmt+
+  Stmt        =  SimpleStmt "!!!"                         -- simple
+              |  "nicenclassy" id "(" Params ")" Block    -- class
+              |  "wylin" Exp Block                        -- while
               |  "if" Exp Block
                  ("else if" Exp Block)*
                  ("else" Block)?                            -- if
+              |  "shutUpGirlfriend" Case+ DefaultCase? "😈" -- switch
               |  "openHerUp"((NumType | LongType)
-              	 id "=" numlit ";" 
-                 id relop Exp ";"
-                 id incremop) Block  -- forloop1
-              |  "openHerUp"(Type id ":" ArrayType) Block  -- forloop2
-              |  "async"? "function"(Type | "void")
-                  id "(" Params ")" Block                   -- function
-              |  Print
+              	 id "=" numlit "🔥" 
+                 id relop Exp "🔥"
+                 id incremop) Block                         -- forloop1
+              |  "openHerUp"(id ":" ArrayType) Block        -- forloop2
+              |  "sheWaits"? "function"(Type | "void")
+                 id "(" Params ")" Block                    -- function
   SimpleStmt  =  Type DeclIds ":" Exps                      -- vardecl
               |  VarExps ":" Exps                           -- assign
               |  Call                                       -- call
+              |  Print
               |  "GTFO"                                    	-- break
-              |  "and them's the facts" Exp?               -- return
+              |  "and them's the facts" Exp?                -- return
               |  Exp
   Block       =  "<" Program ">"
-  Print 	  =  "supLilBitch" "(" Exp ")" ";"
+  Print 	  =  "supLilBitch" "(" Exp ")"
+  Case        =  "andWhatAboutIt" Exp "👉" Block
+  DefaultCase =  "andLetMeDoMe" "👉" Block
   Exp         =  Exp "||" Exp1                              -- or
               |  Exp "&&" Exp1                             -- and
               |  Exp1
@@ -31,10 +34,11 @@ realHotGirlScript {
               |  Exp3
   Exp3        =  Exp3 mulop Exp4                            -- binary
               |  Exp4
-  Exp4        =  prefixop Exp8                              -- unary
-              |  Exp8
-  Exp5        =  Exp5 incremop
-  Exp6        =  Exp6 "^" Exp8
+  Exp4        =  prefixop Exp5                              -- unary
+              |  Exp5
+  Exp5        =  Exp6 incremop?
+  Exp6        =  Exp7 "^" Exp6                      -- binary
+              |  Exp7
   Exp7        = "let" id "=" ((Exp8";")+) "end"
   Exp8        =  boollit
               |  numlit
@@ -90,6 +94,3 @@ realHotGirlScript {
   comment     =  "oop" (~"\n" any)* "\n"                    -- singleline
               |  ":/" (~"/:" any)* "/:"                     -- multiline
 }
-
-
-
