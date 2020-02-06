@@ -1,7 +1,8 @@
 realHotGirlScript {
   Program     =  newline* Stmt+ newline*
   Stmt        =  SimpleStmt newline+                        -- simple
-              |  "wylin" Exp Block                          -- while
+              |"nicenclassy" id "(" Params ")" Block -- class
+              |"wylin" Exp Block                          -- while
               |  "if" Exp Block
                  ("else if" Exp Block)*
                  ("else" Block)?                            -- if
@@ -9,8 +10,8 @@ realHotGirlScript {
               	 id "=" numlit ";" 
                  id relop Exp ";"
                  id incremop) Block  -- forloop1
-              |  "openHerUp"(GenericType id : ? ) Block  -- forloop2
-              |  "function"(Type | "void")
+              |  "openHerUp"(Type id ":" ArrayType) Block  -- forloop2
+              |  "async"? "function"(Type | "void")
                   id "(" Params ")" Block                   -- function
               |  Print
   SimpleStmt  =  Type DeclIds ":" Exps                      -- vardecl
@@ -30,24 +31,27 @@ realHotGirlScript {
               |  Exp3
   Exp3        =  Exp3 mulop Exp4                            -- binary
               |  Exp4
-  Exp4        =  prefixop Exp5                              -- unary
-              |  Exp5
-  Exp5        =  boollit
+  Exp4        =  prefixop Exp8                              -- unary
+              |  Exp8
+  Exp5        =  Exp5 incremop
+  Exp6        =  Exp6 "^" Exp8
+  Exp7        = "let" id "=" ((Exp8";")+) "end"
+  Exp8        =  boollit
               |  numlit
               |  strlit
               |  nonelit
-              |  "[" ListOf<Exp, ","> "]"                   -- arrays
-              |  "set" "<" ListOf<Exp, ","> ">"             -- set
-              |  "<" ListOf<KeyValue, ","> ">"              -- dict
+              |  ArrayType"[" ListOf<Exp, ","> "]"                   -- arrays
+              |  SetType "<" ListOf<Exp, ","> ">"             -- set
+              |  DictType"<" ListOf<KeyValue, ","> ">"              -- dict
+              |  TupleType"(" ListOf<Exp, ","> ")" --tuple
               |  Call                                       -- call
               |  VarExp
               |  "(" Exp ")"                                -- parens
-              | Exp6 
-  Exp6        =  Exp6 incremop
+              | Exp5 
   KeyValue    =  Exp ":" Exp
-  Call        =  VarExp "(" Args ")"
+  Call        =  "await"? VarExp "(" Args ")"
   Exps        =  NonemptyListOf<Exp, ",">
-  DeclId      =  id
+  DeclId      =  id 
   DeclIds     =  NonemptyListOf<DeclId, ",">
   VarExp      =  VarExp "[" Exp "]"                         -- subscripted
               |  id                                         -- simple
@@ -57,6 +61,7 @@ realHotGirlScript {
   Arg         =  Exp
   Args        =  ListOf<Arg, ",">
   Type        =  ( NumType | LongType| StringType | BooleanType | ArrayType | SetType | DictType )
+  GenericType =  "autoz"
   NumType     =  "digitz"
   LongType    =  "longz"
   StringType  =  "wordz"
@@ -65,8 +70,9 @@ realHotGirlScript {
   ArrayType   =  "arrayz"Type "[]"
   SetType     =  "setz<" Type ">"
   DictType    =  "dictz<" Type ":" Type ">"
+  TupleType   = "tuplez"Type"()"
   keyword     =  ("wylin" | "if" | "else" | "and them's the facts" | "yeet"
-              | "&&" | "||" | "suplilBitch" | "not" | "true" | "false") ~idrest
+              | "&&" | "||" | "suplilBitch" | "not" | "true" | "false" | "let" | "end") ~idrest
   id          =  ~keyword ("_" | letter) idrest*
   idrest      =  "_" | alnum
   numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)? 
@@ -85,8 +91,5 @@ realHotGirlScript {
               |  ":/" (~"/:" any)* "/:"                     -- multiline
 }
 
-AND FUNC AS A KEYWORD FOR THE HW 
-GENERIC TYPE 
-TUPLES 
-ALL THE QUESTIONS AND GO OVER THE TABLE 
+
 
