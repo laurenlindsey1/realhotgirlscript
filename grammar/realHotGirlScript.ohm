@@ -8,7 +8,7 @@ realHotGirlScript {
                  ("BECAUSEIMONFUCKINGVACATION👅" Block)?            -- if
               |  "shutUpGirlfriend😈"  Case+ DefaultCase?        -- switch
               |  "openHerUp"((NumType | LongType)
-              	  id "=" numlit "🔥" 
+              	  id ":" numlit "🔥" 
                  id relop Exp "🔥"
                  id incremop) Block                                 -- forloop1
               |  "openHerUp🍑"(id "|" ArrayType) Block              -- forloop2
