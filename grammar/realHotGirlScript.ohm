@@ -81,7 +81,7 @@ realHotGirlScript {
               | "&&" | "becauseWhyyyyyyy😼" | "BECAUSEIMONFUCKINGVACATION👅" | "shutUpGirlfriend😈"
               | "openHerUp" | "🔥"  | "openHerUp🍑" | "sheWaits😩" | "andWhatAboutIt" | "||" | "suplilBitch" 
               | "andLetMeDoMe🤑" | "newBootzBeeeeatch✨" | "hotlineBling💎" | "autoz" | "digitz" | "longz" | "wordz" | "boolz" |"trueShit" | "stayz" 
-              | "arrayz" | "setz" | "dictz" | "tuplez" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!" | "weOutHereTryinToFunction" | "?" | "andThemsTheFacts" | "GTFO") ~idrest
+              | "arrayz" | "setz" | "dictz" | "tuplez" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!" | "weOutHereTryinToFunction" | "?" | "andThemsTheFacts" | "GTFO"| "ANDINTHATORDER👏🏾") ~idrest
   id          =  ~keyword ("_" | letter) idrest*
   idrest      =  "_" | alnum
   numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)? 
@@ -100,4 +100,8 @@ realHotGirlScript {
   space      :=  " " | "\t" | comment
   comment     =  "oop" (~"\n" any)* "\n"                          -- singleline
               |  ":/" (~"/:" any)* "/:"                           -- multiline
+   // SUBSCRIPT CALL DICTIONARY SUBSCRIPTING TO GET THE KEY VALUE 
+   // FUNCTIONS
+   // DONT DEAL WITH SETS 
+   // DEALING WITH OPERATOR DIFFERENCE / AMBIGUITY 
 }
