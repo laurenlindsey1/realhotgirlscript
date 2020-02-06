@@ -1,64 +1,66 @@
 realHotGirlScript {
   Program     =  Stmt+
-  Stmt        =  SimpleStmt "!!!"                         -- simple
-              |  "nicenclassy" id "(" Params ")" Block    -- class
-              |  "wylin" Exp Block                        -- while
-              |  "if" Exp Block
-                 ("else if" Exp Block)*
-                 ("else" Block)?                            -- if
-              |  "shutUpGirlfriend" Case+ DefaultCase? "😈" -- switch
+  Stmt        =  SimpleStmt "!!!"                                   -- simple
+              |  "ATTENTIONATTENTION 🗣" id "(" Params ")" Block    -- class
+              |  "wylin🤪" Exp Block                                -- while
+              |  "iHaveSomethingToSay🙅🏾‍♀️" Exp Block
+                 ("becauseWhyyyyyyy😼" Exp Block)*
+                 ("BECAUSEIMONFUCKINGVACATION👅" Block)?            -- if
+              |  "shutUpGirlfriend" Case+ DefaultCase? "😈"         -- switch
               |  "openHerUp"((NumType | LongType)
               	  id "=" numlit "🔥" 
                  id relop Exp "🔥"
-                 id incremop) Block                         -- forloop1
-              |  "openHerUp"(id ":" ArrayType) Block        -- forloop2
-              |  "sheWaits"? "function"(Type | "void")
-                 id "(" Params ")" Block                    -- function
-  SimpleStmt  =  Type DeclIds ":" Exps                      -- vardecl
-              |  VarExps ":" Exps                           -- assign
-              |  Call                                       -- call
-              |  Print
-              |  "GTFO"                                    	-- break
-              |  "and them's the facts" Exp?                -- return
+                 id incremop) Block                                 -- forloop1
+              |  "openHerUp🍑"(id ":" ArrayType) Block              -- forloop2
+              |  "sheWaits😩"? "function"(Type | "void")
+                 id "(" Params ")" Block                            -- function
+  SimpleStmt  =  Type DeclIds ":" Exps                              -- vardecl
+              |  VarExps ":" Exps                                   -- assign
+              |  Call                                               -- call
+              |  ObjectDec                                          -- newObject
+              |  Print                                              -- print
+              |  "GTFO"                                    	        -- break
+              |  "andThemsTheFacts" Exp?                            -- return
               |  Exp
   Block       =  "<" Program ">"
-  Print 	  =  "supLilBitch" "(" Exp ")"
+  Print 	     =  "supLilBitch" "(" Exp ")"
   Case        =  "andWhatAboutIt" Exp "👉" Block
-  DefaultCase =  "andLetMeDoMe" "👉" Block
-  Exp         =  Exp "||" Exp1                              -- or
-              |  Exp "&&" Exp1                             -- and
+  DefaultCase =  "andLetMeDoMe🤑" Block
+  ObjectDec   =  "newBootzBeeeeatch✨" "(" Params ")" Block
+  Exp         =  Exp "||" Exp1                                     -- or
+              |  Exp "&&" Exp1                                     -- and
               |  Exp1
-  Exp1        =  Exp1 relop Exp2                            -- binary
+  Exp1        =  Exp1 relop Exp2                                   -- binary
               |  Exp2
-  Exp2        =  Exp2 addop Exp3                            -- binary
+  Exp2        =  Exp2 addop Exp3                                   -- binary
               |  Exp3
-  Exp3        =  Exp3 mulop Exp4                            -- binary
+  Exp3        =  Exp3 mulop Exp4                                   -- binary
               |  Exp4
-  Exp4        =  prefixop Exp5                              -- unary
+  Exp4        =  prefixop Exp5                                     -- unary
               |  Exp5
-  Exp5        =  Exp6 incremop?
-  Exp6        =  Exp7 "^" Exp6                      -- binary
+  Exp5        =  Exp6 incremop?                                    -- increment+decrement
+  Exp6        =  Exp7 "^" Exp6                                     -- exponentiation
               |  Exp7
-  Exp7        = "let" id "=" ((Exp8";")+) "end"
+  Exp7        = "seeYa" id "=" ((Exp8";")+) "wouldntWannBeYa" | "<"ListOf<Exp, ",">"💋"Exp">" | "<""$"id(",""$"id)* Exp">"  
   Exp8        =  boollit
               |  numlit
               |  strlit
               |  nonelit
-              |  ArrayType"[" ListOf<Exp, ","> "]"                   -- arrays
-              |  SetType "<" ListOf<Exp, ","> ">"             -- set
-              |  DictType"<" ListOf<KeyValue, ","> ">"              -- dict
-              |  TupleType"(" ListOf<Exp, ","> ")" --tuple
-              |  Call                                       -- call
+              |  ArrayType"[" ListOf<Exp, ","> "]"                 -- arrays
+              |  SetType "<" ListOf<Exp, ","> ">"                  -- set
+              |  DictType"<" ListOf<KeyValue, ","> ">"             -- dict
+              |  TupleType"(" ListOf<Exp, ","> ")" --tuple         -- tuple
+              |  Call                                              -- call
               |  VarExp
-              |  "(" Exp ")"                                -- parens
+              |  "(" Exp ")"                                       -- parens
               | Exp5 
   KeyValue    =  Exp ":" Exp
-  Call        =  "await"? VarExp "(" Args ")"
+  Call        =  "hotlineBling💎"? VarExp "(" Args ")"
   Exps        =  NonemptyListOf<Exp, ",">
   DeclId      =  id 
   DeclIds     =  NonemptyListOf<DeclId, ",">
-  VarExp      =  VarExp "[" Exp "]"                         -- subscripted
-              |  id                                         -- simple
+  VarExp      =  VarExp "[" Exp "]"                                -- subscripted
+              |  id                                                -- simple
   VarExps     =  NonemptyListOf<VarExp, ",">
   Param       =  Type id ("=" Exp)?
   Params      =  ListOf<Param, ",">
@@ -74,23 +76,27 @@ realHotGirlScript {
   ArrayType   =  "arrayz"Type "[]"
   SetType     =  "setz<" Type ">"
   DictType    =  "dictz<" Type ":" Type ">"
-  TupleType   = "tuplez"Type"()"
-  keyword     =  ("wylin" | "if" | "else" | "and them's the facts" | "yeet"
-              | "&&" | "||" | "suplilBitch" | "not" | "true" | "false" | "let" | "end") ~idrest
+  TupleType   =  "tuplez"Type"()"
+  keyword     =  ("ATTENTIONATTENTION 🗣" | "!!!" | "wylin🤪" | "yeet" | "iHaveSomethingToSay🙅🏾‍♀️"
+              | "&&" | "becauseWhyyyyyyy😼" | "BECAUSEIMONFUCKINGVACATION👅" | "shutUpGirlfriend" | "😈"
+              | "openHerUp" | "🔥"  | "openHerUp🍑" | "sheWaits😩" | "andWhatAboutIt" | "||" | "suplilBitch" 
+              | "andLetMeDoMe🤑" | "newBootzBeeeeatch✨" | "hotlineBling💎" | "autoz" | "digitz" | "longz" | "wordz" | "boolz" |"trueShit" | "stayz" 
+              | "arrayz" | "setz" | "dictz" | "tuplez" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!") ~idrest
   id          =  ~keyword ("_" | letter) idrest*
   idrest      =  "_" | alnum
   numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)? 
-  boollit     =  "true" | "false"
+  boollit     =  "trueShit" | "fraudulentAssBitch"
   strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""
   nonelit     = "none"
-  escape      =  "\\" ("\\" | "\"" | "n")                   -- simple
+  escape      =  "\\" ("\\" | "\"" | "n")                          -- simple
   incremop 	  =  "++" | "--"
+  spread      =  "ANDINTHATORDER👏🏾"                          
   addop       =  "+" | "-"
   relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"
   mulop       =  "*" | "//" | "/" | "%"
   prefixop    =  "-" | "BANGENERGY"
   newline     =  "\n"+
   space      :=  " " | "\t" | comment
-  comment     =  "oop" (~"\n" any)* "\n"                    -- singleline
-              |  ":/" (~"/:" any)* "/:"                     -- multiline
+  comment     =  "oop" (~"\n" any)* "\n"                          -- singleline
+              |  ":/" (~"/:" any)* "/:"                           -- multiline
 }
