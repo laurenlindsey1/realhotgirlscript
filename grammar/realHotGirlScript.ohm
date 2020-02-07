@@ -1,7 +1,9 @@
 realHotGirlScript {
-  Program     =  Stmt+
+  Program     =  Stmt+ | FunctionStmt | ClassesStmt
+  ClassesStmt  = "ATTENTIONATTENTION 🗣" id "(" Params ")" ClassBlock    -- class
+  FunctionStmt = "sheWaits😩"? "weOutHereTryinToFunction"(Type | "void")
+                 id "(" Params ")" FuncBlock                            -- function
   Stmt        =  SimpleStmt "!!!"                                   -- simple
-              |  "ATTENTIONATTENTION 🗣" id "(" Params ")" Block    -- class
               |  "wylin🤪" Exp Block                                -- while
               |  "iHaveSomethingToSay🙅🏾‍♀️" Exp Block
                  ("becauseWhyyy😼" Exp Block)*
@@ -13,8 +15,6 @@ realHotGirlScript {
                  id incremop) Block                                 -- forloop1
               |  "openHerUp🍑" id 
                  "["Exp spread Exp "]" Block                        -- forloop2
-              |  "sheWaits😩"? "weOutHereTryinToFunction"(Type | "void")
-                 id "(" Params ")" Block                            -- function
   SimpleStmt  =  Type DeclIds ":" Exps                              -- vardecl
               |  VarExps ":" Exps                                   -- assign
               |  Call                                               -- call
@@ -23,8 +23,10 @@ realHotGirlScript {
               |  "GTFO💩"                                    	    -- break
               |  "andThemsTheFacts" Exp?                            -- return
               |  Exp
-  Block       =  "<" SimpleStmt ">"                                 
-  Print 	     =  "supLilBitch" "(" Exp ")"                       
+  ClassBlock  =  "<" FunctionStmt ">"
+  FuncBlock   =  "<" Stmt ">" | "<" SimpleStmt ">"
+  Block       =  "<" Stmt ">" | "<" SimpleStmt ">"                             
+  Print 	     =  "supLilBitch" Exp                      
   Case        =  "andWhatAboutIt" Exp "👉" Block
   DefaultCase =  "andLetMeDoMe🤑" Block
   ObjectDec   =  "newBootzBeeeatch✨" "(" Params ")" Block
@@ -77,9 +79,9 @@ realHotGirlScript {
   LongType    =  "longz"
   StringType  =  "wordz"
   BooleanType =  "boolz"
-  ArrayType   =  "arrayz""["Type "]"
-  SetType     =  "setz" "<" Type ">"
-  DictType    =  "dictz" "<" Type "=" Type ">"
+  ArrayType   =  "arrayz""["Type"]"
+  SetType     =  "setz" "<"Type">"
+  DictType    =  "dictz" "<"Type"="Type">"
   TupleType   =  "tuplez""("Type")"
   ConstType   =  "stayz"
   keyword     =  ("ATTENTIONATTENTION 🗣" | "!!!" | "wylin🤪" | "yeet" | "iHaveSomethingToSay🙅🏾‍♀️"

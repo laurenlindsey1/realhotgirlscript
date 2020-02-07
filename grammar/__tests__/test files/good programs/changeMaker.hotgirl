@@ -1,11 +1,11 @@
 weOutHereTryinToFunction arrayz[digitz] makeChange(digitz amount) <
 
     iHaveSomethingToSay🙅🏾‍♀️ (amount === 0) <
-        andThemsTheFacts [0, 0, 0, 0]!!!
+        andThemsTheFacts arrayz[digitz][0, 0, 0, 0]!!!
     >
 
     iHaveSomethingToSay🙅🏾‍♀️ (amount < 0) <
-        yeet new RangeError('Amount cannot be negative')!!!
+        supLilBitch ('Amount cannot be negative')!!!
     >
 
     digitz initAmount: amount!!!
