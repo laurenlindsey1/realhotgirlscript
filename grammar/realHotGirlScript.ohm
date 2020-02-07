@@ -4,7 +4,7 @@ realHotGirlScript {
               |  "ATTENTIONATTENTION 🗣" id "(" Params ")" Block    -- class
               |  "wylin🤪" Exp Block                                -- while
               |  "iHaveSomethingToSay🙅🏾‍♀️" Exp Block
-                 ("becauseWhyyyyyyy😼" Exp Block)*
+                 ("becauseWhyyy😼" Exp Block)*
                  ("BECAUSEIMONFUCKINGVACATION👅" Block)?            -- if
               |  "shutUpGirlfriend😈"  Case+ DefaultCase?        -- switch
               |  "openHerUp"((NumType | LongType)
@@ -26,7 +26,7 @@ realHotGirlScript {
   Print 	     =  "supLilBitch" "(" Exp ")"
   Case        =  "andWhatAboutIt" Exp "👉" Block
   DefaultCase =  "andLetMeDoMe🤑" Block
-  ObjectDec   =  "newBootzBeeeeatch✨" "(" Params ")" Block
+  ObjectDec   =  "newBootzBeeeatch✨" "(" Params ")" Block
   Exp         =  Exp "||" Exp1                                     -- or
               |  Exp "&&" Exp1                                     -- and
               |  Exp1
@@ -38,11 +38,12 @@ realHotGirlScript {
               |  Exp4
   Exp4        =  prefixop Exp5                                     -- unary
               |  Exp5
-  Exp5        =  Exp6 incremop?                                    -- increment
-  Exp6        =  Exp7 "^" Exp6                                     -- exponentiation
-              |  Exp7
-  Exp7        = "seeYa" id ":" ((Exp8";")+) "wouldntWannBeYa"      --closure
-  Exp8        =  boollit
+  Exp5        =  Exp6 postfixop                                    -- optionals
+  Exp6        =  Exp7 incremop?                                    -- increment
+  Exp7        =  Exp8 "^" Exp9                                     -- exponentiation
+              |  Exp9
+  Exp10        =  "seeYa" id ":" ((Exp11"!!!")+) "wouldntWannBeYa"  --closure
+  Exp11       =  boollit
               |  numlit
               |  strlit
               |  nonelit
@@ -53,13 +54,15 @@ realHotGirlScript {
               |  Call                                              -- call
               |  VarExp
               |  "(" Exp ")"                                       -- parens
-              | Exp5 
+              | Exp 
   KeyValue    =  Exp ":" Exp
   Call        =  "hotlineBling💎"? VarExp "(" Args ")"
   Exps        =  NonemptyListOf<Exp, ",">
   DeclId      =  id 
   DeclIds     =  NonemptyListOf<DeclId, ",">
   VarExp      =  VarExp "[" Exp "]"                                -- subscripted
+              |  VarExp  "."  id                                   -- subscripted 
+              |  Call "." id                                       -- subscripted
               |  id                                                -- simple
   VarExps     =  NonemptyListOf<VarExp, ",">
   Param       =  Type id (":" Exp)?
@@ -67,7 +70,6 @@ realHotGirlScript {
   Arg         =  Exp
   Args        =  ListOf<Arg, ",">
   Type        =  ( NumType | LongType| StringType | BooleanType | ArrayType | SetType | DictType )
-  GenericType =  "autoz"
   NumType     =  "digitz"
   LongType    =  "longz"
   StringType  =  "wordz"
@@ -78,9 +80,9 @@ realHotGirlScript {
   DictType    =  "dictz<" Type ":" Type ">"
   TupleType   =  "tuplez"Type"()"
   keyword     =  ("ATTENTIONATTENTION 🗣" | "!!!" | "wylin🤪" | "yeet" | "iHaveSomethingToSay🙅🏾‍♀️"
-              | "&&" | "becauseWhyyyyyyy😼" | "BECAUSEIMONFUCKINGVACATION👅" | "shutUpGirlfriend😈"
+              | "&&" | "becauseWhyyy😼" | "BECAUSEIMONFUCKINGVACATION👅" | "shutUpGirlfriend😈"
               | "openHerUp" | "🔥"  | "openHerUp🍑" | "sheWaits😩" | "andWhatAboutIt" | "||" | "suplilBitch" 
-              | "andLetMeDoMe🤑" | "newBootzBeeeeatch✨" | "hotlineBling💎" | "autoz" | "digitz" | "longz" | "wordz" | "boolz" |"trueShit" | "stayz" 
+              | "andLetMeDoMe🤑" | "newBootzBeeeatch✨" | "hotlineBling💎" | "digitz" | "longz" | "wordz" | "boolz" |"trueShit" | "stayz" 
               | "arrayz" | "setz" | "dictz" | "tuplez" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!" | "weOutHereTryinToFunction" | "?" | "andThemsTheFacts" | "GTFO"| "ANDINTHATORDER👏🏾") ~idrest
   id          =  ~keyword ("_" | letter) idrest*
   idrest      =  "_" | alnum
@@ -100,8 +102,4 @@ realHotGirlScript {
   space      :=  " " | "\t" | comment
   comment     =  "oop" (~"\n" any)* "\n"                          -- singleline
               |  ":/" (~"/:" any)* "/:"                           -- multiline
-   // SUBSCRIPT CALL DICTIONARY SUBSCRIPTING TO GET THE KEY VALUE 
-   // FUNCTIONS
-   // DONT DEAL WITH SETS 
-   // DEALING WITH OPERATOR DIFFERENCE / AMBIGUITY 
 }
