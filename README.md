@@ -108,7 +108,7 @@ weOutHereTryinToFunction digitz add (digitz a, digitz b) $
 ```
 JavaScript
 ```
-function digitz add (a, b) {
+function add (a, b) {
   return a + b;
 }
 ```
