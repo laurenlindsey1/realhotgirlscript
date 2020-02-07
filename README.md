@@ -107,7 +107,7 @@ console.log("Hello World!");
 #### Adding Two Numbers
 RealHotGirlScript
 ```
-weOutHereTryinToFunction digitz add (a, b)$
+weOutHereTryinToFunction digitz add (digitz a, digitz b)$
   andThemsTheFacts a + b!!!
 #
 ```
@@ -134,7 +134,7 @@ function evenOrOdd(x) {
 #### Change Maker
 RealHotGirlScript
 ```
-weOutHereTryinToFunction arrayz makeChange(amount)$
+weOutHereTryinToFunction arrayz makeChange(digitz amount)$
 
     iHaveSomethingToSay🙅🏾‍♀️ amount === 0 $
         andThemsTheFacts [0, 0, 0, 0]!!!
@@ -193,7 +193,7 @@ function makeChange(amount){
 #### Fibonacci
 RealHotGirlScript
 ```
-weOutHereTryinToFunction digitz fibonacci(x) $
+weOutHereTryinToFunction digitz fibonacci(digitz x) $
     iHaveSomethingToSay🙅🏾‍♀️ x <= 1 $
         andThemsTheFacts x!!!
     #
@@ -212,8 +212,8 @@ function fibonacci(x) {
 #### Switch Statement
 RealHotGirlScript
 ```
-digitz number: 0;
-wordz day;
+digitz number: 0!!!
+wordz day!!!
 
 shutUpGirlfriend😈 number $
    andWhatAboutIt 0👉
