@@ -9,7 +9,6 @@ Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, obj
 - keywords for variables ending with z
 - data structures similar to arrays, sets, and dictionaries
 - closures that mimic Swift and Haskell styles
-- spread operations
 - object oriented programming langauge
 - switch statements
 - ```.hotgirl``` file extension
