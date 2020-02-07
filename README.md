@@ -14,7 +14,6 @@ Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, obj
 - switch statements
 - ```.hotgirl``` file extension
 - static typing
-- optional generic type
 
 ## Types
 | JavaScript  | RealHotGirlScript |
