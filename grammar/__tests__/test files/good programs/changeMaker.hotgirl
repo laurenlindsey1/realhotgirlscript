@@ -1,4 +1,4 @@
-weOutHereTryinToFunction arrayz makeChange(digitz amount) <
+weOutHereTryinToFunction arrayz[digitz] makeChange(digitz amount) <
 
     iHaveSomethingToSay🙅🏾‍♀️ (amount === 0) <
         andThemsTheFacts [0, 0, 0, 0]!!!
@@ -11,13 +11,13 @@ weOutHereTryinToFunction arrayz makeChange(digitz amount) <
     digitz initAmount: amount!!!
     digitz newAmount!!!
 
-    digitz quarters: (initAmount / 25).getDown!!!
+    digitz quarters: (initAmount / 25)!!!
     newAmount: initAmount % 25!!!
 
-    digitz dimes: (newAmount / 10).getDown!!!
+    digitz dimes: (newAmount / 10)!!!
     newAmount %= 10!!!
 
-    digitz nickels: (newAmount / 5).getDown!!!
+    digitz nickels: (newAmount / 5)!!!
     newAmount: newAmount % 5!!!
 
     digitz pennies: newAmount!!!
