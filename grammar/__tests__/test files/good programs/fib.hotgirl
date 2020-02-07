@@ -1,6 +1,6 @@
 weOutHereTryinToFunction digitz fibonacci(digitz x) <
     iHaveSomethingToSay🙅🏾‍♀️ (x <= 1) <
-        andThemsTheFacts x;
+        andThemsTheFacts x!!!
     >
-    andThemsTheFacts fibonacci(x - 1) + fibonacci(x - 2);
+    andThemsTheFacts fibonacci(x - 1) + fibonacci(x - 2)!!!
 >

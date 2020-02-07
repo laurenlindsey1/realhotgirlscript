@@ -1,26 +1,26 @@
 weOutHereTryinToFunction arrayz makeChange(digitz amount) <
 
     iHaveSomethingToSay🙅🏾‍♀️ (amount === 0) <
-        andThemsTheFacts [0, 0, 0, 0];
+        andThemsTheFacts [0, 0, 0, 0]!!!
     >
 
     iHaveSomethingToSay🙅🏾‍♀️ (amount < 0) <
-        yeet new RangeError('Amount cannot be negative');
+        yeet new RangeError('Amount cannot be negative')!!!
     >
 
-    digitz initAmount: amount;
-    digitz newAmount;
+    digitz initAmount: amount!!!
+    digitz newAmount!!!
 
-    digitz quarters: (initAmount / 25).getDown;
-    newAmount: initAmount % 25;
+    digitz quarters: (initAmount / 25).getDown!!!
+    newAmount: initAmount % 25!!!
 
-    digitz dimes: (newAmount / 10).getDown;
-    newAmount %= 10;
+    digitz dimes: (newAmount / 10).getDown!!!
+    newAmount %= 10!!!
 
-    digitz nickels: (newAmount / 5).getDown;
-    newAmount: newAmount % 5;
+    digitz nickels: (newAmount / 5).getDown!!!
+    newAmount: newAmount % 5!!!
 
-    digitz pennies: newAmount;
+    digitz pennies: newAmount!!!
 
-    andThemsTheFacts [quarters, dimes, nickels, pennies] ;
+    andThemsTheFacts [quarters, dimes, nickels, pennies]!!!
 >
