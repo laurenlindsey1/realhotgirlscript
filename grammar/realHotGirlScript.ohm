@@ -6,12 +6,13 @@ realHotGirlScript {
               |  "iHaveSomethingToSay🙅🏾‍♀️" Exp Block
                  ("becauseWhyyy😼" Exp Block)*
                  ("BECAUSEIMONFUCKINGVACATION👅" Block)?            -- if
-              |  "shutUpGirlfriend😈"  Case+ DefaultCase?        -- switch
-              |  "openHerUp"((NumType | LongType)
+              |  "shutUpGirlfriend😈"  Case+ DefaultCase?           -- switch
+              |  "openHerUp🍑"((NumType | LongType)
               	  id ":" numlit "🔥" 
                  id relop Exp "🔥"
                  id incremop) Block                                 -- forloop1
-              |  "openHerUp🍑"(id "|" ArrayType) Block              -- forloop2
+              |  "openHerUp🍑" id 
+                 "["Exp spread Exp "]" Block                        -- forloop2
               |  "sheWaits😩"? "weOutHereTryinToFunction"(Type | "void")
                  id "(" Params ")" Block                            -- function
   SimpleStmt  =  Type DeclIds ":" Exps                              -- vardecl
@@ -19,11 +20,11 @@ realHotGirlScript {
               |  Call                                               -- call
               |  ObjectDec                                          -- newObject
               |  Print                                              -- print
-              |  "GTFO💩"                                    	        -- break
+              |  "GTFO💩"                                    	    -- break
               |  "andThemsTheFacts" Exp?                            -- return
               |  Exp
-  Block       =  "<" SimpleStmt ">"
-  Print 	     =  "supLilBitch" "(" Exp ")"
+  Block       =  "<" SimpleStmt ">"                                 
+  Print 	     =  "supLilBitch" "(" Exp ")"                       
   Case        =  "andWhatAboutIt" Exp "👉" Block
   DefaultCase =  "andLetMeDoMe🤑" Block
   ObjectDec   =  "newBootzBeeeatch✨" "(" Params ")" Block
@@ -40,7 +41,7 @@ realHotGirlScript {
               |  Exp5
   Exp5        =  Exp6 postfixop                                    -- optionals
   			  |  Exp6
-  Exp6        =  Exp7 incremop?                                    -- increment
+  Exp6        =  Exp7 incremop                                     -- increment
               |  Exp7
   Exp7        =  Exp8 "^" Exp8                                     -- exponentiation
               |  Exp8
@@ -57,14 +58,14 @@ realHotGirlScript {
               |  Call                                              -- call
               |  VarExp
               |  "(" Exp ")"                                       -- parens
-  KeyValue    =  Exp ":" Exp
+  KeyValue    =  Exp "=" Exp
   Call        =  "hotlineBling💎"? VarExp "(" Args ")"
   Exps        =  NonemptyListOf<Exp, ",">
   DeclId      =  id 
   DeclIds     =  NonemptyListOf<DeclId, ",">
-  VarExp      =  VarExp "[" Exp "]"                                -- subscripted
-              |  VarExp "."  id                                    -- subscripted1
-              |  Call "." id                                       -- subscripted2
+  VarExp      =  VarExp "[" Exp "]"                                -- subscripted1
+              |  VarExp "."  id                                    -- subscripted2
+              |  Call "." id                                       -- subscripted3
               |  id                                                -- simple
   VarExps     =  NonemptyListOf<VarExp, ",">
   Param       =  Type id (":" Exp)?
@@ -76,16 +77,17 @@ realHotGirlScript {
   LongType    =  "longz"
   StringType  =  "wordz"
   BooleanType =  "boolz"
-  ConstType   =  "stayz"
   ArrayType   =  "arrayz"Type "[]"
   SetType     =  "setz<" Type ">"
-  DictType    =  "dictz<" Type ":" Type ">"
+  DictType    =  "dictz<" Type "=" Type ">"
   TupleType   =  "tuplez"Type"()"
+  ConstType   =  "stayz"
   keyword     =  ("ATTENTIONATTENTION 🗣" | "!!!" | "wylin🤪" | "yeet" | "iHaveSomethingToSay🙅🏾‍♀️"
               | "&&" | "becauseWhyyy😼" | "BECAUSEIMONFUCKINGVACATION👅" | "shutUpGirlfriend😈"
               | "openHerUp" | "🔥"  | "openHerUp🍑" | "sheWaits😩" | "andWhatAboutIt" | "||" | "suplilBitch" 
               | "andLetMeDoMe🤑" | "newBootzBeeeatch✨" | "hotlineBling💎" | "digitz" | "longz" | "wordz" | "boolz" |"trueShit" | "stayz" 
-              | "arrayz" | "setz" | "dictz" | "tuplez" | "deceasedOnYouHoes" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!" | "weOutHereTryinToFunction" | "?" | "andThemsTheFacts" | "GTFO💩"| "ANDINTHATORDER👏🏾") ~idrest
+              | "arrayz" | "setz" | "dictz" | "tuplez" | "deceasedOnYouHoes" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!" 
+              | "weOutHereTryinToFunction" | "?" | "andThemsTheFacts" | "GTFO💩"| "ANDINTHATORDER👏🏾") ~idrest
   id          =  ~keyword ("_" | letter) idrest*
   idrest      =  "_" | alnum
   numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)? 
@@ -94,7 +96,7 @@ realHotGirlScript {
   nonelit     = "deceasedOnYouHoes"
   escape      =  "\\" ("\\" | "\"" | "n")                          -- simple
   incremop 	  =  "++" | "--"
-  spread      =  "ANDINTHATORDER👏🏾"                          
+  spread      =  "spreadThatThang🍯"                          
   addop       =  "+" | "-"
   relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"
   mulop       =  "*" | "//" | "/" | "%"
