@@ -2,14 +2,14 @@
 ![](REALHOTGIRLSCRIPT.PNG)
 
 ## Introduction
-Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax pulls from some of the sayings that the members of the team have each used as they programmed throughout the years together, as as well references to pop culture icons, such as Megan thee Stallion, Rickey Thompson, and Trevor Wallace. 
+Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax pulls from some of the sayings that the members of the team have each used as they programmed throughout the years together, as well as references to pop culture icons, such as Megan thee Stallion, Rickey Thompson, and Trevor Wallace. 
 
 ## Features
-- optional parameters
+- optionals
 - keywords for variables ending with z
 - data structures similar to arrays, sets, and dictionaries
 - closures that mimic Swift and Haskell styles
-- object oriented programming langauge
+- object oriented programming
 - switch statements
 - ```.hotgirl``` file extension
 - static typing
@@ -18,7 +18,7 @@ Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, obj
 | JavaScript  | RealHotGirlScript |
 | --- |---|
 | string      | wordz | 
-| number     | digitz (for integer values) or longz (for integers with decimals) |   
+| number     | digitz (for integer values with paramterized length) or longz (for integers with unlimited length) |   
 | const | stayz     | 
 | bool | boolz      | 
 
@@ -31,12 +31,12 @@ Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, obj
 | const name = “real hot girl script”; | stayz name: “real hot girl script”!!!      | 
 
 ```
-dictz stateCapitals: $"California": "Sacramento", "Nevada": "Carson City", "Oregon": "Salem"#;
+dictz stateCapitals: $"California" = "Sacramento", "Nevada" = "Carson City", "Oregon" = "Salem"#;
 arrayz numbers: [1, 2, 3, 4];
 setz names: $“Shanaya”, “Keanna”, “Sage”, “Lauren”#;
 ```
 ## Type Casting
-Type casting can be done by putting the value you wish to cast in parenthesis, prepended by the type you wish to change the variable to.
+Type casting can be done by putting the value you wish to cast in parentheses, prepended by the type you wish to change the variable to.
 ```
 longz(5)
 wordz(3)
@@ -46,7 +46,6 @@ wordz(3)
 | JavaScript  | RealHotGirlScript |
 | --- |---|
 | console.log(“Hello World!”);  |  supLilBitch “Hello World!”!!!| 
-| Math.floor(3.4);  | (3.4).getDown!!! |   
 
 ## Comments
 Single line comments are marked with ```oop``` and multiline comments are marked with ```:/``` at the beginning and ```/:``` at the end.
@@ -61,37 +60,33 @@ this is a multiline comment
 - sum = 2 + 4
 - difference = 4 - 2
 - multiplication = 2 * 4
-- division = 4 / 2
+- integer division = 4 // 2
+- float division = 4 / 2
 - exponents = 2 ^ 4
 - modulus = 4 % 2
 
 ## Control Flow
 ### If Statements
 ```
-iHaveSomethingToSay🙅🏾‍♀️ x == 0  $
-     andThemsTheFacts trueShit!!!
+iHaveSomethingToSay🙅🏾‍♀️ x == 0 $
+  andThemsTheFacts "trueShit"!!!
  # becauseWhyyy😼 $
-     andThemsTheFacts fraudulentAssBitch!!!
-    #
+  andThemsTheFacts "fraudulentAssBitch"!!!
+ #
 ```
 ### While Loops
 ``` 
 wylin🤪 i < 10  $
-  text +=  "The number is " + i!!!
+  text = text + "The number is " + i!!!
   i++!!!
 #
 ```
 ### For Loops
 ```
-openHerUp🍑(digitz i: 0🔥 i < 5🔥 i++) $
+openHerUp🍑(digitz i: 0 🔥 i < 5 🔥 i++) $
   supLilBitch "The number is " + i!!!
 #
 ```
-
-## Errors 
-- Stack Overflow Error: lifesabeachandyoureheredude?
-- Syntax Error: youKnOWyOUsEEme
-- Unexpected Argument Error: fuckYou
 
 ## Example Programs
 
@@ -107,16 +102,15 @@ console.log("Hello World!");
 #### Adding Two Numbers
 RealHotGirlScript
 ```
-weOutHereTryinToFunction digitz add (digitz a, digitz b)$
+weOutHereTryinToFunction digitz add (digitz a, digitz b) $
   andThemsTheFacts a + b!!!
 #
 ```
 JavaScript
 ```
-let num1 = 10;
-let num2 = 2;
-let printVal = "The sum is : ";
-console.log(printVal + `${num1 + num2}`);
+function digitz add (a, b) {
+  return a + b;
+}
 ```
 #### Even or Odd
 RealHotGirlScript
@@ -131,100 +125,23 @@ function evenOrOdd(x) {
     return x % 2 == 0;
 }
 ```
-#### Change Maker
-RealHotGirlScript
-```
-weOutHereTryinToFunction arrayz makeChange(digitz amount)$
-
-    iHaveSomethingToSay🙅🏾‍♀️ amount === 0 $
-        andThemsTheFacts [0, 0, 0, 0]!!!
-    #
-
-    iHaveSomethingToSay🙅🏾‍♀️ amount < 0 $
-        yeet new RangeError('Amount cannot be negative')!!!
-    #
-
-    digitz initAmount: amount!!!
-    digitz newAmount!!!
-
-    digitz quarters: (initAmount / 25).getDown!!!
-    newAmount: initAmount % 25!!!
-
-    digitz dimes: (newAmount / 10).getDown!!!
-    newAmount %= 10!!!
-
-    digitz nickels: (newAmount / 5).getDown!!!
-    newAmount: newAmount % 5!!!
-
-    digitz pennies: newAmount!!!
-
-    andThemsTheFacts[quarters, dimes, nickels, pennies]!!!
-#
-```
-JavaScript
-```
-function makeChange(amount){
-    
-    if (amount === 0) {
-        return [0, 0, 0, 0];
-    }
-
-    if (amount < 0) {
-        throw new RangeError('Amount cannot be negative');
-    }
-
-    const initAmount = amount;
-    let newAmount;
-
-    const quarters = Math.floor(initAmount / 25);
-    newAmount = initAmount % 25;
-
-    const dimes = Math.floor(newAmount / 10);
-    newAmount %= 10;
-
-    const nickels = Math.floor(newAmount / 5);
-    newAmount %= 5;
-
-    const pennies = newAmount;
-
-    return [quarters, dimes, nickels, pennies];
-}
-```
-#### Fibonacci
-RealHotGirlScript
-```
-weOutHereTryinToFunction digitz fibonacci(digitz x) $
-    iHaveSomethingToSay🙅🏾‍♀️ x <= 1 $
-        andThemsTheFacts x!!!
-    #
-    andThemsTheFacts fibonacci(x - 1) + fibonacci(x - 2)!!!
-#
-```
-JavaScript
-```
-function fibonacci(x) {
-    if (x <= 1) {
-        return x;
-    {
-    return fibonacci(x - 1) + fibonacci(x - 2);
-}
-```
 #### Switch Statement
 RealHotGirlScript
 ```
 digitz number: 0!!!
 wordz day!!!
-
 shutUpGirlfriend😈 number $
-   andWhatAboutIt 0👉
-  		 day : "Sunday"!!!
-  		 GTFO💩!!!
-   andWhatAboutIt 6👉
-   		 day : "Saturday"!!!
-    		GTFO💩!!!
-   andLetMeDoMe🤑
-    		day : "Weekday"!!!
-$
+   andWhatAboutIt 0 👉 $ 
+     day : "Sunday"!!!
+     GTFO💩!!!
+   #
+   andWhatAboutIt 6 👉 $
+     day : "Saturday"!!!
+     GTFO💩!!!
+   #
+   andLetMeDoMe 🤑 $
+    	day : "Weekday"!!!
+   #
 
 suplilbitch “today is a ” + day!!!
 ```
