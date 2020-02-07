@@ -2,7 +2,7 @@
 ![](REALHOTGIRLSCRIPT.PNG)
 
 ## Introduction
-Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax pulls from some of the sayings that the members of the team have each used as they programmed throughout the years together, as as well references to pop culture icons, such as Megan thee Stallion, Ricky Thompson, and Trevor Wallace. 
+Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax pulls from some of the sayings that the members of the team have each used as they programmed throughout the years together, as as well references to pop culture icons, such as Megan thee Stallion, Rickey Thompson, and Trevor Wallace. 
 
 ## Features
 - optional parameters
@@ -25,16 +25,15 @@ Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, obj
 ## Variable Declaration and Assignment
 | JavaScript  | RealHotGirlScript |
 | --- |---|
-| let x = 5;      | digitz x: 5; | 
-| let y = “hello!”;     | wordz y: “hello!”; |   
-| let z = 6.9; | longz z: 6.9;     | 
-| const name = “real hot girl script”; | stayz name: “real hot girl script”;      | 
+| let x = 5;      | digitz x: 5!!! | 
+| let y = “hello!”;     | wordz y: “hello!”!!! |   
+| let z = 6.9; | longz z: 6.9!!!     | 
+| const name = “real hot girl script”; | stayz name: “real hot girl script”!!!      | 
 
 ```
-dictz stateCapitals: <"California": "Sacramento", "Nevada": "Carson City", "Oregon": "Salem">;
+dictz stateCapitals: $"California": "Sacramento", "Nevada": "Carson City", "Oregon": "Salem"#;
 arrayz numbers: [1, 2, 3, 4];
-setz names: <“Shanaya”, “Keanna”, “Sage”, “Lauren”>;
-
+setz names: $“Shanaya”, “Keanna”, “Sage”, “Lauren”#;
 ```
 ## Type Casting
 Type casting can be done by putting the value you wish to cast in parenthesis, prepended by the type you wish to change the variable to.
@@ -46,8 +45,8 @@ wordz(3)
 ## Built In Functions
 | JavaScript  | RealHotGirlScript |
 | --- |---|
-| console.log(“Hello World!”);  |  supLilBitch(“Hello World!”);| 
-| Math.floor(3.4);  | (3.4).getDown; |   
+| console.log(“Hello World!”);  |  supLilBitch “Hello World!”!!!| 
+| Math.floor(3.4);  | (3.4).getDown!!! |   
 
 ## Comments
 Single line comments are marked with ```oop``` and multiline comments are marked with ```:/``` at the beginning and ```/:``` at the end.
@@ -57,7 +56,6 @@ oop this is a single line comment
 :/
 this is a multiline comment
 /:
-
 ```
 ## Arithmetic
 - sum = 2 + 4
@@ -70,27 +68,24 @@ this is a multiline comment
 ## Control Flow
 ### If Statements
 ```
-if (x == 0 ) <
-     true and them’s the facts;
- > else <
-     false and them’s the facts;
-    >
-
+iHaveSomethingToSay🙅🏾‍♀️ x == 0  $
+     andThemsTheFacts trueShit!!!
+ # becauseWhyyy😼 $
+     andThemsTheFacts fraudulentAssBitch!!!
+    #
 ```
 ### While Loops
 ``` 
-wylin(i < 10 ) <
-  text +=  "The number is " + i;
-  i++;
->
-
+wylin🤪 i < 10  $
+  text +=  "The number is " + i!!!
+  i++!!!
+#
 ```
 ### For Loops
 ```
-openHerUp(digitz i: 0; i < 5; i++) <
-  supLilBitch("The number is %d", i);
->
-
+openHerUp🍑(digitz i: 0🔥 i < 5🔥 i++) $
+  supLilBitch "The number is " + i!!!
+#
 ```
 
 ## Errors 
@@ -103,7 +98,7 @@ openHerUp(digitz i: 0; i < 5; i++) <
 #### Hello World
 RealHotGirlScript
 ```
-suplilbitch(“Hello World!”);
+suplilbitch “Hello World!”!!!
 ```
 JavaScript
 ```
@@ -112,9 +107,9 @@ console.log("Hello World!");
 #### Adding Two Numbers
 RealHotGirlScript
 ```
-function digitz add (digitz a, digitz b)<
-  a + b and them's the facts;
->
+weOutHereTryinToFunction digitz add (digitz a, digitz b)$
+  andThemsTheFacts a + b!!!
+#
 ```
 JavaScript
 ```
@@ -126,9 +121,9 @@ console.log(printVal + `${num1 + num2}`);
 #### Even or Odd
 RealHotGirlScript
 ```
-function boolz evenOrOdd(digitz x) <
-     x % 2 == 0 and them's the facts;
->
+weOutHereTryinToFunction boolz evenOrOdd(x)$
+     andThemsTheFacts x % 2 == 0!!!
+#
 ```
 JavaScript
 ```
@@ -139,32 +134,32 @@ function evenOrOdd(x) {
 #### Change Maker
 RealHotGirlScript
 ```
-function arrayz makeChange(digitz amount)<
+weOutHereTryinToFunction arrayz makeChange(digitz amount)$
 
-    if (amount === 0) <
-        return [0, 0, 0, 0];
-    >
+    iHaveSomethingToSay🙅🏾‍♀️ amount === 0 $
+        andThemsTheFacts [0, 0, 0, 0]!!!
+    #
 
-    if (amount < 0) <
-        yeet new RangeError('Amount cannot be negative');
-    >
+    iHaveSomethingToSay🙅🏾‍♀️ amount < 0 $
+        yeet new RangeError('Amount cannot be negative')!!!
+    #
 
-    digitz initAmount: amount;
-    digitz newAmount;
+    digitz initAmount: amount!!!
+    digitz newAmount!!!
 
-    digitz quarters: (initAmount / 25).getDown;
-    newAmount: initAmount % 25;
+    digitz quarters: (initAmount / 25).getDown!!!
+    newAmount: initAmount % 25!!!
 
-    digitz dimes: (newAmount / 10).getDown;
-    newAmount %= 10;
+    digitz dimes: (newAmount / 10).getDown!!!
+    newAmount %= 10!!!
 
-    digitz nickels: (newAmount / 5).getDown;
-    newAmount: newAmount % 5;
+    digitz nickels: (newAmount / 5).getDown!!!
+    newAmount: newAmount % 5!!!
 
-    digitz pennies: newAmount;
+    digitz pennies: newAmount!!!
 
-    [quarters, dimes, nickels, pennies] and them’s the facts;
->
+    andThemsTheFacts[quarters, dimes, nickels, pennies]!!!
+#
 ```
 JavaScript
 ```
@@ -198,12 +193,12 @@ function makeChange(amount){
 #### Fibonacci
 RealHotGirlScript
 ```
-function digitz fibonacci(digitz x) <
-    if (x <= 1) <
-        x and them's the facts;
-    >
-    fibonacci(x - 1) + fibonacci(x - 2) and them's the facts;
->
+weOutHereTryinToFunction digitz fibonacci(digitz x) $
+    iHaveSomethingToSay🙅🏾‍♀️ x <= 1 $
+        andThemsTheFacts x!!!
+    #
+    andThemsTheFacts fibonacci(x - 1) + fibonacci(x - 2)!!!
+#
 ```
 JavaScript
 ```
@@ -217,21 +212,21 @@ function fibonacci(x) {
 #### Switch Statement
 RealHotGirlScript
 ```
-digitz number: 0;
-wordz day;
+digitz number: 0!!!
+wordz day!!!
 
-switchItUp (number)<
-   case 0:
-  		 day : "Sunday";
-  		  GTFO💩;
-  	   case 6:
-   		 day : "Saturday";
-    		GTFO💩;
-  	   default:
-    		day : "Weekday";
->
+shutUpGirlfriend😈 number $
+   andWhatAboutIt 0👉
+  		 day : "Sunday"!!!
+  		 GTFO💩!!!
+   andWhatAboutIt 6👉
+   		 day : "Saturday"!!!
+    		GTFO💩!!!
+   andLetMeDoMe🤑
+    		day : "Weekday"!!!
+$
 
-suplilbitch(“today is a %w”,  day);
+suplilbitch “today is a ” + day!!!
 ```
 JavaScript
 ```
