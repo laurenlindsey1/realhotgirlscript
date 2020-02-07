@@ -2,30 +2,29 @@ realHotGirlScript {
   Program     =  Stmt+ | FunctionStmt* | ClassesStmt*
   ClassesStmt  = "ATTENTIONATTENTION 🗣" id "(" Params ")" ClassBlock    -- class
   FunctionStmt = "sheWaits😩"? "weOutHereTryinToFunction"(Type | "void")
-                 id "(" Params ")" FuncBlock                            -- function
-  Stmt        =  SimpleStmt "!!!" newline*                            -- simple
-              |  "wylin🤪" Exp Block                                -- while
+                 id "(" Params ")" Block                                 -- function
+  Stmt        =  SimpleStmt "!!!"                                        -- simple
+              |  "wylin🤪" Exp Block                                     -- while
               |  "iHaveSomethingToSay🙅🏾‍♀️" Exp Block
                  ("becauseWhyyy😼" Exp Block)*
-                 ("BECAUSEIMONFUCKINGVACATION👅" Block)?            -- if
-              |  "shutUpGirlfriend😈"  Case+ DefaultCase?           -- switch
+                 ("BECAUSEIMONFUCKINGVACATION👅" Block)?                 -- if
+              |  "shutUpGirlfriend😈"  Case+ DefaultCase?                -- switch
               |  "openHerUp🍑"((NumType | LongType)
               	  id ":" numlit "🔥" 
                  id relop Exp "🔥"
-                 id incremop) Block                                 -- forloop1
+                 id incremop) Block                                      -- forloop1
               |  "openHerUp🍑" id 
-                 "["Exp spread Exp "]" Block                        -- forloop2
-  SimpleStmt  =  Type DeclIds ":" Exps                              -- vardecl
-              |  VarExps ":" Exps                                   -- assign
-              |  Call                                               -- call
-              |  ObjectDec                                          -- newObject
-              |  Print                                              -- print
-              |  "GTFO💩"                                    	    -- break
-              |  "andThemsTheFacts" Exp?                            -- return
+                 "["Exp spread Exp "]" Block                             -- forloop2
+  SimpleStmt  =  Type DeclIds ":" Exps                                   -- vardecl
+              |  VarExps ":" Exps                                        -- assign
+              |  Call                                                    -- call
+              |  ObjectDec                                               -- newObject
+              |  Print                                                   -- print
+              |  "GTFO💩"                                    	         -- break
+              |  "andThemsTheFacts" Exp?                                 -- return
               |  Exp
   ClassBlock  =  "$" FunctionStmt "#"
-  FuncBlock   =  ("$" Stmt "#")*
-  Block       =  ("$" Stmt "#")*                       
+  Block       =  "$"  Stmt* "#"                      
   Print 	  =  "supLilBitch" Exp                      
   Case        =  "andWhatAboutIt" Exp "👉" Block
   DefaultCase =  "andLetMeDoMe🤑" Block
@@ -60,7 +59,7 @@ realHotGirlScript {
               |  Call                                              -- call
               |  VarExp
               |  "(" Exp ")"                                       -- parens
-  KeyValue    =  Exp "=" Exp
+  KeyValue    =  id "=" Exp
   Call        =  "hotlineBling💎"? VarExp "(" Args ")"
   Exps        =  NonemptyListOf<Exp, ",">
   DeclId      =  id 
@@ -68,7 +67,6 @@ realHotGirlScript {
   VarExp      =  VarExp "[" Exp "]"                                -- subscripted1
               |  VarExp "."  id                                    -- subscripted2
               |  Call "." id                                       -- subscripted3
-              |  id                                                -- simple
   VarExps     =  NonemptyListOf<VarExp, ",">
   Param       =  Type id (":" Exp)?
   Params      =  ListOf<Param, ",">
@@ -90,7 +88,7 @@ realHotGirlScript {
               | "andLetMeDoMe🤑" | "newBootzBeeeatch✨" | "hotlineBling💎" | "digitz" | "longz" | "wordz" | "boolz" |"trueShit" | "stayz" 
               | "arrayz" | "setz" | "dictz" | "tuplez" | "deceasedOnYouHoes" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!" 
               | "weOutHereTryinToFunction" | "?" | "andThemsTheFacts" | "GTFO💩"| "ANDINTHATORDER👏🏾") ~idrest
-  id          =  ~keyword ("_" | letter) idrest*
+  id          =  ~keyword ("_" | letter*) idrest*
   idrest      =  "_" | alnum
   numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)? 
   boollit     =  "trueShit" | "fraudulentAssBitch"
@@ -105,7 +103,7 @@ realHotGirlScript {
   prefixop    =  "-" | "BANGENERGY"
   postfixop   =  "?"
   newline     =  "\n"+
-  space      :=  " " | "\t" | comment
+  space      :=  " " | "\t" | comment | "\n"
   comment     =  "oop" (~"\n" any)* "\n"                          -- singleline
               |  ":/" (~"/:" any)* "/:"                           -- multiline
 }
