@@ -1,9 +1,9 @@
 realHotGirlScript {
-  Program     =  Stmt+ | FunctionStmt | ClassesStmt
+  Program     =  Stmt+ | FunctionStmt* | ClassesStmt*
   ClassesStmt  = "ATTENTIONATTENTION 🗣" id "(" Params ")" ClassBlock    -- class
   FunctionStmt = "sheWaits😩"? "weOutHereTryinToFunction"(Type | "void")
                  id "(" Params ")" FuncBlock                            -- function
-  Stmt        =  SimpleStmt "!!!"                                   -- simple
+  Stmt        =  SimpleStmt "!!!" newline*                            -- simple
               |  "wylin🤪" Exp Block                                -- while
               |  "iHaveSomethingToSay🙅🏾‍♀️" Exp Block
                  ("becauseWhyyy😼" Exp Block)*
@@ -23,10 +23,10 @@ realHotGirlScript {
               |  "GTFO💩"                                    	    -- break
               |  "andThemsTheFacts" Exp?                            -- return
               |  Exp
-  ClassBlock  =  "<" FunctionStmt ">"
-  FuncBlock   =  "<" Stmt ">" | "<" SimpleStmt ">"
-  Block       =  "<" Stmt ">" | "<" SimpleStmt ">"                             
-  Print 	     =  "supLilBitch" Exp                      
+  ClassBlock  =  "$" FunctionStmt "#"
+  FuncBlock   =  ("$" Stmt "#")*
+  Block       =  ("$" Stmt "#")*                       
+  Print 	  =  "supLilBitch" Exp                      
   Case        =  "andWhatAboutIt" Exp "👉" Block
   DefaultCase =  "andLetMeDoMe🤑" Block
   ObjectDec   =  "newBootzBeeeatch✨" "(" Params ")" Block
@@ -54,8 +54,8 @@ realHotGirlScript {
               |  strlit
               |  nonelit
               |  ArrayType"[" ListOf<Exp, ","> "]"                 -- arrays
-              |  SetType "<" ListOf<Exp, ","> ">"                  -- set
-              |  DictType"<" ListOf<KeyValue, ","> ">"             -- dict
+              |  SetType "$" ListOf<Exp, ","> "#"                  -- set
+              |  DictType"$" ListOf<KeyValue, ","> "#"             -- dict
               |  TupleType"(" ListOf<Exp, ","> ")"                 -- tuple
               |  Call                                              -- call
               |  VarExp
@@ -79,10 +79,10 @@ realHotGirlScript {
   LongType    =  "longz"
   StringType  =  "wordz"
   BooleanType =  "boolz"
-  ArrayType   =  "arrayz""["Type"]"
-  SetType     =  "setz" "<"Type">"
-  DictType    =  "dictz" "<"Type"="Type">"
-  TupleType   =  "tuplez""("Type")"
+  ArrayType   =  "arrayz"
+  SetType     =  "setz"
+  DictType    =  "dictz"
+  TupleType   =  "tuplez"
   ConstType   =  "stayz"
   keyword     =  ("ATTENTIONATTENTION 🗣" | "!!!" | "wylin🤪" | "yeet" | "iHaveSomethingToSay🙅🏾‍♀️"
               | "&&" | "becauseWhyyy😼" | "BECAUSEIMONFUCKINGVACATION👅" | "shutUpGirlfriend😈"
