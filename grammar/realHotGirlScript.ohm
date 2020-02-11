@@ -66,7 +66,8 @@ realHotGirlScript {
   DeclIds     =  NonemptyListOf<DeclId, ",">
   VarExp      =  VarExp "[" Exp "]"                                -- subscripted1
               |  VarExp "."  id                                    -- subscripted2
-              |  Call "." id                                       -- subscripted3
+              |  Call                                              -- subscripted3
+              |  id
   VarExps     =  NonemptyListOf<VarExp, ",">
   Param       =  Type id (":" Exp)?
   Params      =  ListOf<Param, ",">
@@ -102,8 +103,7 @@ realHotGirlScript {
   mulop       =  "*" | "//" | "/" | "%"
   prefixop    =  "-" | "BANGENERGY"
   postfixop   =  "?"
-  newline     =  "\n"+
-  space      :=  " " | "\t" | comment | "\n"
+  space      +=  comment
   comment     =  "oop" (~"\n" any)* "\n"                          -- singleline
               |  ":/" (~"/:" any)* "/:"                           -- multiline
 }
