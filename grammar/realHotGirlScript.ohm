@@ -66,7 +66,6 @@ realHotGirlScript {
   DeclIds     =  NonemptyListOf<DeclId, ",">
   VarExp      =  VarExp "[" Exp "]"                                -- subscripted1
               |  VarExp "."  id                                    -- subscripted2
-              |  Call                                              -- subscripted3
               |  id
   VarExps     =  NonemptyListOf<VarExp, ",">
   Param       =  Type id (":" Exp)?
@@ -89,7 +88,7 @@ realHotGirlScript {
               | "andLetMeDoMe🤑" | "newBootzBeeeatch✨" | "hotlineBling💎" | "digitz" | "longz" | "wordz" | "boolz" |"trueShit" | "stayz" 
               | "arrayz" | "setz" | "dictz" | "tuplez" | "deceasedOnYouHoes" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!" 
               | "weOutHereTryinToFunction" | "?" | "andThemsTheFacts" | "GTFO💩"| "ANDINTHATORDER👏🏾") ~idrest
-  id          =  ~keyword ("_" | letter*) idrest*
+  id          =  ~keyword ("_" | letter+) idrest*
   idrest      =  "_" | alnum
   numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)? 
   boollit     =  "trueShit" | "fraudulentAssBitch"
