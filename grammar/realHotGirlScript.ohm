@@ -1,6 +1,6 @@
 realHotGirlScript {
   Program     =  Stmt+ | FunctionStmt* | ClassesStmt*
-  ClassesStmt  = "ATTENTIONATTENTION 🗣" id "(" Params ")" ClassBlock    -- class
+  ClassesStmt  = "ATTENTIONATTENTION🗣" id "(" Params ")" ClassBlock    -- class
   FunctionStmt = "sheWaits😩"? "weOutHereTryinToFunction"(Type | "void")
                  id "(" Params ")" Block                                 -- function
   Stmt        =  SimpleStmt "!!!"                                        -- simple
@@ -15,7 +15,8 @@ realHotGirlScript {
                  id incremop) Block                                      -- forloop1
               |  "openHerUp🍑" id 
                  "["Exp spread Exp "]" Block                             -- forloop2
-  SimpleStmt  =  Type DeclIds ":" Exps                                   -- vardecl
+  PrivDecStmt = Type DeclIds ":" Exps                                   -- vardecl
+  SimpleStmt  =  PrivDecStmt
               |  VarExps ":" Exps                                        -- assign
               |  Call                                                    -- call
               |  ObjectDec                                               -- newObject
@@ -23,7 +24,8 @@ realHotGirlScript {
               |  "GTFO💩"                                    	         -- break
               |  "andThemsTheFacts" Exp?                                 -- return
               |  Exp
-  ClassBlock  =  "$" FunctionStmt "#"
+  ClassBlock  = PrivDecStmt						                -- privateVariables
+  			  | FunctionStmt 									-- functionDeclaration
   Block       =  "$"  Stmt* "#"                      
   Print 	  =  "supLilBitch" Exp                      
   Case        =  "andWhatAboutIt" Exp "👉" Block
@@ -78,11 +80,11 @@ realHotGirlScript {
   StringType  =  "wordz"
   BooleanType =  "boolz"
   ArrayType   =  "arrayz"
-  SetType     =  "setz"
+  SetType     =  "setz" "$"Type"#" 
   DictType    =  "dictz"
-  TupleType   =  "tuplez"
+  TupleType   =  "tuplez" "(" Type ")"
   ConstType   =  "stayz"
-  keyword     =  ("ATTENTIONATTENTION 🗣" | "!!!" | "wylin🤪" | "yeet" | "iHaveSomethingToSay🙅🏾‍♀️"
+  keyword     =  ("ATTENTIONATTENTION🗣" | "!!!" | "wylin🤪" | "yeet" | "iHaveSomethingToSay🙅🏾‍♀️"
               | "&&" | "becauseWhyyy😼" | "BECAUSEIMONFUCKINGVACATION👅" | "shutUpGirlfriend😈"
               | "openHerUp" | "🔥"  | "openHerUp🍑" | "sheWaits😩" | "andWhatAboutIt" | "||" | "suplilBitch" 
               | "andLetMeDoMe🤑" | "newBootzBeeeatch✨" | "hotlineBling💎" | "digitz" | "longz" | "wordz" | "boolz" |"trueShit" | "stayz" 
@@ -102,7 +104,7 @@ realHotGirlScript {
   mulop       =  "*" | "//" | "/" | "%"
   prefixop    =  "-" | "BANGENERGY"
   postfixop   =  "?"
-  space      +=  comment
-  comment     =  "oop" (~"\n" any)* "\n"                          -- singleline
+  space       +=  " " | "\t" | comment
+  comment     =  "oop" (~"\n" any)*                               -- singleline
               |  ":/" (~"/:" any)* "/:"                           -- multiline
 }
