@@ -70,7 +70,7 @@ realHotGirlScript {
               |  VarExp "."  id                                    -- subscripted2
               |  id
   VarExps     =  NonemptyListOf<VarExp, ",">
-  Param       =  Type id (":" Exp)?
+  Param       =  ConstType? Type id (":" Exp)?
   Params      =  ListOf<Param, ",">
   Arg         =  Exp
   Args        =  ListOf<Arg, ",">
