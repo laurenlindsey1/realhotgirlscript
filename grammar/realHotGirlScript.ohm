@@ -1,21 +1,24 @@
 realHotGirlScript {
-  Program     =  Stmt+ | FunctionStmt* | ClassesStmt*
-  ClassesStmt  = "ATTENTIONATTENTION🗣" id "(" Params ")" ClassBlock    -- class
+  Program     =  Stmt*
+  ClassesStmt  = "ATTENTIONATTENTION🗣" id "(" Params ")" Block    -- class
   FunctionStmt = "sheWaits😩"? "weOutHereTryinToFunction"(Type | "leftOnRead")
                  id "(" Params ")" Block                                 -- function
   Stmt        =  SimpleStmt "!!!"                                        -- simple
+              |  FunctionStmt
+              |  ClassesStmt
               |  "wylin🤪" Exp Block                                     -- while
               |  "iHaveSomethingToSay🙅🏾‍♀️" Exp Block
                  ("becauseWhyyy😼" Exp Block)*
                  ("BECAUSEIMONFUCKINGVACATION👅" Block)?                 -- if
               |  "shutUpGirlfriend😈"  Case+ DefaultCase?                -- switch
               |  "openHerUp🍑"((NumType | LongType)
-              	  id ":" numlit "🔥" 
-                 id relop Exp "🔥"
-                 id incremop) Block                                      -- forloop1
-              |  "openHerUp🍑" id 
+              	    id ":" Exp "🔥" 
+                    id relop Exp "🔥"
+                    id incremop)
+                    Block                                              -- forloop1
+              |  "openHerUp🍑" 
                  "["Exp spread Exp "]" Block                             -- forloop2
-  PrivDecStmt = Type DeclIds ":" Exps                                   -- vardecl
+  PrivDecStmt = ConstType? Type DeclIds ":" Exps                                   -- vardecl
   SimpleStmt  =  PrivDecStmt
               |  VarExps ":" Exps                                        -- assign
               |  Call                                                    -- call
@@ -30,7 +33,7 @@ realHotGirlScript {
   Print 	  =  "supLilBitch" Exp                      
   Case        =  "andWhatAboutIt" Exp "👉" Block
   DefaultCase =  "andLetMeDoMe🤑" Block
-  ObjectDec   =  "newBootzBeeeatch✨" id "(" Params ")" Block
+  ObjectDec   =  id id ":" "newBootzBeeeatch✨" id "(" Params ")" "!!!" -- objectDeclaration
   Exp         =  Exp "||" Exp1                                     -- or
               |  Exp "&&" Exp1                                     -- and
               |  Exp1
