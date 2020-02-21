@@ -16,10 +16,10 @@ realHotGirlScript {
                     Block                                                -- forloop1
               |  "openHerUp🍑" 
                  "[" Exp spread Exp "]" Block                            -- forloop2
+              |  ObjectDec                                               -- newObject
   SimpleStmt  =  ConstType? Type DeclIds ":" Exps  						 -- varDecl
               |  VarExps ":" Exps                                        -- assign
               |  Call                                                    -- call
-              |  ObjectDec                                               -- newObject
               |  Print                                                   -- print
               |  "GTFO💩"                                    	         -- break
               |  "keepItPushin"                                          -- continue
@@ -29,7 +29,7 @@ realHotGirlScript {
   Print 	  =  "supLilBitch" Exp                      
   Case        =  "andWhatAboutIt👉" Exp Block                            -- switchCase
   DefaultCase =  "andLetMeDoMe🤑" Block                                  -- switchDefault
-  ObjectDec   =  id id ":" "newBootzBeeeatch✨" id "(" Params ")" "!!!"  -- objectDeclaration
+  ObjectDec   =  id id ":" "newBootzBeeeatch✨" id "(" Args ")" "!!!"  -- objectDeclaration
   Exp         =  Exp "||" Exp1                                           -- or
               |  Exp "&&" Exp1                                           -- and
               |  Exp1
