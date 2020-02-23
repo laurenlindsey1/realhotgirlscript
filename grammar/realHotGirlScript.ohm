@@ -26,7 +26,7 @@ realHotGirlScript {
               |  "andThemsTheFacts" Exp?                                 -- return
               |  Exp
   Block       =  "$" Stmt* "#"                      					 -- block
-  Print 	  =  "supLilBitch" Exp                      
+  Print 	     =  "supLilBitch" Exp                      
   Case        =  "andWhatAboutIt👉" Exp Block                            -- switchCase
   DefaultCase =  "andLetMeDoMe🤑" Block                                  -- switchDefault
   ObjectDec   =  id id ":" "newBootzBeeeatch✨" id "(" Args ")" "!!!"  -- objectDeclaration
@@ -60,13 +60,14 @@ realHotGirlScript {
               |  Call                                                    
               |  VarExp
               |  "(" Exp ")"                                             -- parens
-  KeyValue    =  id "=" Exp
+  KeyValue    =  Exp "=" Exp
   Call        =  "hotlineBling💎"? id "(" Args ")"                       -- call
   Exps        =  NonemptyListOf<Exp, ",">                                -- exps
   DeclId      =  id                                                      -- declId
   DeclIds     =  NonemptyListOf<DeclId, ",">                             -- declIds
   VarExp      =  VarExp "[" Exp "]"                                      -- subscripted1
-              |  VarExp "."  id                                          -- subscripted2
+              |  VarExp "." "("id")"                                     -- subscripted2
+              |  VarExp "." id                                           -- subscripted3
               |  id
   VarExps     =  NonemptyListOf<VarExp, ",">                             -- varExps
   Param       =  Type id (":" Exp)?										 -- param
@@ -74,22 +75,22 @@ realHotGirlScript {
   Arg         =  Type id ":" Exp                                         -- arg
   Args        =  ListOf<Arg, ",">                                        -- args
   Type        =  NumType 
-  			  | LongType
+  			     | LongType
               | StringType 
               | BooleanType 
               | ArrayType 
               | SetType 
               | DictType 
-              | TupleType                                                -- type
-  NumType     =  "digitz"								                 -- numKeyword
-  LongType    =  "longz"                                                 -- longKeyWord
-  StringType  =  "wordz"   												 -- stringKeyword
-  BooleanType =  "boolz"                                                 -- boolKeyword
-  ArrayType   =  "arrayz"                                                -- arrayKeyword
-  SetType     =  "setz" "$"Type"#"                                       -- setKeyword
-  DictType    =  "dictz"                                                 -- dictKeyword
-  TupleType   =  "tuplez" "(" Type ")"                                   -- tupleKeyword
-  ConstType   =  "stayz"                                                 -- constKeyword
+              | TupleType                                                          -- type
+  NumType     =  "digitz" postfixop?								                       -- numKeyword
+  LongType    =  "longz"  postfixop?                                               -- longKeyWord
+  StringType  =  "wordz"  postfixop? 												           -- stringKeyword
+  BooleanType =  "boolz"  postfixop?                                               -- boolKeyword
+  ArrayType   =  "arrayz" postfixop?                                               -- arrayKeyword
+  SetType     =  "setz" "$"Type"#" postfixop?                                      -- setKeyword
+  DictType    =  "dictz"  postfixop?                                               -- dictKeyword
+  TupleType   =  "tuplez" "(" Type ")" postfixop?                                  -- tupleKeyword
+  ConstType   =  "stayz"                                                           -- constKeyword
   keyword     =  ("ATTENTIONATTENTION🗣" 
   			  | "$" 
               | "#"
@@ -176,7 +177,7 @@ realHotGirlScript {
   addop       =  "+" | "-"                                                -- addop
   relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"                     -- relop
   mulop       =  "*" | "//" | "/" | "%"                                   -- mulop
-  prefixop    =  "-" | "BANGENERGY"                                       -- prefixop
+  prefixop    =  "-" | "BANGENERGY" | "+"                                    -- prefixop
   postfixop   =  "?"                                                      -- postfixop
   space       +=  " " | "\t" | comment                                    -- space
   comment     =  "oop" (~"\n" any)*                                       -- singleline
