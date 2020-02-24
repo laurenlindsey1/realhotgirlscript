@@ -16,7 +16,6 @@ realHotGirlScript {
                     Block                                                -- forloop1
               |  "openHerUp🍑" 
                  "[" Exp spread Exp "]" Block                            -- forloop2
-              |  ObjectDec                                               -- newObject
   SimpleStmt  =  ConstType? Type DeclIds ":" Exps  						 -- varDecl
               |  VarExps ":" Exps                                        -- assign
               |  Call                                                    -- call
@@ -29,7 +28,6 @@ realHotGirlScript {
   Print 	     =  "supLilBitch" Exp                      
   Case        =  "andWhatAboutIt👉" Exp Block                            -- switchCase
   DefaultCase =  "andLetMeDoMe🤑" Block                                  -- switchDefault
-  ObjectDec   =  id id ":" "newBootzBeeeatch✨" id "(" Args ")" "!!!"  -- objectDeclaration
   Exp         =  Exp "||" Exp1                                           -- or
               |  Exp "&&" Exp1                                           -- and
               |  Exp1
@@ -47,9 +45,11 @@ realHotGirlScript {
               |  Exp7
   Exp7        =  Exp8 "^" Exp8                                           -- exponentiation
               |  Exp8
-  Exp8        =  "seeYa" id ":" ((Exp"!!!")+) "wouldntWannBeYa"          -- closure
-              |  Exp9
-  Exp9        =  boollit
+  Exp8        = "newBootzBeeeatch✨" id "(" Args ")"  -- objectDeclaration
+ 			  | Exp9
+  Exp9        =  "seeYa" id ":" ((Exp"!!!")+) "wouldntWannBeYa"          -- closure
+              |  Exp10
+  Exp10       =  boollit
               |  numlit
               |  strlit
               |  nonelit
@@ -60,7 +60,7 @@ realHotGirlScript {
               |  Call                                                    
               |  VarExp
               |  "(" Exp ")"                                             -- parens
-  KeyValue    =  Exp "=" Exp
+  KeyValue    =  id "=" Exp
   Call        =  "hotlineBling💎"? id "(" Args ")"                       -- call
   Exps        =  NonemptyListOf<Exp, ",">                                -- exps
   DeclId      =  id                                                      -- declId
@@ -75,21 +75,22 @@ realHotGirlScript {
   Arg         =  Type id ":" Exp                                         -- arg
   Args        =  ListOf<Arg, ",">                                        -- args
   Type        =  NumType 
-  			     | LongType
+  			  | LongType
               | StringType 
               | BooleanType 
               | ArrayType 
               | SetType 
               | DictType 
-              | TupleType                                                          -- type
-  NumType     =  "digitz" postfixop?								                       -- numKeyword
-  LongType    =  "longz"  postfixop?                                               -- longKeyWord
+              | TupleType  
+              | id -- type
+  NumType     =  "digitz" postfixop?								     -- numKeyword
+  LongType    =  "longz"  postfixop?                                     -- longKeyWord
   StringType  =  "wordz"  postfixop? 												           -- stringKeyword
   BooleanType =  "boolz"  postfixop?                                               -- boolKeyword
-  ArrayType   =  "arrayz" postfixop?                                               -- arrayKeyword
+  ArrayType   =  "arrayz" "["Type"]" postfixop?                                               -- arrayKeyword
   SetType     =  "setz" "$"Type"#" postfixop?                                      -- setKeyword
-  DictType    =  "dictz"  postfixop?                                               -- dictKeyword
-  TupleType   =  "tuplez" "(" Type ")" postfixop?                                  -- tupleKeyword
+  DictType    =  "dictz"  "$"Type":"Type"#" postfixop?                                               -- dictKeyword
+  TupleType   =  "tuplez" "(" Type(("," Type)*) ")" postfixop?                                  -- tupleKeyword
   ConstType   =  "stayz"                                                           -- constKeyword
   keyword     =  ("ATTENTIONATTENTION🗣" 
   			  | "$" 
@@ -167,7 +168,9 @@ realHotGirlScript {
               | "GTFO💩") ~idrest                                         -- keyword 
   id          =  ~keyword ("_" | letter+) idrest*                         -- id
   idrest      =  "_" | alnum				                              -- idrest
-  numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)?              -- numlit
+  numlit      =  (("+" | "-")?) digit+ frac? eExpo?             -- numlit
+  frac        =  "." digit*   -- fraction                                        
+  eExpo       =  ("E"|"e") ("+" | "-")? digit+    -- eExpo                                           
   boollit     =  "trueShit" | "fraudulentAssBitch"                        -- boolit
   strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""              -- strlit
   nonelit     = "deceasedOnYouHoes"                                       -- nonelit
@@ -177,7 +180,7 @@ realHotGirlScript {
   addop       =  "+" | "-"                                                -- addop
   relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"                     -- relop
   mulop       =  "*" | "//" | "/" | "%"                                   -- mulop
-  prefixop    =  "-" | "BANGENERGY" | "+"                                    -- prefixop
+  prefixop    =  "-" | "BANGENERGY" | "+"                                 -- prefixop
   postfixop   =  "?"                                                      -- postfixop
   space       +=  " " | "\t" | comment                                    -- space
   comment     =  "oop" (~"\n" any)*                                       -- singleline
