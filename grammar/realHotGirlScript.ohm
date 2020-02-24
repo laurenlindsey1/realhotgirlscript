@@ -45,11 +45,9 @@ realHotGirlScript {
               |  Exp7
   Exp7        =  Exp8 "^" Exp8                                           -- exponentiation
               |  Exp8
-  Exp8        = "newBootzBeeeatch✨" id "(" Args ")"  -- objectDeclaration
- 			  | Exp9
-  Exp9        =  "seeYa" id ":" ((Exp"@")+) "wouldntWannBeYa"          -- closure
-              |  Exp10
-  Exp10       =  boollit
+  Exp8        =  "seeYa" id ":" ((Exp"@")+) "wouldntWannBeYa"          -- closure
+              |  Exp9
+  Exp9       =  boollit
               |  numlit
               |  strlit
               |  nonelit
