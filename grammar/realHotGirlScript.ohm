@@ -47,20 +47,20 @@ realHotGirlScript {
               |  Exp8
   Exp8        = "newBootzBeeeatch✨" id "(" Args ")"  -- objectDeclaration
  			  | Exp9
-  Exp9        =  "seeYa" id ":" ((Exp"!!!")+) "wouldntWannBeYa"          -- closure
+  Exp9        =  "seeYa" id ":" ((Exp"@")+) "wouldntWannBeYa"          -- closure
               |  Exp10
   Exp10       =  boollit
               |  numlit
               |  strlit
               |  nonelit
-              |  ArrayType"[" ListOf<Exp, ","> "]"                       -- arrays
-              |  SetType "$" ListOf<Exp, ","> "#"                        -- set
-              |  DictType"$" ListOf<KeyValue, ","> "#"                   -- dict
-              |  TupleType"(" ListOf<Exp, ","> ")"                       -- tuple
+              |  "[" ListOf<Exp, ","> "]"                       -- arrays
+              |  "$" ListOf<Exp, ","> "#"                        -- set
+              |  "$" ListOf<KeyValue, ","> "#"                   -- dict
+              |  "(" ListOf<Exp, ","> ")"                       -- tuple
               |  Call                                                    
               |  VarExp
               |  "(" Exp ")"                                             -- parens
-  KeyValue    =  id "=" Exp
+  KeyValue    =  Exp "~" Exp
   Call        =  "hotlineBling💎"? id "(" Args ")"                       -- call
   Exps        =  NonemptyListOf<Exp, ",">                                -- exps
   DeclId      =  id                                                      -- declId
@@ -87,10 +87,10 @@ realHotGirlScript {
   LongType    =  "longz"  postfixop?                                     -- longKeyWord
   StringType  =  "wordz"  postfixop? 												           -- stringKeyword
   BooleanType =  "boolz"  postfixop?                                               -- boolKeyword
-  ArrayType   =  "arrayz" "["Type"]" postfixop?                                               -- arrayKeyword
-  SetType     =  "setz" "$"Type"#" postfixop?                                      -- setKeyword
-  DictType    =  "dictz"  "$"Type":"Type"#" postfixop?                                               -- dictKeyword
-  TupleType   =  "tuplez" "(" Type(("," Type)*) ")" postfixop?                                  -- tupleKeyword
+  ArrayType   =  "arrayz" "<"Type">" postfixop?                                               -- arrayKeyword
+  SetType     =  "setz" "<"Type">" postfixop?                                      -- setKeyword
+  DictType    =  "dictz"  "<" Type "," Type ">" postfixop?                                               -- dictKeyword
+  TupleType   =  "tuplez" "<" Type(("," Type)*) ">" postfixop?                                  -- tupleKeyword
   ConstType   =  "stayz"                                                           -- constKeyword
   keyword     =  ("ATTENTIONATTENTION🗣" 
   			  | "$" 
@@ -109,7 +109,7 @@ realHotGirlScript {
               | "++"
               | "--"
               | "spreadThatThang🍯" 
-              | "="
+              | "~"
               | "."
               | ","
               | "<=" 
@@ -125,6 +125,7 @@ realHotGirlScript {
               | "oop"
               | ":/"
               | "/:"
+              | "@"
               | "-" 
               | "BANGENERGY"
               | "wylin🤪" 
@@ -168,9 +169,9 @@ realHotGirlScript {
               | "GTFO💩") ~idrest                                         -- keyword 
   id          =  ~keyword ("_" | letter+) idrest*                         -- id
   idrest      =  "_" | alnum				                              -- idrest
-  numlit      =  (("+" | "-")?) digit+ frac? eExpo?             -- numlit
+  numlit      =  (("+" | "-")?) digit+ frac? eExpo?             -- numlit 
   frac        =  "." digit*   -- fraction                                        
-  eExpo       =  ("E"|"e") ("+" | "-")? digit+    -- eExpo                                           
+  eExpo       =  (caseInsensitive<"e">) ("+" | "-")? digit+    -- eExpo                                           
   boollit     =  "trueShit" | "fraudulentAssBitch"                        -- boolit
   strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""              -- strlit
   nonelit     = "deceasedOnYouHoes"                                       -- nonelit
