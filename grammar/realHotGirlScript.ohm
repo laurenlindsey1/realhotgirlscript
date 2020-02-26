@@ -1,109 +1,167 @@
 realHotGirlScript {
-  Program     =  Stmt+ | FunctionStmt* | ClassesStmt*
-  ClassesStmt  = "ATTENTIONATTENTION 🗣" id "(" Params ")" ClassBlock    -- class
-  FunctionStmt = "sheWaits😩"? "weOutHereTryinToFunction"(Type | "void")
-                 id "(" Params ")" Block                                 -- function
+  Program     =  Stmt*
   Stmt        =  SimpleStmt "!!!"                                        -- simple
-              |  "wylin🤪" Exp Block                                     -- while
-              |  "iHaveSomethingToSay🙅🏾‍♀️" Exp Block
-                 ("becauseWhyyy😼" Exp Block)*
-                 ("BECAUSEIMONFUCKINGVACATION👅" Block)?                 -- if
-              |  "shutUpGirlfriend😈"  Case+ DefaultCase?                -- switch
-              |  "openHerUp🍑"((NumType | LongType)
-              	  id ":" numlit "🔥" 
-                 id relop Exp "🔥"
-                 id incremop) Block                                      -- forloop1
-              |  "openHerUp🍑" id 
-                 "["Exp spread Exp "]" Block                             -- forloop2
-  SimpleStmt  =  Type DeclIds ":" Exps                                   -- vardecl
+              |  class id "(" Params ")" Block          -- class
+              |  async? funcDecl (Type | void) id "(" Params ")" Block                                 -- function
+              |  while Exp Block                                     -- while
+              |  if Exp Block (elseif Exp Block)* (else Block)?                 -- if
+              |  switch id "$" Case+ DefaultCase? "#"      -- switch
+              |  for (numType | longType)  id ":" Exp "🔥" id relop Exp "🔥"id incremop Block -- forloop1
+              |  for "[" Exp spread Exp "]" Block                            -- forloop2
+  SimpleStmt  =  constType? Type DeclIds ":" Exps  						    -- varDecl
               |  VarExps ":" Exps                                        -- assign
               |  Call                                                    -- call
-              |  ObjectDec                                               -- newObject
               |  Print                                                   -- print
-              |  "GTFO💩"                                    	         -- break
-              |  "andThemsTheFacts" Exp?                                 -- return
+              |  break                                    	          -- break
+              |  continue                                          -- continue
+              |  return Exp?                                 -- return
               |  Exp
-  ClassBlock  =  "$" FunctionStmt "#"
-  Block       =  "$"  Stmt* "#"                      
-  Print 	  =  "supLilBitch" Exp                      
-  Case        =  "andWhatAboutIt" Exp "👉" Block
-  DefaultCase =  "andLetMeDoMe🤑" Block
-  ObjectDec   =  "newBootzBeeeatch✨" "(" Params ")" Block
-  Exp         =  Exp "||" Exp1                                     -- or
-              |  Exp "&&" Exp1                                     -- and
+  Block       =  "$" Stmt* "#"                      					       -- block
+  Print 	     =  print Exp                      
+  Case        =  case Exp Block                            -- switchCase
+  DefaultCase =  default Block                                  -- switchDefault
+  Exp         =  Exp "||" Exp1                                           -- or
+              |  Exp "&&" Exp1                                           -- and
               |  Exp1
-  Exp1        =  Exp2 relop Exp2                                   -- binary
+  Exp1        =  Exp2 relop Exp2                                         -- binary
               |  Exp2
-  Exp2        =  Exp2 addop Exp3                                   -- binary
+  Exp2        =  Exp2 addop Exp3                                         -- binary
               |  Exp3
-  Exp3        =  Exp3 mulop Exp4                                   -- binary
+  Exp3        =  Exp3 mulop Exp4                                         -- binary
               |  Exp4
-  Exp4        =  prefixop Exp5                                     -- unary
+  Exp4        =  prefixop Exp5                                           -- unary
               |  Exp5
-  Exp5        =  Exp6 postfixop                                    -- optionals
-  			  |  Exp6
-  Exp6        =  Exp7 incremop                                     -- increment
+  Exp5        =  Exp6 postfixop                                          -- optionals
+  			     |  Exp6
+  Exp6        =  Exp7 incremop                                           -- increment
               |  Exp7
-  Exp7        =  Exp8 "^" Exp8                                     -- exponentiation
+  Exp7        =  Exp8 "^" Exp8                                           -- exponentiation
               |  Exp8
-  Exp8        =  "seeYa" id ":" ((Exp9"!!!")+) "wouldntWannBeYa"   --closure
+  Exp8        =  let id ":" ((Exp"@")+) endKey            -- closure
               |  Exp9
   Exp9        =  boollit
               |  numlit
               |  strlit
               |  nonelit
-              |  ArrayType"[" ListOf<Exp, ","> "]"                 -- arrays
-              |  SetType "$" ListOf<Exp, ","> "#"                  -- set
-              |  DictType"$" ListOf<KeyValue, ","> "#"             -- dict
-              |  TupleType"(" ListOf<Exp, ","> ")"                 -- tuple
-              |  Call                                              -- call
+              |  "[" ListOf<Exp, ","> "]"                                -- arrays
+              |  "$" ListOf<Exp, ","> "#"                                -- set
+              |  "$" ListOf<KeyValue, ","> "#"                           -- dict
+              |  "(" ListOf<Exp, ","> ")"                                -- tuple
+              |  Call                                                    
               |  VarExp
-              |  "(" Exp ")"                                       -- parens
-  KeyValue    =  id "=" Exp
-  Call        =  "hotlineBling💎"? VarExp "(" Args ")"
-  Exps        =  NonemptyListOf<Exp, ",">
-  DeclId      =  id 
-  DeclIds     =  NonemptyListOf<DeclId, ",">
-  VarExp      =  VarExp "[" Exp "]"                                -- subscripted1
-              |  VarExp "."  id                                    -- subscripted2
-              |  Call "." id                                       -- subscripted3
-  VarExps     =  NonemptyListOf<VarExp, ",">
-  Param       =  Type id (":" Exp)?
-  Params      =  ListOf<Param, ",">
-  Arg         =  Exp
-  Args        =  ListOf<Arg, ",">
-  Type        =  ( NumType | LongType| StringType | BooleanType | ArrayType | SetType | DictType )
-  NumType     =  "digitz"
-  LongType    =  "longz"
-  StringType  =  "wordz"
-  BooleanType =  "boolz"
-  ArrayType   =  "arrayz"
-  SetType     =  "setz"
-  DictType    =  "dictz"
-  TupleType   =  "tuplez"
-  ConstType   =  "stayz"
-  keyword     =  ("ATTENTIONATTENTION 🗣" | "!!!" | "wylin🤪" | "yeet" | "iHaveSomethingToSay🙅🏾‍♀️"
-              | "&&" | "becauseWhyyy😼" | "BECAUSEIMONFUCKINGVACATION👅" | "shutUpGirlfriend😈"
-              | "openHerUp" | "🔥"  | "openHerUp🍑" | "sheWaits😩" | "andWhatAboutIt" | "||" | "suplilBitch" 
-              | "andLetMeDoMe🤑" | "newBootzBeeeatch✨" | "hotlineBling💎" | "digitz" | "longz" | "wordz" | "boolz" |"trueShit" | "stayz" 
-              | "arrayz" | "setz" | "dictz" | "tuplez" | "deceasedOnYouHoes" | "fraudulentAssBitch" | "seeYa" | "wouldntWannBeYa" | "!!!" 
-              | "weOutHereTryinToFunction" | "?" | "andThemsTheFacts" | "GTFO💩"| "ANDINTHATORDER👏🏾") ~idrest
-  id          =  ~keyword ("_" | letter*) idrest*
-  idrest      =  "_" | alnum
-  numlit      =  digit+ ("." digit+)? (("+" | "-")? digit+)? 
-  boollit     =  "trueShit" | "fraudulentAssBitch"
-  strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""
-  nonelit     = "deceasedOnYouHoes"
-  escape      =  "\\" ("\\" | "\"" | "n")                          -- simple
-  incremop 	  =  "++" | "--"
-  spread      =  "spreadThatThang🍯"                          
-  addop       =  "+" | "-"
-  relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"
-  mulop       =  "*" | "//" | "/" | "%"
-  prefixop    =  "-" | "BANGENERGY"
-  postfixop   =  "?"
-  newline     =  "\n"+
-  space      :=  " " | "\t" | comment | "\n"
-  comment     =  "oop" (~"\n" any)* "\n"                          -- singleline
-              |  ":/" (~"/:" any)* "/:"                           -- multiline
+              |  "(" Exp ")"                                             -- parens
+  KeyValue    =  Exp "~" Exp
+  Call        =  await? id "(" Args ")"                       -- call
+  Exps        =  NonemptyListOf<Exp, ",">                                -- exps
+  DeclId      =  id                                                      -- declId
+  DeclIds     =  NonemptyListOf<DeclId, ",">                             -- declIds
+  VarExp      =  VarExp "[" Exp "]"                                      -- subscripted
+              |  VarExp "." "("id")"                                     -- member
+              |  VarExp "." id                                           -- subscripted3
+              |  id
+  VarExps     =  NonemptyListOf<VarExp, ",">                             -- varExps
+  Param       =  Type id (":" Exp)?										          -- param
+  Params      =  ListOf<Param, ",">                                      -- params
+  Arg         =  Type id ":" Exp                                         -- arg
+  Args        =  ListOf<Arg, ",">                                        -- args
+  Type        =  numType 
+  			     | longType
+              | stringType 
+              | booleanType 
+              | ArrayType 
+              | SetType 
+              | DictType 
+              | TupleType  
+              | Type postfixop?												--optional
+              | id -- type
+  numType     =  "digitz"								                         -- numKeyword
+  longType    =  "longz"                                     -- longKeyWord
+  stringType  =  "wordz" 											 -- stringKeyword
+  booleanType =  "boolz"                                     -- boolKeyword
+  ArrayType   =  arrayDecl "<"Type">"                      -- arrayKeyword
+  SetType     =  setDecl "<"Type">"                             -- setKeyword
+  DictType    =  dictDecl  "<" Type "," Type ">"                                              -- dictKeyword
+  TupleType   =  tupleDecl "<" Type(("," Type)*) ">"           -- tupleKeyword
+  constType   =  "stayz"                                                 -- constKeyword
+  class       = "ATTENTIONATTENTION🗣" ~alnum
+  continue    = "keepItPushin" ~alnum
+  spread      = "spreadThatThang🍯" ~alnum
+  singleLnCmt = "oop" ~alnum
+  negate      = "BANGENERGY" ~alnum
+  while       = "wylin🤪"  ~alnum
+  if          = "iHaveSomethingToSay🙅🏾‍♀️" ~alnum
+  elseif      = "becauseWhyyy😼" ~alnum
+  else        = "BECAUSEIMONFUCKINGVACATION👅" ~alnum
+  switch      = "shutUpGirlfriend😈" ~alnum
+  void        = "leftOnRead" ~alnum
+  for         =  "openHerUp🍑" ~alnum
+  async       = "sheWaits😩" ~alnum
+  case        = "andWhatAboutIt👉" ~alnum
+  print       = "supLilBitch" ~alnum
+  default     = "andLetMeDoMe🤑" ~alnum
+  await       = "hotlineBling💎" ~alnum
+  true        = "trueShit" ~alnum
+  arrayDecl   = "arrayz" ~alnum
+  setDecl     = "setz" ~alnum
+  dictDecl    = "dictz" ~alnum
+  tupleDecl   = "tuplez" ~alnum
+  false       = "fraudulentAssBitch" ~alnum
+  let         = "seeYa" ~alnum
+  endKey      = "wouldntWannBeYa" ~alnum
+  funcDecl    = "weOutHereTryinToFunction" ~alnum
+  return      = "andThemsTheFacts" ~alnum
+  break       = "GTFO💩" ~alnum
+  keyword     = (numType
+              | longType
+              | stringType
+              | booleanType
+              | arrayDecl
+              | constType
+              | class
+              | continue
+              | spread
+              | singleLnCmt
+              | negate
+              | while
+              | if
+              | elseif
+              | else
+              | switch
+              | void
+              | for
+              | async 
+              | case
+              | print
+              | default
+              | await 
+              | true
+              | arrayDecl
+              | setDecl
+              | dictDecl
+              | tupleDecl
+              | nonelit
+              | false 
+              | let
+              | endKey
+              | funcDecl
+              | return
+              | break) ~idrest                                         -- keyword 
+  id          =  ~keyword ("_" | letter+) idrest*                         -- id
+  idrest      =  "_" | alnum				                                   -- idrest
+  numlit      =  (("+" | "-")?) digit+ frac? eExpo?                       -- numlit 
+  frac        =  "." digit*   -- fraction                                        
+  eExpo       =  (caseInsensitive<"e">) ("+" | "-")? digit+               -- eExpo                                           
+  boollit     =  true | false                        -- boolit
+  strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""              -- strlit
+  nonelit     = "deceasedOnYouHoes"  ~alnum                                    -- nonelit
+  escape      =  "\\" ("\\" | "\"" | "n")                                 -- simple
+  incremop 	  =  "++" | "--"                                              -- incremop
+  addop       =  "+" | "-"                                                -- addop
+  relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"                     -- relop
+  mulop       =  "*" | "//" | "/" | "%"                                   -- mulop
+  prefixop    =  "-" | negate | "+"                                 -- prefixop
+  postfixop   =  "?"                                                      -- postfixop
+  space       +=  " " | "\t" | comment                                    -- space
+  comment     =  singleLnCmt (~"\n" any)*                                       -- singleline
+              |  ":/" (~"/:" any)* "/:"                                   -- multiline
 }
