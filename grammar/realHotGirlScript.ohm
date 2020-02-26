@@ -97,7 +97,7 @@ realHotGirlScript {
   for         =  "openHerUp🍑" ~alnum
   async       = "sheWaits😩" ~alnum
   case        = "andWhatAboutIt👉" ~alnum
-  print       = "suplilBitch" ~alnum
+  print       = "supLilBitch" ~alnum
   default     = "andLetMeDoMe🤑" ~alnum
   await       = "hotlineBling💎" ~alnum
   true        = "trueShit" ~alnum
@@ -145,8 +145,7 @@ realHotGirlScript {
               | endKey
               | funcDecl
               | return
-              | break
-              | keyword) ~idrest                                         -- keyword 
+              | break) ~idrest                                         -- keyword 
   id          =  ~keyword ("_" | letter+) idrest*                         -- id
   idrest      =  "_" | alnum				                                   -- idrest
   numlit      =  (("+" | "-")?) digit+ frac? eExpo?                       -- numlit 
