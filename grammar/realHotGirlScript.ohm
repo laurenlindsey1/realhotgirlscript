@@ -68,20 +68,20 @@ realHotGirlScript {
   			     | longType
               | stringType 
               | booleanType 
-              | arrayType 
-              | setType 
-              | dictType 
-              | tupleType  
+              | ArrayType 
+              | SetType 
+              | DictType 
+              | TupleType  
               | Type postfixop?												--optional
               | id -- type
   numType     =  "digitz"								                         -- numKeyword
   longType    =  "longz"                                     -- longKeyWord
   stringType  =  "wordz" 											 -- stringKeyword
   booleanType =  "boolz"                                     -- boolKeyword
-  arrayType   =  arrayDecl "<"Type">"                      -- arrayKeyword
-  setType     =  setDecl "<"Type">"                             -- setKeyword
-  dictType    =  dictDecl  "<" Type "," Type ">"                                              -- dictKeyword
-  tupleType   =  tupleDecl "<" Type(("," Type)*) ">"           -- tupleKeyword
+  ArrayType   =  arrayDecl "<"Type">"                      -- arrayKeyword
+  SetType     =  setDecl "<"Type">"                             -- setKeyword
+  DictType    =  dictDecl  "<" Type "," Type ">"                                              -- dictKeyword
+  TupleType   =  tupleDecl "<" Type(("," Type)*) ">"           -- tupleKeyword
   constType   =  "stayz"                                                 -- constKeyword
   class       = "ATTENTIONATTENTION🗣" ~alnum
   continue    = "keepItPushin" ~alnum
@@ -115,7 +115,7 @@ realHotGirlScript {
               | longType
               | stringType
               | booleanType
-              | arrayType
+              | arrayDecl
               | constType
               | class
               | continue
