@@ -16,15 +16,15 @@ realHotGirlScript {
                     Block                                                -- forloop1
               |  "openHerUp🍑" 
                  "[" Exp spread Exp "]" Block                            -- forloop2
-  SimpleStmt  =  ConstType? Type DeclIds ":" Exps  						 -- varDecl
+  SimpleStmt  =  ConstType? Type DeclIds ":" Exps  						    -- varDecl
               |  VarExps ":" Exps                                        -- assign
               |  Call                                                    -- call
               |  Print                                                   -- print
-              |  "GTFO💩"                                    	         -- break
+              |  "GTFO💩"                                    	          -- break
               |  "keepItPushin"                                          -- continue
               |  "andThemsTheFacts" Exp?                                 -- return
               |  Exp
-  Block       =  "$" Stmt* "#"                      					 -- block
+  Block       =  "$" Stmt* "#"                      					       -- block
   Print 	     =  "supLilBitch" Exp                      
   Case        =  "andWhatAboutIt👉" Exp Block                            -- switchCase
   DefaultCase =  "andLetMeDoMe🤑" Block                                  -- switchDefault
@@ -40,24 +40,25 @@ realHotGirlScript {
   Exp4        =  prefixop Exp5                                           -- unary
               |  Exp5
   Exp5        =  Exp6 postfixop                                          -- optionals
-  			  |  Exp6
+  			     |  Exp6
   Exp6        =  Exp7 incremop                                           -- increment
               |  Exp7
   Exp7        =  Exp8 "^" Exp8                                           -- exponentiation
               |  Exp8
-  Exp8        =  "seeYa" id ":" ((Exp"@")+) "wouldntWannBeYa"          -- closure
+  Exp8        =  "seeYa" id ":" ((Exp"@")+) "wouldntWannBeYa"            -- closure
               |  Exp9
-  Exp9       =  boollit
+  Exp9        =  boollit
               |  numlit
               |  strlit
               |  nonelit
-              |  "[" ListOf<Exp, ","> "]"                       -- arrays
-              |  "$" ListOf<Exp, ","> "#"                        -- set
-              |  "$" ListOf<KeyValue, ","> "#"                   -- dict
-              |  "(" ListOf<Exp, ","> ")"                       -- tuple
+              |  "[" ListOf<Exp, ","> "]"                                -- arrays
+              |  "$" ListOf<Exp, ","> "#"                                -- set
+              |  "$" ListOf<KeyValue, ","> "#"                           -- dict
+              |  "(" ListOf<Exp, ","> ")"                                -- tuple
               |  Call                                                    
               |  VarExp
               |  "(" Exp ")"                                             -- parens
+              ///FIX KEYVALUE PAIRS!!!!!
   KeyValue    =  Exp "~" Exp
   Call        =  "hotlineBling💎"? id "(" Args ")"                       -- call
   Exps        =  NonemptyListOf<Exp, ",">                                -- exps
@@ -68,80 +69,45 @@ realHotGirlScript {
               |  VarExp "." id                                           -- subscripted3
               |  id
   VarExps     =  NonemptyListOf<VarExp, ",">                             -- varExps
-  Param       =  Type id (":" Exp)?										 -- param
+  Param       =  Type id (":" Exp)?										          -- param
   Params      =  ListOf<Param, ",">                                      -- params
   Arg         =  Type id ":" Exp                                         -- arg
   Args        =  ListOf<Arg, ",">                                        -- args
-  Type        =  NumType 
-  			  | LongType
+   Type        =  NumType 
+  			     | LongType
               | StringType 
               | BooleanType 
               | ArrayType 
               | SetType 
               | DictType 
               | TupleType  
+              | Type postfixop?												--optional
               | id -- type
-  NumType     =  "digitz" postfixop?								     -- numKeyword
+  NumType     =  "digitz" postfixop?								             -- numKeyword
   LongType    =  "longz"  postfixop?                                     -- longKeyWord
-  StringType  =  "wordz"  postfixop? 												           -- stringKeyword
-  BooleanType =  "boolz"  postfixop?                                               -- boolKeyword
-  ArrayType   =  "arrayz" "<"Type">" postfixop?                                               -- arrayKeyword
-  SetType     =  "setz" "<"Type">" postfixop?                                      -- setKeyword
+  StringType  =  "wordz"  postfixop? 												 -- stringKeyword
+  BooleanType =  "boolz"  postfixop?                                     -- boolKeyword
+  ArrayType   =  "arrayz" "<"Type">" postfixop?                          -- arrayKeyword
+  SetType     =  "setz" "<"Type">" postfixop?                            -- setKeyword
   DictType    =  "dictz"  "<" Type "," Type ">" postfixop?                                               -- dictKeyword
-  TupleType   =  "tuplez" "<" Type(("," Type)*) ">" postfixop?                                  -- tupleKeyword
-  ConstType   =  "stayz"                                                           -- constKeyword
+  TupleType   =  "tuplez" "<" Type(("," Type)*) ">" postfixop?           -- tupleKeyword
+  ConstType   =  "stayz"                                                 -- constKeyword
   keyword     =  ("ATTENTIONATTENTION🗣" 
-  			  | "$" 
-              | "#"
-              | ":"
               | "keepItPushin"
-              | "^"
-              | "("
-              | ")"
-              | "["
-              | "]"
-              | "+"
-              | "\""
-              | "\\"
-              | "\n"
-              | "++"
-              | "--"
               | "spreadThatThang🍯" 
-              | "~"
-              | "."
-              | ","
-              | "<=" 
-              | "<" 
-              | "==" 
-              | "!="
-              | ">=" 
-              | ">"
-              | "*" 
-              | "//" 
-              | "/" 
-              | "%"
               | "oop"
-              | ":/"
-              | "/:"
-              | "@"
-              | "-" 
               | "BANGENERGY"
               | "wylin🤪" 
               | "yeet" 
               | "iHaveSomethingToSay🙅🏾‍♀️"
-              | "&&" 
               | "becauseWhyyy😼" 
               | "BECAUSEIMONFUCKINGVACATION👅" 
               | "shutUpGirlfriend😈" 
               | "leftOnRead"
               | "openHerUp" 
-              | "🔥"  
-              | " " 
-              | "\t"
               | "openHerUp🍑" 
               | "sheWaits😩" 
               | "andWhatAboutIt👉" 
-              | "||" 
               | "suplilBitch" 
               | "andLetMeDoMe🤑" 
               | "newBootzBeeeatch✨" 
@@ -160,16 +126,14 @@ realHotGirlScript {
               | "fraudulentAssBitch" 
               | "seeYa" 
               | "wouldntWannBeYa" 
-              | "!!!" 
               | "weOutHereTryinToFunction" 
-              | "?" 
               | "andThemsTheFacts" 
               | "GTFO💩") ~idrest                                         -- keyword 
   id          =  ~keyword ("_" | letter+) idrest*                         -- id
-  idrest      =  "_" | alnum				                              -- idrest
-  numlit      =  (("+" | "-")?) digit+ frac? eExpo?             -- numlit 
+  idrest      =  "_" | alnum				                                   -- idrest
+  numlit      =  (("+" | "-")?) digit+ frac? eExpo?                       -- numlit 
   frac        =  "." digit*   -- fraction                                        
-  eExpo       =  (caseInsensitive<"e">) ("+" | "-")? digit+    -- eExpo                                           
+  eExpo       =  (caseInsensitive<"e">) ("+" | "-")? digit+               -- eExpo                                           
   boollit     =  "trueShit" | "fraudulentAssBitch"                        -- boolit
   strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""              -- strlit
   nonelit     = "deceasedOnYouHoes"                                       -- nonelit
