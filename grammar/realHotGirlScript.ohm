@@ -58,7 +58,6 @@ realHotGirlScript {
               |  Call                                                    
               |  VarExp
               |  "(" Exp ")"                                             -- parens
-              ///FIX KEYVALUE PAIRS!!!!!
   KeyValue    =  Exp "~" Exp
   Call        =  "hotlineBling💎"? id "(" Args ")"                       -- call
   Exps        =  NonemptyListOf<Exp, ",">                                -- exps
