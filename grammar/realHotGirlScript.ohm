@@ -64,8 +64,8 @@ realHotGirlScript {
   Exps        =  NonemptyListOf<Exp, ",">                                -- exps
   DeclId      =  id                                                      -- declId
   DeclIds     =  NonemptyListOf<DeclId, ",">                             -- declIds
-  VarExp      =  VarExp "[" Exp "]"                                      -- subscripted1
-              |  VarExp "." "("id")"                                     -- subscripted2
+  VarExp      =  VarExp "[" Exp "]"                                      -- subscripted
+              |  VarExp "." "("id")"                                     -- member
               |  VarExp "." id                                           -- subscripted3
               |  id
   VarExps     =  NonemptyListOf<VarExp, ",">                             -- varExps
