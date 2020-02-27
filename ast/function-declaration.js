@@ -1,5 +1,6 @@
 module.exports = class FunctionDeclaration {
-    constructor(type, id, params, body) {
-      Object.assign(this, { type, id, params, body });
-    }
+  constructor(async, type, id, params, body) {
+    // WHERE TO ADD VOID IN HERE?
+    Object.assign(this, { async, type, id, params, body });
+  }
 };

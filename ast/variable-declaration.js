@@ -1,5 +1,5 @@
 module.exports =   class VariableDeclaration {
-    constructor(id, type) {
-      Object.assign(this, { id, type });
+    constructor(constant, id, type) {
+      Object.assign(this, { constant, id, type });
     }
   };

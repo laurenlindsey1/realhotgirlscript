@@ -1,5 +1,5 @@
 module.exports = class Closure {
-      constructor(id, expressions) {
-        Object.assign(this, { id, expressions });
+      constructor(id, expression) {
+        Object.assign(this, { id, expression });
       }
   };

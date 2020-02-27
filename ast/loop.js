@@ -1,15 +1,15 @@
-class Loop {};
+class Loop {}; // Do we need to account for multiple ids and expressions??
 
   class ClassicForLoop extends Loop {
-    constructor(type, id, expressions, body) {
+    constructor(type, id, expression, body) {
       super();
-      Object.assign(this, { type, id, expressions, body });
+      Object.assign(this, { type, id, expression, body });
     }
   };
 
   class SpreadForLoop extends Loop {
-    constructor(expressions, body) {
+    constructor(expression, body) {
       super();
-      Object.assign(this, { expressions, body });
+      Object.assign(this, { expression, body });
     }
   };

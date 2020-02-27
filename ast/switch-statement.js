@@ -1,5 +1,5 @@
 module.exports = class SwitchStatement {
-    constructor(id, expression, body) {
-      Object.assign(this, { id, expression, body });
+    constructor(expression, cases, alternate) {
+      Object.assign(this, { expression, cases, alternate }); // do we need to deal with optional default?
     }
 };

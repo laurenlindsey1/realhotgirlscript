@@ -5,7 +5,7 @@ realHotGirlScript {
               |  async? funcDecl (Type | void) id "(" Params ")" Block                                 -- function
               |  while Exp Block                                     -- while
               |  if Exp Block (elseif Exp Block)* (else Block)?                 -- if
-              |  switch id "$" Case+ DefaultCase? "#"      -- switch
+              |  switch Exp "$" Case+ DefaultCase? "#"      -- switch
               |  for (numType | longType)  id ":" Exp "🔥" id relop Exp "🔥"id incremop Block -- forloop1
               |  for "[" Exp spread Exp "]" Block                            -- forloop2
   SimpleStmt  =  constType? Type DeclIds ":" Exps  						    -- varDecl
@@ -31,13 +31,13 @@ realHotGirlScript {
               |  Exp4
   Exp4        =  prefixop Exp5                                           -- unary
               |  Exp5
-  Exp5        =  Exp6 postfixop                                          -- optionals
+  Exp5        =  Exp6 postfixop                                          -- optional
   			     |  Exp6
   Exp6        =  Exp7 incremop                                           -- increment
               |  Exp7
   Exp7        =  Exp8 "^" Exp8                                           -- exponentiation
               |  Exp8
-  Exp8        =  let id ":" ((Exp"@")+) endKey            -- closure
+  Exp8        =  let id ":" (Exp"@")+ endKey            -- closure
               |  Exp9
   Exp9        =  boollit
               |  numlit
@@ -56,11 +56,10 @@ realHotGirlScript {
   DeclId      =  id                                                      -- declId
   DeclIds     =  NonemptyListOf<DeclId, ",">                             -- declIds
   VarExp      =  VarExp "[" Exp "]"                                      -- subscripted
-              |  VarExp "." "("id")"                                     -- member
-              |  VarExp "." id                                           -- subscripted3
-              |  id
+              |  VarExp "." id                                           -- member
+              |  id                                                      -- simple
   VarExps     =  NonemptyListOf<VarExp, ",">                             -- varExps
-  Param       =  Type id (":" Exp)?										          -- param
+  Param       =  Type id (":" Exp)?										                   -- param
   Params      =  ListOf<Param, ",">                                      -- params
   Arg         =  Type id ":" Exp                                         -- arg
   Args        =  ListOf<Arg, ",">                                        -- args
@@ -73,7 +72,7 @@ realHotGirlScript {
               | DictType 
               | TupleType  
               | Type postfixop?												--optional
-              | id -- type
+              | id                                    -- type
   numType     =  "digitz"								                         -- numKeyword
   longType    =  "longz"                                     -- longKeyWord
   stringType  =  "wordz" 											 -- stringKeyword
