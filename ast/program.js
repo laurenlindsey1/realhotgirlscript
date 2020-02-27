@@ -1,5 +1,5 @@
 module.exports = class Program {
-    constructor(statements) {
-      this.statements = statements;
-    }
-  };
+  constructor(statements) {
+    this.statements = statements;
+  }
+};

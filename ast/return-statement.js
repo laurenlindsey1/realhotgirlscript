@@ -1,5 +1,5 @@
 module.exports = class ReturnStatement {
-      constructor(exp) {
-        this.exp = exp;
-      }
-  };
+  constructor(exp) {
+    this.exp = exp;
+  }
+};
