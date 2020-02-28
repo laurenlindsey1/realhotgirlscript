@@ -6,7 +6,7 @@ realHotGirlScript {
               |  while Exp Block                                     -- while
               |  if Exp Block (elseif Exp Block)* (else Block)?                 -- if
               |  switch Exp "$" Case+ DefaultCase? "#"      -- switch
-              |  for (numType | longType)  id ":" Exp "🔥" id relop Exp "🔥"id incremop Block -- forloop1
+              |  for (numType | longType)  id ":" Exp "🔥" Exp "🔥" id incremop Block -- forloop1
               |  for "[" Exp spread Exp "]" Block                            -- forloop2
   SimpleStmt  =  constType? Type DeclIds ":" Exps  						    -- varDecl
               |  VarExps ":" Exps                                        -- assign
@@ -64,7 +64,7 @@ realHotGirlScript {
   Arg         =  Type id ":" Exp                                         -- arg
   Args        =  ListOf<Arg, ",">                                        -- args
   Type        =  numType 
-  			     | longType
+  			      | longType
               | stringType 
               | booleanType 
               | ArrayType 

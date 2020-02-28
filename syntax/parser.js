@@ -1,5 +1,5 @@
 // Parser module
-//
+  const fs = require('fs');
 //   const parse = require('./parser');
 //   const ast = parse(sourceCodeString);
 
@@ -47,7 +47,7 @@ const SubscriptedExpression = require("../ast/subscripted-expression");
 const MemberExpression = require("../ast/member-expression");
 const IdentifierExpression = require("../ast/identifier-expression");
 const IdentifierDeclaration = require("../ast/identifier-declaration");
-const Paramter = require("../ast/parameter");
+const Parameter = require("../ast/parameter");
 const Argument = require("../ast/argument");
 const IdType = require("../ast/id-type");
 
@@ -65,7 +65,7 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
   },
   Stmt_simple(statement, _) {
     return statement.ast();
-  }, //does this need return new?
+  },
   Stmt_class(_1, id, _2, params, _3, body) {
     return new Class(id.ast(), params.ast(), body.ast());
   },
@@ -95,24 +95,23 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
   Stmt_forLoop1(
     _1,
     type,
-    id,
+    initid,
     _2,
-    expression,
+    initexpression,
     _3,
-    id1,
+    testexpression,
     _4,
-    expression1,
-    _5,
-    id2,
-    _6,
+    updateid,
+    incop,
     body
   ) {
-    // :)  //IS THIS RIGHT?
+    return new ClassicForLoop(type.ast(), initid.ast(), initexpression.ast(), testexpression.ast(),
+      updateid.ast(), incop.ast(), body.ast());
+    //IS THIS RIGHT?
   },
 
-  // HOW DO WE DEAL WITH THE SPREAD RIGHT NOW WE ARE JUST SAYING THAT IT IS AN _ BUT SHE NEEDS FUNCTIONALITY
-  Stmt_foorLoop2(_1, _2, expression, _3, expression1, _4, body) {
-    return new SpreadForLoop(expression.ast(), body.ast()); //do we need to deal with multiple expressions in here?
+  Stmt_foorLoop2(_1, _2, expression, _3, spreadop, _4, body) {
+    return new SpreadForLoop(expression.ast(), spreadop.ast(), body.ast());
   },
 
   SimpleStmt_varDecl(constant, type, id, _, expression) {
@@ -239,10 +238,9 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
     return new IdDeclaration(id.ast());
   },
 
-  Params(expression) {
-    return new Params(expression.ast());
+  Param(type, id, _, expression) {
+    return new Parameter(type.ast(), id.ast(), arrayToNullable(expression.ast()));
   },
-
   Arguments(type, id, _, expression) {
     return new Argument(type.ast(), id.ast(), expression.ast());
   },
