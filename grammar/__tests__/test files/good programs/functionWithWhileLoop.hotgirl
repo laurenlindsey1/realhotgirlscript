@@ -1,6 +1,6 @@
     weOutHereTryinToFunction leftOnRead hiMomma()$
         wylin🤪 i < 10  $
-            text = text + "The number is " + i!!!
+            text : text + "The number is " + i!!!
             i++!!!
         #
-    #  
+    #
