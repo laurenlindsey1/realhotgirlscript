@@ -2,7 +2,7 @@
 ![](REALHOTGIRLSCRIPT.PNG)
 
 ## Introduction
-Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax pulls from some of the sayings that the members of the team have each used as they programmed throughout the years together, as well as references to pop culture icons, such as Megan thee Stallion, Rickey Thompson, and Trevor Wallace. 
+Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax pulls from some of the sayings that the members of the team have each used as they programmed throughout the years together, as well as references to pop culture icons, such as Megan thee Stallion, Rickey Thompson, and Trevor Wallace.
 
 ## Features
 - optionals
@@ -17,35 +17,31 @@ Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, obj
 ## Types
 | JavaScript  | RealHotGirlScript |
 | --- |---|
-| string      | wordz | 
+| string      | wordz |
 | number     | digitz (for integer values with paramterized length) or longz (for integers with unlimited length) |   
-| const | stayz     | 
-| bool | boolz      | 
+| const | stayz     |
+| bool | boolz      |
 
 ## Variable Declaration and Assignment
 | JavaScript  | RealHotGirlScript |
 | --- |---|
-| let x = 5;      | digitz x: 5!!! | 
+| let x = 5;      | digitz x: 5!!! |
 | let y = “hello!”;     | wordz y: “hello!”!!! |   
-| let z = 6.9; | longz z: 6.9!!!     | 
-| const name = “real hot girl script”; | stayz name: “real hot girl script”!!!      | 
+| let z = 6.9; | longz z: 6.9!!!     |
+| let t = true; | boolz t: trueShit!!!     |
+| let f = false; | boolz f: fraudulentAssBitch!!!     |
+| const name = “real hot girl script”; | stayz name: “real hot girl script”!!!      |
 
 ```
 dictz stateCapitals: $"California" = "Sacramento", "Nevada" = "Carson City", "Oregon" = "Salem"#;
 arrayz numbers: [1, 2, 3, 4];
 setz names: $“Shanaya”, “Keanna”, “Sage”, “Lauren”#;
 ```
-## Type Casting
-Type casting can be done by putting the value you wish to cast in parentheses, prepended by the type you wish to change the variable to.
-```
-longz(5)
-wordz(3)
-```
 
 ## Built In Functions
 | JavaScript  | RealHotGirlScript |
 | --- |---|
-| console.log(“Hello World!”);  |  supLilBitch “Hello World!”!!!| 
+| console.log(“Hello World!”);  |  supLilBitch “Hello World!”!!!|
 
 ## Comments
 Single line comments are marked with ```oop``` and multiline comments are marked with ```:/``` at the beginning and ```/:``` at the end.
@@ -65,6 +61,28 @@ this is a multiline comment
 - exponents = 2 ^ 4
 - modulus = 4 % 2
 
+
+## A guide to our keywords
+| RealHotGirlScript  | Traditional |
+| --- |---|
+| ATTENTIONATTENTION🗣  |  class |
+| weOutHereTryinToFunction |  function |
+| andThemsTheFacts |  return |
+| keepItPushin |  continue |
+| spreadThatThang🍯 |  spread |
+| iHaveSomethingToSay🙅🏾‍♀️ |  if |
+| becauseWhyyy😼 |  else if |
+| BECAUSEIMONFUCKINGVACATION👅 |  else |
+| shutUpGirlfriend😈 |  switch |
+| andWhatAboutIt👉 |  case |
+| andLetMeDoMe🤑 |  default |
+| leftOnRead |  void |
+| openHerUp🍑 |  for |
+| sheWaits😩 |  async |
+| supLilBitch |  print |
+| hotlineBling💎 |  await |
+| GTFO💩 |  break |
+
 ## Control Flow
 ### If Statements
 ```
@@ -75,7 +93,7 @@ iHaveSomethingToSay🙅🏾‍♀️ x == 0 $
  #
 ```
 ### While Loops
-``` 
+```
 wylin🤪 i < 10  $
   text = text + "The number is " + i!!!
   i++!!!
@@ -131,7 +149,7 @@ RealHotGirlScript
 digitz number: 0!!!
 wordz day!!!
 shutUpGirlfriend😈 number $
-   andWhatAboutIt 0 👉 $ 
+   andWhatAboutIt 0 👉 $
      day : "Sunday"!!!
      GTFO💩!!!
    #
@@ -148,7 +166,7 @@ suplilbitch “today is a ” + day!!!
 ```
 JavaScript
 ```
-let number = 0; 
+let number = 0;
 let day;
 switch (number) {
   case 0:

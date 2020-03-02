@@ -1,41 +1,44 @@
 realHotGirlScript {
   Program     =  Stmt*
-  Stmt        =  SimpleStmt "!!!"                                        -- simple
+  Stmt        =  SimpleStmt "!!!"                       -- simple
               |  class id "(" Params ")" Block          -- class
-              |  async? funcDecl (Type | void) id "(" Params ")" Block                                 -- function
-              |  while Exp Block                                     -- while
-              |  if Exp Block (elseif Exp Block)* (else Block)?                 -- if
-              |  switch Exp "$" Case+ DefaultCase? "#"      -- switch
-              |  for (numType | longType)  id ":" Exp "🔥" Exp "🔥" id incremop Block -- forloop1
-              |  for "[" Exp spread Exp "]" Block                            -- forloop2
-  SimpleStmt  =  constType? Type DeclIds ":" Exps  						    -- varDecl
-              |  VarExps ":" Exps                                        -- assign
-              |  Call                                                    -- call
-              |  Print                                                   -- print
-              |  break                                    	          -- break
-              |  continue                                          -- continue
-              |  return Exp?                                 -- return
+              |  async? funcDecl (Type | void)
+                 id "(" Params ")" Block                -- function
+              |  while Exp Block                        -- while
+              |  if Exp Block (elseif Exp Block)*
+                 (else Block)?                          -- if
+              |  switch Exp "$" Case+ DefaultCase? "#"  -- switch
+              |  for (numType | longType)  id ":"
+                 Exp "🔥" Exp "🔥" id incremop Block     -- forloop1
+              |  for "[" Exp spread Exp "]" Block       -- forloop2
+  SimpleStmt  =  constType? Type DeclIds ":" Exps  			-- varDecl
+              |  VarExps ":" Exps                       -- assign
+              |  Call                                   -- call
+              |  Print                                  -- print
+              |  break                                  -- break
+              |  continue                               -- continue
+              |  return Exp?                            -- return
               |  Exp
-  Block       =  "$" Stmt* "#"                      					       -- block
-  Print 	     =  print Exp                      
-  Case        =  case Exp Block                            -- switchCase
-  DefaultCase =  default Block                                  -- switchDefault
-  Exp         =  Exp "||" Exp1                                           -- or
-              |  Exp "&&" Exp1                                           -- and
+  Block       =  "$" Stmt* "#"                          -- block
+  Print 	    =  print Exp
+  Case        =  case Exp Block                         -- switchCase
+  DefaultCase =  default Block                          -- switchDefault
+  Exp         =  Exp "||" Exp1                          -- or
+              |  Exp "&&" Exp1                          -- and
               |  Exp1
-  Exp1        =  Exp2 relop Exp2                                         -- binary
+  Exp1        =  Exp2 relop Exp2                        -- binary
               |  Exp2
-  Exp2        =  Exp2 addop Exp3                                         -- binary
+  Exp2        =  Exp2 addop Exp3                        -- binary
               |  Exp3
-  Exp3        =  Exp3 mulop Exp4                                         -- binary
+  Exp3        =  Exp3 mulop Exp4                        -- binary
               |  Exp4
-  Exp4        =  prefixop Exp5                                           -- unary
+  Exp4        =  prefixop Exp5                          -- unary
               |  Exp5
-  Exp5        =  Exp6 postfixop                                          -- optional
-  			     |  Exp6
-  Exp6        =  Exp7 incremop                                           -- increment
+  Exp5        =  Exp6 postfixop                         -- optional
+  			      |  Exp6
+  Exp6        =  Exp7 incremop                          -- increment
               |  Exp7
-  Exp7        =  Exp8 "^" Exp8                                           -- exponentiation
+  Exp7        =  Exp8 "^" Exp8                          -- exponentiation
               |  Exp8
   Exp8        =  let id ":" (Exp"@")+ endKey            -- closure
               |  Exp9
@@ -43,45 +46,45 @@ realHotGirlScript {
               |  numlit
               |  strlit
               |  nonelit
-              |  "[" ListOf<Exp, ","> "]"                                -- arrays
-              |  "$" ListOf<Exp, ","> "#"                                -- set
-              |  "$" ListOf<KeyValue, ","> "#"                           -- dict
-              |  "(" ListOf<Exp, ","> ")"                                -- tuple
-              |  Call                                                    
+              |  "[" ListOf<Exp, ","> "]"               -- arrays
+              |  "$" ListOf<Exp, ","> "#"               -- set
+              |  "$" ListOf<KeyValue, ","> "#"          -- dict
+              |  "(" ListOf<Exp, ","> ")"               -- tuple
+              |  Call
               |  VarExp
-              |  "(" Exp ")"                                             -- parens
+              |  "(" Exp ")"                            -- parens
   KeyValue    =  Exp "~" Exp
-  Call        =  await? id "(" Args ")"                       -- call
-  Exps        =  NonemptyListOf<Exp, ",">                                -- exps
-  DeclId      =  id                                                      -- declId
-  DeclIds     =  NonemptyListOf<DeclId, ",">                             -- declIds
-  VarExp      =  VarExp "[" Exp "]"                                      -- subscripted
-              |  VarExp "." id                                           -- member
-              |  id                                                      -- simple
-  VarExps     =  NonemptyListOf<VarExp, ",">                             -- varExps
-  Param       =  Type id (":" Exp)?										                   -- param
-  Params      =  ListOf<Param, ",">                                      -- params
-  Arg         =  Type id ":" Exp                                         -- arg
-  Args        =  ListOf<Arg, ",">                                        -- args
-  Type        =  numType 
+  Call        =  await? id "(" Args ")"                 -- call
+  Exps        =  NonemptyListOf<Exp, ",">               -- exps
+  DeclId      =  id                                     -- declId
+  DeclIds     =  NonemptyListOf<DeclId, ",">            -- declIds
+  VarExp      =  VarExp "[" Exp "]"                     -- subscripted
+              |  VarExp "." id                          -- member
+              |  id                                     -- simple
+  VarExps     =  NonemptyListOf<VarExp, ",">            -- varExps
+  Param       =  Type id (":" Exp)?										  -- param
+  Params      =  ListOf<Param, ",">                     -- params
+  Arg         =  Type id ":" Exp                        -- arg
+  Args        =  ListOf<Arg, ",">                       -- args
+  Type        =  numType
   			      | longType
-              | stringType 
-              | booleanType 
-              | ArrayType 
-              | SetType 
-              | DictType 
-              | TupleType  
-              | Type postfixop?												--optional
-              | id                                    -- type
-  numType     =  "digitz"								                         -- numKeyword
-  longType    =  "longz"                                     -- longKeyWord
-  stringType  =  "wordz" 											 -- stringKeyword
-  booleanType =  "boolz"                                     -- boolKeyword
-  ArrayType   =  arrayDecl "<"Type">"                      -- arrayKeyword
-  SetType     =  setDecl "<"Type">"                             -- setKeyword
-  DictType    =  dictDecl  "<" Type "," Type ">"                                              -- dictKeyword
-  TupleType   =  tupleDecl "<" Type(("," Type)*) ">"           -- tupleKeyword
-  constType   =  "stayz"                                                 -- constKeyword
+              | stringType
+              | booleanType
+              | ArrayType
+              | SetType
+              | DictType
+              | TupleType
+              | Type postfixop?												  --optional
+              | id                                      -- type
+  numType     =  "digitz"								                -- numKeyword
+  longType    =  "longz"                                -- longKeyWord
+  stringType  =  "wordz" 											          -- stringKeyword
+  booleanType =  "boolz"                                -- boolKeyword
+  ArrayType   =  arrayDecl "<"Type">"                   -- arrayKeyword
+  SetType     =  setDecl "<"Type">"                     -- setKeyword
+  DictType    =  dictDecl  "<" Type "," Type ">"        -- dictKeyword
+  TupleType   =  tupleDecl "<" Type(("," Type)*) ">"    -- tupleKeyword
+  constType   =  "stayz"                                -- constKeyword
   class       = "ATTENTIONATTENTION🗣" ~alnum
   continue    = "keepItPushin" ~alnum
   spread      = "spreadThatThang🍯" ~alnum
@@ -128,39 +131,41 @@ realHotGirlScript {
               | switch
               | void
               | for
-              | async 
+              | async
               | case
               | print
               | default
-              | await 
+              | await
               | true
               | arrayDecl
               | setDecl
               | dictDecl
               | tupleDecl
               | nonelit
-              | false 
+              | false
               | let
               | endKey
               | funcDecl
               | return
-              | break) ~idrest                                         -- keyword 
-  id          =  ~keyword ("_" | letter+) idrest*                         -- id
-  idrest      =  "_" | alnum				                                   -- idrest
-  numlit      =  (("+" | "-")?) digit+ frac? eExpo?                       -- numlit 
-  frac        =  "." digit*   -- fraction                                        
-  eExpo       =  (caseInsensitive<"e">) ("+" | "-")? digit+               -- eExpo                                           
-  boollit     =  true | false                        -- boolit
-  strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""              -- strlit
-  nonelit     = "deceasedOnYouHoes"  ~alnum                                    -- nonelit
-  escape      =  "\\" ("\\" | "\"" | "n")                                 -- simple
-  incremop 	  =  "++" | "--"                                              -- incremop
-  addop       =  "+" | "-"                                                -- addop
-  relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"                     -- relop
-  mulop       =  "*" | "//" | "/" | "%"                                   -- mulop
-  prefixop    =  "-" | negate | "+"                                 -- prefixop
-  postfixop   =  "?"                                                      -- postfixop
-  space       +=  " " | "\t" | comment                                    -- space
-  comment     =  singleLnCmt (~"\n" any)*                                       -- singleline
-              |  ":/" (~"/:" any)* "/:"                                   -- multiline
+              | break) ~idrest                          -- keyword
+  id          =  ~keyword ("_" | letter+) idrest*       -- id
+  idrest      =  "_" | alnum				                    -- idrest
+  numlit      =  (("+" | "-")?) digit+ frac? eExpo?     -- numlit
+  frac        =  "." digit*   -- fraction
+  eExpo       =  (caseInsensitive<"e">) ("+" | "-")?
+                 digit+                                 -- eExpo
+  boollit     =  true | false                           -- boolit
+  strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)*
+                 "\""                                   -- strlit
+  nonelit     = "deceasedOnYouHoes"  ~alnum             -- nonelit
+  escape      =  "\\" ("\\" | "\"" | "n")               -- simple
+  incremop 	  =  "++" | "--"                            -- incremop
+  addop       =  "+" | "-"                              -- addop
+  relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"   -- relop
+  mulop       =  "*" | "//" | "/" | "%"                 -- mulop
+  prefixop    =  "-" | negate | "+"                     -- prefixop
+  postfixop   =  "?"                                    -- postfixop
+  space       +=  " " | "\t" | comment                  -- space
+  comment     =  singleLnCmt (~"\n" any)*               -- singleline
+              |  ":/" (~"/:" any)* "/:"                 -- multiline
 }
