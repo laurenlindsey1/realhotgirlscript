@@ -4,6 +4,9 @@
 ## Introduction
 Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax pulls from some of the sayings that the members of the team have each used as they programmed throughout the years together, as well as references to pop culture icons, such as Megan thee Stallion, Rickey Thompson, and Trevor Wallace.
 
+RealHotGirlScript is brought to you by [KeAnna Anglin](https://github.com/keannaanglin "KeAnna's Github"),
+[Lauren Lindsey](https://github.com/laurenlindsey1 "Lauren's Github"), [Shanaya Nagendran](https://github.com/shanaya-n "Shanaya's Github"), and [Sage Strieker](https://github.com/Strieker "Sage's Github").
+
 ## Features
 - optionals
 - keywords for variables ending with z
@@ -33,15 +36,31 @@ Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, obj
 | const name = “real hot girl script”; | stayz name: “real hot girl script”!!!      |
 
 ```
-dictz stateCapitals: $"California" = "Sacramento", "Nevada" = "Carson City", "Oregon" = "Salem"#;
-arrayz numbers: [1, 2, 3, 4];
-setz names: $“Shanaya”, “Keanna”, “Sage”, “Lauren”#;
+dictz <wordz,wordz> stateCapitals: $ California ~ "Sacramento", Nevada ~ "Carson City", Oregon ~ "Salem"#!!!
+arrayz <digitz> numbers: [1, 2, 3, 4]!!!
+setz <wordz> names: $“Shanaya”, “Keanna”, “Sage”, “Lauren”#!!!
 ```
 
 ## Built In Functions
 | JavaScript  | RealHotGirlScript |
 | --- |---|
 | console.log(“Hello World!”);  |  supLilBitch “Hello World!”!!!|
+
+## Function Declaration
+```
+weOutHereTryinToFunction leftOnRead helloWorld()$
+  supLilBitch "Hello World"!!!
+#
+
+weOutHereTryinToFunction leftOnRead helloWorld(stringz place)$
+  supLilBitch "Hello " + place!!!
+#
+
+weOutHereTryinToFunction stringz helloWorld(stringz place)$
+  andThemsTheFacts "Hello " + place!!!
+#
+
+```
 
 ## Comments
 Single line comments are marked with ```oop``` and multiline comments are marked with ```:/``` at the beginning and ```/:``` at the end.
@@ -60,7 +79,6 @@ this is a multiline comment
 - float division = 4 / 2
 - exponents = 2 ^ 4
 - modulus = 4 % 2
-
 
 ## A guide to our keywords
 | RealHotGirlScript  | Traditional |
@@ -87,22 +105,29 @@ this is a multiline comment
 ### If Statements
 ```
 iHaveSomethingToSay🙅🏾‍♀️ x == 0 $
-  andThemsTheFacts "trueShit"!!!
+  andThemsTheFacts trueShit!!!
  # becauseWhyyy😼 $
-  andThemsTheFacts "fraudulentAssBitch"!!!
+  andThemsTheFacts fraudulentAssBitch!!!
  #
 ```
 ### While Loops
 ```
 wylin🤪 i < 10  $
-  text = text + "The number is " + i!!!
+  text : text + "The number is " + i!!!
   i++!!!
 #
 ```
 ### For Loops
 ```
-openHerUp🍑(digitz i: 0 🔥 i < 5 🔥 i++) $
+openHerUp🍑 digitz i: 0 🔥 i < 5 🔥 i++ $
   supLilBitch "The number is " + i!!!
+#
+```
+
+### For Loops with Spread
+```
+openHerUp🍑 [0 spreadThatThang🍯 10] $
+  supLilBitch "We love spreads"!!!
 #
 ```
 
@@ -133,7 +158,7 @@ function add (a, b) {
 #### Even or Odd
 RealHotGirlScript
 ```
-weOutHereTryinToFunction boolz evenOrOdd(x)$
+weOutHereTryinToFunction boolz evenOrOdd(digitz x)$
      andThemsTheFacts x % 2 == 0!!!
 #
 ```
@@ -147,22 +172,23 @@ function evenOrOdd(x) {
 RealHotGirlScript
 ```
 digitz number: 0!!!
-wordz day!!!
+wordz day: ""!!!
 shutUpGirlfriend😈 number $
-   andWhatAboutIt 0 👉 $
-     day : "Sunday"!!!
-     GTFO💩!!!
-   #
-   andWhatAboutIt 6 👉 $
-     day : "Saturday"!!!
-     GTFO💩!!!
-   #
-   andLetMeDoMe 🤑 $
-    	day : "Weekday"!!!
-   #
+  andWhatAboutIt👉 0 $
+      day : "Sunday"!!!
+      GTFO💩!!!
+  #
+  andWhatAboutIt👉 6  $
+      day : "Saturday"!!!
+      GTFO💩!!!
+  #
+  andLetMeDoMe🤑 $
+      day : "Weekday"!!!
+  #
 #
 
-suplilbitch “today is a ” + day!!!
+supLilBitch "today is a " + day!!!
+#  
 ```
 JavaScript
 ```
@@ -180,4 +206,30 @@ switch (number) {
 }
 
 console.log(“today is a ” + day);
+```
+#### Largest Number of Three
+RealHotGirlScript
+```
+weOutHereTryinToFunction digitz largestNum(digitz x,  digitz y,  digitz z)$
+    iHaveSomethingToSay🙅🏾‍♀️ x >= y && x >= z $
+       andThemsTheFacts x!!!
+    # becauseWhyyy😼 y >= x && y >= z $
+       andThemsTheFacts y!!!
+    # BECAUSEIMONFUCKINGVACATION👅 $
+        andThemsTheFacts z!!!
+    #
+
+
+```
+JavaScript
+```
+function largestNum(x, y, z) {
+    if (x >= y && x >= z) {
+        return x;
+    } else if (y >= x && y >= z) {
+        return y;
+    } else {
+        return z;
+    }
+}
 ```
