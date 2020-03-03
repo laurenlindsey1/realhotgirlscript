@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/laurenlindsey1/realhotgirlscript/issues"
   },
-  "homepage": "https://github.com/laurenlindsey1/realhotgirlscript#readme"
+  "homepage": "https://github.com/laurenlindsey1/realhotgirlscript#readme",
+  "dependencies": {
+    "jest": "^25.1.0"
+  }
 }
