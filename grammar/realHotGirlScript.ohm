@@ -150,13 +150,13 @@ realHotGirlScript {
               | break) ~idrest                          -- keyword
   id          =  ~keyword ("_" | letter+) idrest*       -- id
   idrest      =  "_" | alnum				                    -- idrest
-  numlit      =  (("+" | "-")?) digit+ frac? eExpo?     -- numlit
+  numlit      =  (("+" | "-")?) digit+ frac? eExpo?
   frac        =  "." digit*   -- fraction
   eExpo       =  (caseInsensitive<"e">) ("+" | "-")?
                  digit+                                 -- eExpo
   boollit     =  true | false                           -- boolit
   strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)*
-                 "\""                                   -- strlit
+                 "\""                                   
   nonelit     = "deceasedOnYouHoes"  ~alnum             -- nonelit
   escape      =  "\\" ("\\" | "\"" | "n")               -- simple
   incremop 	  =  "++" | "--"                            -- incremop

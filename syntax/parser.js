@@ -21,9 +21,9 @@ const DictExpression = require("../ast/dict-expression");
 const DictType = require("../ast/dict-type");
 const FunctionDeclaration = require("../ast/function-declaration");
 const IfStatement = require("../ast/if-statement");
-const IntType = require("../ast/int-type");
 const LongType = require("../ast/long-type");
 const Loop = require("../ast/loop");
+const NumericLiteral = require("../ast/numeric-literal");
 const Optionals = require("../ast/optionals");
 const Print = require("../ast/print");
 const Program = require("../ast/program");
@@ -33,6 +33,7 @@ const SetExpression = require("../ast/set-expression");
 const SetType = require("../ast/set-type");
 const StringType = require("../ast/string-type");
 const SwitchStatement = require("../ast/switch-statement");
+const SimpleStmt_call = require("../ast/simple-statement-call");
 const TupleType = require("../ast/tuple-type");
 const TupleExpression = require("../ast/tuple-expression");
 const Type = require("../ast/type");
@@ -51,7 +52,7 @@ const Parameter = require("../ast/parameter");
 const Argument = require("../ast/argument");
 const IdType = require("../ast/id-type");
 
-const grammar = ohm.grammar(fs.readFileSync("./grammar/realHotGirlScript.ohm"));
+const grammar = ohm.grammar(fs.readFileSync("../grammar/realHotGirlScript.ohm"));
 
 // Ohm turns `x?` into either [x] or [], which we should clean up for our AST.
 function arrayToNullable(a) {
@@ -81,10 +82,17 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
   Stmt_while(_, expression, body) {
     return new WhileStatement(expression.ast(), body.ast());
   },
-  Stmt_if(_, cases, alternate) {
-    return new IfElseStatement(cases.ast(), arrayToNullable(alternate.ast()));
+  // Stmt_if(_, cases, alternate) {
+  //   return new IfElseStatement(cases.ast(), arrayToNullable(alternate.ast()));
+  // },
+  Stmt_if(_1, firstTest, firstBlock, _2, moreTests, moreBlocks, _3, lastBlock) {
+    const tests = [firstTest.ast(), ...moreTests.ast()];
+    const consequents = [firstBlock.ast(), ...moreBlocks.ast()];
+    const alternate = arrayToNullable(lastBlock.ast());
+    return new IfStatement(tests, consequents, alternate);
   },
-  Stmt_switch(_, expression, cases, alternate) {
+  Stmt_switch(_1, expression, _2, cases, body, _3) {
+
     return new SwitchStatement(
       expression.ast(),
       cases.ast(),
@@ -92,7 +100,7 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
     );
   },
 
-  Stmt_forLoop1(
+  Stmt_forloop1(
     _1,
     type,
     initid,
@@ -110,7 +118,7 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
     //IS THIS RIGHT?
   },
 
-  Stmt_foorLoop2(_1, _2, expression, _3, spreadop, _4, body) {
+  Stmt_forloop2(_1, _2, expression, _3, spreadop, _4, body) {
     return new SpreadForLoop(expression.ast(), spreadop.ast(), body.ast());
   },
 
@@ -128,19 +136,23 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
     return new AssignmentStatement(target.ast(), source.ast());
   },
 
-  SimpleStmt_call(await, id, _1, args, _2) {
-    return new Call(arrayToNullable(await.ast()), id.ast(), args.ast());
+  // Call(wait, id, _1, args, _2) {
+  //   return new Call(arrayToNullable(wait.ast()), id.ast(), args.ast());
+  // },
+
+  SimpleStmt_call(call) {
+    return new SimpleStmt_call(call.ast());
   },
 
   SimpleStmt_print(expression) {
     return new Print(expression.ast());
   },
 
-  SimpleStmt_break() {
+  SimpleStmt_break(_) {
     return new BreakStatement();
   },
 
-  SimpleStmt_continue() {
+  SimpleStmt_continue(_) {
     return new ContinueStatement();
   },
 
@@ -180,7 +192,7 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
     return new UnaryExpression(op.ast(), operand.ast());
   },
 
-  Exp5_optional(operand) {
+  Exp5_optional(operand, _) {
     return new Expression(operand.ast()); // IS THIS RIGHT? HOW TO FIX GRAMMAR?
   },
 
@@ -188,11 +200,11 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
     return new UnaryExpression(op.ast(), operand.ast());
   },
 
-  Exp7_exponentiation(op, operand) {
+  Exp7_exponentiation(op, _, operand) {
     return new BinaryExpression(op.ast(), operand.ast()); //  DO WE NEED  A CLASS FOR
   },
 
-  Exp8_closure(_1, id, _2, expression, _3) {
+  Exp8_closure(_1, id, _2, expression, _3, _4) {
     return new Closure(id.ast(), expression.ast()); //  HOW TO DEAL WITH EXP@ GO BACK AND FIX SINGULAR VS PLURAL
   },
 
@@ -241,23 +253,11 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
   Param(type, id, _, expression) {
     return new Parameter(type.ast(), id.ast(), arrayToNullable(expression.ast()));
   },
-  Arguments(type, id, _, expression) {
+  Args(type, id, _, expression) {
     return new Argument(type.ast(), id.ast(), expression.ast());
   },
-
-  IntType(_) {
-    return IntType;
-  },
-  LongType(_) {
-    return LongType;
-  },
-  StringType(_) {
-    return StringType;
-  },
-  BooleanType(_) {
-    return BooleanType;
-  },
-  IdType(id) {
+  //is this right?
+  Type(id) {
     return new IdType(id.ast());
   },
   NonemptyListOf(first, _, rest) {
@@ -266,11 +266,14 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
   EmptyListOf() {
     return [];
   },
-  id(_1, _2) {
+  id(_) {
     return this.sourceString;
   },
-  numlit(_1, _2, _3, _4, _5, _6) {
-    return new NumericLiteral(+this.sourceString);
+  //do we need arrayToNullable(x.ast())??
+  numlit(sign, digits, frac, exponent) {
+
+    return new NumericLiteral(arrayToNullable(sign.ast()), +this.sourceString,
+    arrayToNullable(frac.ast()), arrayToNullable(exponent.ast()));
   },
   boollit(_) {
     return new BooleanLiteral(!!this.sourceString);
@@ -291,3 +294,6 @@ module.exports = text => {
   }
   return astGenerator(match).ast();
 };
+
+const program = parse(`[...5, ...2, 13, ...1]`);
+console.log(program);

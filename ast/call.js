@@ -1,5 +1,5 @@
 module.exports = class Call {
-  constructor( await, id, args) {
-    Object.assign(this, { await, id, args });
+  constructor( wait, id, args) {
+    Object.assign(this, { wait, id, args });
   }
 };

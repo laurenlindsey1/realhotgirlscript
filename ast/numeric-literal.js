@@ -1,4 +1,4 @@
-module.exports = class IntegerType {
+module.exports = class NumericLiteral {
   constructor(value) {
     this.value = value;
   }
