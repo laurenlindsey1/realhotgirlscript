@@ -19,10 +19,10 @@ realHotGirlScript {
               |  continue                               -- continue
               |  return Exp?                            -- return
               |  Exp
-  Block       =  "$" Stmt* "#"                          -- block
+  Block       =  "$" Stmt* "#"
   Print 	    =  print Exp
-  Case        =  case Exp Block                         -- switchCase
-  DefaultCase =  default Block                          -- switchDefault
+  Case        =  case Exp Block
+  DefaultCase =  default Block
   Exp         =  Exp "||" Exp1                          -- or
               |  Exp "&&" Exp1                          -- and
               |  Exp1
@@ -54,7 +54,7 @@ realHotGirlScript {
               |  VarExp
               |  "(" Exp ")"                            -- parens
   KeyValue    =  Exp "~" Exp
-  Call        =  await? id "(" Args ")"                 -- call
+  Call        =  await? id "(" Args ")"
   Exps        =  NonemptyListOf<Exp, ",">               -- exps
   DeclId      =  id                                     -- declId
   DeclIds     =  NonemptyListOf<DeclId, ",">            -- declIds
