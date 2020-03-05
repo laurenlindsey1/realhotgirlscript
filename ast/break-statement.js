@@ -1,2 +1,1 @@
-class BreakStatement {
-};
+module.exports = class BreakStatement {};
