@@ -38,16 +38,12 @@ const SwitchStatement = require("../ast/switch-statement");
 const SimpleStmt_call = require("../ast/simple-statement-call");
 const TupleType = require("../ast/tuple-type");
 const TupleExpression = require("../ast/tuple-expression");
-const Type = require("../ast/type");
 const UnaryExpression = require("../ast/unary-expression");
 const VariableDeclaration = require("../ast/variable-declaration");
-const VariableExpression = require("../ast/variable-expression");
 const WhileStatement = require("../ast/while-statement");
-const WriteStatement = require("../ast/write-statement");
 const Case = require("../ast/case");
 const KeValueExpression = require("../ast/keyvalue-expression");
 const SubscriptedExpression = require("../ast/subscripted-expression");
-const MemberExpression = require("../ast/member-expression");
 const IdentifierExpression = require("../ast/identifier-expression");
 const IdentifierDeclaration = require("../ast/identifier-declaration");
 const Parameter = require("../ast/parameter");
@@ -55,14 +51,12 @@ const Argument = require("../ast/argument");
 const StringLiteral = require("../ast/string-literal");
 const BooleanLiteral = require("../ast/boolean-literal");
 const IdType = require("../ast/id-type");
-const CallStatement = require("../ast/call-statement");
 const PrintStatement = require("../ast/print-statement");
 
 const realHotGirlScript = ohm.grammar(
   fs.readFileSync("../grammar/realHotGirlScript.ohm")
 );
 
-// Ohm turns `x?` into either [x] or [], which we should clean up for our AST.
 function arrayToNullable(a) {
   return a.length === 0 ? null : a[0];
 }
@@ -128,7 +122,6 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
       incop.ast(),
       body.ast()
     );
-    //IS THIS RIGHT?
   },
 
   Stmt_forloop2(_1, _2, expression, _3, spreadop, _4, body) {
@@ -136,7 +129,6 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   },
 
   SimpleStmt_varDecl(constant, type, id, _, expression) {
-    // right now we are not distinguishing b/n plural values / arrays
     return new VariableDeclaration(
       arrayToNullable(constant.ast()),
       type.ast(),
@@ -170,7 +162,6 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   },
 
   Block(_1, statements, _2) {
-    // WHY DOES IT EXPECT 1 ARG
     return new Block(statements.ast());
   },
 
@@ -211,15 +202,15 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   },
 
   Exp5_optional(op, operand) {
-    return new UnaryExpression(op.ast(), operand.ast()); // IS THIS RIGHT? HOW TO FIX GRAMMAR?
+    return new UnaryExpression(op.ast(), operand.ast());
   },
 
   Exp6_increment(op, operand) {
     return new UnaryExpression(op.ast(), operand.ast());
   },
 
-  Exp7_exponentiation(op, _, operand) {
-    return new BinaryExpression(left.ast(), op.ast(), right.ast()); //  DO WE NEED  A CLASS FOR
+  Exp7_exponentiation(left, op, right) {
+    return new BinaryExpression(left.ast(), op.ast(), right.ast());
   },
 
   Exp8_closure(_1, id, _2, expression, _3, _4) {
@@ -289,10 +280,6 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   Type_id(id) {
     return new IdType(id.ast());
   },
-
-  // OptionalType(operand) {
-  //   return new Optional(operand.ast());
-  // },
 
   NonemptyListOf(first, _, rest) {
     return [first.ast(), ...rest.ast()];
@@ -581,20 +568,153 @@ andThemsTheFacts "Sorry, you didn't give us an actual fucking number!"!!!
 #`);
 console.log(program14);
 
-// const program15 = parse(`digitz x: 1!!!`);
-// console.log(program);
+const program15 = parse(`sheWaits😩 weOutHereTryinToFunction leftOnRead hiMomma(digitz x, digitz y)$
+boolz x: 10!!!
+iHaveSomethingToSay🙅🏾‍♀️ x < 10 $
+    supLilBitch "You're less than 10 hoe"!!!
+# becauseWhyyy😼 x == 10 $
+    supLilBitch "10s 10s ACROSS THE BOARD"!!!
+# BECAUSEIMONFUCKINGVACATION👅 $
+    supLilBitch "You're pretty thicc if you're greater than 10"!!!
+#
+supLilBitch "I love myself"!!!
+supLilBitch x!!!
+supLilBitch y!!!
+#
+hotlineBling💎 hiMomma(digitz x: 5, digitz y: 6)!!!`);
+console.log(program15);
 
-// const program16 = parse(`digitz x: 1!!!`);
-// console.log(program);
+const program16 = parse(`
+sheWaits😩 weOutHereTryinToFunction wordz hiMomma()$
+boolz x: 10!!!
+iHaveSomethingToSay🙅🏾‍♀️ x < 10 $
+    supLilBitch "You're less than 10 hoe"!!!
+# becauseWhyyy😼 x == 10 $
+    supLilBitch "10s 10s ACROSS THE BOARD"!!!
+# BECAUSEIMONFUCKINGVACATION👅 $
+    supLilBitch "You're pretty thicc if you're greater than 10"!!!
+#
+andThemsTheFacts "I love myself"!!!
+#
+`);
+console.log(program16);
 
-// const program17 = parse(`digitz x: 1!!!`);
-// console.log(program);
+const program17 = parse(`
+sheWaits😩 weOutHereTryinToFunction leftOnRead hiMomma()$
+digitz number: 0!!!
+wordz day: ""!!!
+shutUpGirlfriend😈 number $
+  andWhatAboutIt👉 0 $ 
+      day : "Sunday"!!!
+      GTFO💩!!!
+  #
+  andWhatAboutIt👉 6  $
+      day : "Saturday"!!!
+      GTFO💩!!!
+  #
+  andLetMeDoMe🤑 $
+      day : "Weekday"!!!
+  #
+#
+supLilBitch "today is a " + day!!!
+#  
+`);
+console.log(program17);
 
-// const program18 = parse(`digitz x: 1!!!`);
-// console.log(program);
+const program18 = parse(`
+weOutHereTryinToFunction leftOnRead hiMomma()$
+wylin🤪 i < 10  $
+    text : text + "The number is " + i!!!
+    i++!!!
+#
+#
+`);
+console.log(program18);
 
-// const program19 = parse(`digitz x: 1!!!`);
-// console.log(program);
+const program19 = parse(`
+weOutHereTryinToFunction leftOnRead yourName(wordz name) $
+	supLilBitch "my name is " + name !!!
+#
+`);
+console.log(program19);
 
-// const program20 = parse(`digitz x: 1!!!`);
-// console.log(program);
+const program20 = parse(`
+weOutHereTryinToFunction leftOnRead ifStatement() $
+	iHaveSomethingToSay🙅🏾‍♀️ 1 $
+    	supLilBitch "dr toal!"!!!
+    #
+#
+`);
+console.log(program20);
+
+const program21 = parse(`
+weOutHereTryinToFunction leftOnRead hiMomma(digitz onRepeat)$
+    openHerUp🍑 [0 spreadThatThang🍯 10] $
+            supLilBitch "I don't give a fuck"!!!
+    #
+#
+oop leftOnRead()!!!
+`);
+console.log(program21);
+
+const program22 = parse(`
+weOutHereTryinToFunction leftOnRead hiMomma(digitz onRepeat)$
+    boolz likeWhiteOnRice: trueShit!!!
+    openHerUp🍑 [0 spreadThatThang🍯 10] $
+            iHaveSomethingToSay🙅🏾‍♀️ (likeWhiteOnRice)$
+                supLilBitch "I don't give a fuck"!!!
+            #
+            BECAUSEIMONFUCKINGVACATION👅$
+                GTFO💩!!!
+            #
+    #
+#
+hiMomma(digitz onRepeat: 10)!!!
+weOutHereTryinToFunction leftOnRead hiMomma1(digitz onRepeat)$
+    boolz likeWhiteOnRice: trueShit!!!
+    openHerUp🍑 [0 spreadThatThang🍯 10] $
+            iHaveSomethingToSay🙅🏾‍♀️ (likeWhiteOnRice)$
+                keepItPushin!!!
+            #
+            BECAUSEIMONFUCKINGVACATION👅$
+                supLilBitch "I don't give a fuck"!!!
+            #
+    #
+#
+hiMomma1(digitz onRepeat: 10)!!!
+`);
+console.log(program22);
+
+const program23 = parse(`
+tuplez<digitz> a : (0.2e5, 30, 40, 50)!!!
+`);
+console.log(program23);
+
+const program24 = parse(`
+weOutHereTryinToFunction leftOnRead hiMomma()$
+       wylin🤪 i < 10  $
+           text: text + "The number is " + i!!!
+           i++!!!
+       #
+   # 
+`);
+console.log(program24);
+
+const program25 = parse(`
+sheWaits😩 weOutHereTryinToFunction leftOnRead hiMomma()$
+boolz x: 10!!!
+iHaveSomethingToSay🙅🏾‍♀️ x < 10 $
+    supLilBitch "You're less than 10 hoe"!!!
+# becauseWhyyy😼 x == 10 $
+    supLilBitch "10s 10s ACROSS THE BOARD"!!!
+# BECAUSEIMONFUCKINGVACATION👅 $
+    supLilBitch "You're pretty thicc if you're greater than 10"!!!
+#
+supLilBitch "I love myself"!!!
+#
+`);
+console.log(program25);
+
+const program26 = parse(`
+`);
+console.log(program26);

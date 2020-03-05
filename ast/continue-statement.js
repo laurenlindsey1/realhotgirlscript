@@ -1,2 +1,1 @@
-class ContinueStatement {
-};
+module.exports = class ContinueStatement {};

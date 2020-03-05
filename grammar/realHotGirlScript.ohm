@@ -151,7 +151,7 @@ realHotGirlScript {
   id          =  ~keyword ("_" | letter+) idrest*
   idrest      =  "_" | alnum
   numlit      =  (("+" | "-")?) digit+ frac? eExpo?
-  frac        =  "." digit*   -- fraction
+  frac        =  "." digit*
   eExpo       =  (caseInsensitive<"e">) ("+" | "-")?
                  digit+
   boollit     =  true | false
