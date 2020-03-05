@@ -254,3 +254,17 @@ const fixture = {
   28: [],
   29: []
 };
+
+describe("The parser", () => {
+  Object.entries(fixture).forEach(([name, [source, expected]]) => {
+    test(`produces the correct AST for ${name}`, done => {
+      expect(parse(source)).toEqual(expected);
+      done();
+    });
+  });
+
+  test("throws an exception on a syntax error", done => {
+    expect(() => parse("as$df^&%*$&")).toThrow();
+    done();
+  });
+});
