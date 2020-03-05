@@ -340,7 +340,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new DictType(dictz.ast(), keyType.ast(), valueType.ast());
   },
 
-  TupleType(tup, _1, type, possibleOtherType, _2) {
+  TupleType(tup, _1, type, _2, possibleOtherType, _3) {
     return new TupleType(tup.ast(), type.ast(), possibleOtherType.ast());
   },
 
