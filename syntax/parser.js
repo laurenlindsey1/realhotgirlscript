@@ -32,6 +32,7 @@ const Print = require("../ast/print");
 const Program = require("../ast/program");
 const ReadStatement = require("../ast/read-statement");
 const ReturnStatement = require("../ast/return-statement");
+const DefaultCase = require("../ast/default-case");
 const SetExpression = require("../ast/set-expression");
 const SetType = require("../ast/set-type");
 const StringType = require("../ast/string-type");
@@ -53,6 +54,8 @@ const IdentifierExpression = require("../ast/identifier-expression");
 const IdentifierDeclaration = require("../ast/identifier-declaration");
 const Parameter = require("../ast/parameter");
 const Argument = require("../ast/argument");
+const StringLiteral = require("../ast/string-literal");
+const BooleanLiteral = require("../ast/boolean-literal");
 const IdType = require("../ast/id-type");
 
 const realHotGirlScript = ohm.grammar(
@@ -73,7 +76,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return statement.ast();
   },
   Stmt_class(_1, id, _2, params, _3, body) {
-    return new Class(id.ast(), params.ast(), body.ast());
+    return new ClassDeclaration(id.ast(), params.ast(), body.ast());
   },
   Stmt_function(async, _1, type, id, _2, params, _3, body) {
     return new FunctionDeclaration(
@@ -117,7 +120,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     incop,
     body
   ) {
-    return new ClassicForLoop(
+    return new Loop.ClassicForLoop(
       type.ast(),
       initid.ast(),
       initexpression.ast(),
@@ -130,7 +133,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   },
 
   Stmt_forloop2(_1, _2, expression, _3, spreadop, _4, body) {
-    return new SpreadForLoop(expression.ast(), spreadop.ast(), body.ast());
+    return new Loop.SpreadForLoop(expression.ast(), spreadop.ast(), body.ast());
   },
 
   SimpleStmt_varDecl(constant, type, id, _, expression) {
@@ -172,13 +175,22 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new ReturnStatement(arrayToNullable(expression.ast()));
   },
 
-  // Block(_1, statements, _2) {   // WHY DOES IT EXPECT 1 ARG
-  //   return new Block(statements.ast());
-  // },
+  Block(_1, statements, _2) {
+    // WHY DOES IT EXPECT 1 ARG
+    return new Block(statements.ast());
+  },
 
-  // Case(_, expression, body) {
-  //   return new Case(expression.ast(), body.ast());
-  // },
+  Print(_, exp) {
+    return new Print(exp.ast());
+  },
+
+  Case(_, expression, body) {
+    return new Case(expression.ast(), body.ast());
+  },
+
+  DefaultCase(_, body) {
+    return new DefaultCase(body.ast());
+  },
 
   Exp_or(left, op, right) {
     return new BinaryExpression(left.ast(), op.ast(), right.ast());
@@ -244,6 +256,10 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new KeValueExpression(key.ast(), value.ast());
   },
 
+  Call(wait, id, _1, args, _2) {
+    return new Call(arrayToNullable(wait.ast()), id.ast(), args.ast());
+  },
+
   VarExp_subscripted(varexp, _1, subscripted, _2) {
     return new SubscriptedExpression(varexp.ast(), subscripted.ast());
   },
@@ -259,7 +275,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
 
   DeclId(id) {
     // GO BACK AND DELETE ALL RANDOM TAGS
-    return new IdDeclaration(id.ast());
+    return new IdentifierDeclaration(id.ast());
   },
 
   // Param(type, id, _, expression) {
@@ -309,7 +325,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     );
   },
   boollit(_) {
-    return new BooleanLiteral(!!this.sourceString);
+    return new BooleanLiteral(this.sourceString);
   },
   strlit(_1, chars, _6) {
     return new StringLiteral(this.sourceString);
