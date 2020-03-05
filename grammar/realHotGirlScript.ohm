@@ -66,15 +66,15 @@ realHotGirlScript {
   Params      =  ListOf<Param, ",">
   Arg         =  Type id ":" Exp
   Args        =  ListOf<Arg, ",">
-  Type        =  numType
-  			      | longType
+  Type        =  Type postfixop                             -- optional
+              |numType
+  			     | longType
               | stringType
               | booleanType
               | ArrayType
               | SetType
               | DictType
               | TupleType
-              | Type postfixop?                             -- optional
               | id                                          -- id
   numType     =  "digitz"
   longType    =  "longz"

@@ -1,6 +1,4 @@
 // ASK IF WE NEED TYPES IN HERE
-// DO WE NEED ID DECLARATION AND EXPRESSION??
-// PARAM AND PARAMS??
 
 // Parser module
 const fs = require("fs");
@@ -92,17 +90,14 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   Stmt_while(_, expression, body) {
     return new WhileStatement(expression.ast(), body.ast());
   },
-  // Stmt_if(_, cases, alternate) {
-  //   return new IfElseStatement(cases.ast(), arrayToNullable(alternate.ast()));
-  // },
-  // THIS IS WRONG
+
   Stmt_if(_1, firstTest, firstBlock, _2, moreTests, moreBlocks, _3, lastBlock) {
     const tests = [firstTest.ast(), ...moreTests.ast()];
     const consequents = [firstBlock.ast(), ...moreBlocks.ast()];
     const alternate = arrayToNullable(lastBlock.ast());
     return new IfStatement(tests, consequents, alternate);
   },
-  // THIS IS WRONG
+
   Stmt_switch(_1, expression, _2, cases, alternate, _3) {
     return new SwitchStatement(
       expression.ast(),
@@ -578,8 +573,13 @@ hotlineBling💎 hiMomma(digitz x: 5, digitz y: 6)!!!
 `);
 console.log(program13);
 
-// const program14 = parse(`digitz x: 1!!!`);
-// console.log(program);
+const program14 = parse(`weOutHereTryinToFunction digitz? hiMomma9(digitz? possibleNum)$
+iHaveSomethingToSay🙅🏾‍♀️(possibleNum != deceasedOnYouHoes)$
+    andThemsTheFacts possibleNum!!!
+#
+andThemsTheFacts "Sorry, you didn't give us an actual fucking number!"!!!
+#`);
+console.log(program14);
 
 // const program15 = parse(`digitz x: 1!!!`);
 // console.log(program);
