@@ -25,9 +25,10 @@ const DictType = require("../ast/dict-type");
 const FunctionDeclaration = require("../ast/function-declaration");
 const IfStatement = require("../ast/if-statement");
 const LongType = require("../ast/long-type");
+const NumType = require("../ast/numeric-type");
 const Loop = require("../ast/loop");
 const NumericLiteral = require("../ast/numeric-literal");
-const Optionals = require("../ast/optionals");
+const Optional = require("../ast/optional-type");
 const Print = require("../ast/print");
 const Program = require("../ast/program");
 const ReadStatement = require("../ast/read-statement");
@@ -57,6 +58,8 @@ const Argument = require("../ast/argument");
 const StringLiteral = require("../ast/string-literal");
 const BooleanLiteral = require("../ast/boolean-literal");
 const IdType = require("../ast/id-type");
+const CallStatement = require("../ast/call-statement");
+const PrintStatement = require("../ast/print-statement");
 
 const realHotGirlScript = ohm.grammar(
   fs.readFileSync("../grammar/realHotGirlScript.ohm")
@@ -93,12 +96,14 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   // Stmt_if(_, cases, alternate) {
   //   return new IfElseStatement(cases.ast(), arrayToNullable(alternate.ast()));
   // },
+  // THIS IS WRONG
   Stmt_if(_1, firstTest, firstBlock, _2, moreTests, moreBlocks, _3, lastBlock) {
     const tests = [firstTest.ast(), ...moreTests.ast()];
     const consequents = [firstBlock.ast(), ...moreBlocks.ast()];
     const alternate = arrayToNullable(lastBlock.ast());
     return new IfStatement(tests, consequents, alternate);
   },
+  // THIS IS WRONG
   Stmt_switch(_1, expression, _2, cases, alternate, _3) {
     return new SwitchStatement(
       expression.ast(),
@@ -150,17 +155,12 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new AssignmentStatement(target.ast(), source.ast());
   },
 
-  //THIS DOESNT SEEM RIGHT
-  // Call(wait, id, _1, args, _2) {
-  //   return new Call(arrayToNullable(wait.ast()), id.ast(), args.ast());
-  // },
-
   SimpleStmt_call(call) {
     return new SimpleStmt_call(call.ast());
   },
 
   SimpleStmt_print(expression) {
-    return new Print(expression.ast());
+    return new PrintStatement(expression.ast());
   },
 
   SimpleStmt_break(_) {
@@ -216,8 +216,8 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new UnaryExpression(op.ast(), operand.ast());
   },
 
-  Exp5_optional(operand, _) {
-    return new Expression(operand.ast()); // IS THIS RIGHT? HOW TO FIX GRAMMAR?
+  Exp5_optional(op, operand) {
+    return new UnaryExpression(op.ast(), operand.ast()); // IS THIS RIGHT? HOW TO FIX GRAMMAR?
   },
 
   Exp6_increment(op, operand) {
@@ -225,7 +225,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   },
 
   Exp7_exponentiation(op, _, operand) {
-    return new BinaryExpression(op.ast(), operand.ast()); //  DO WE NEED  A CLASS FOR
+    return new BinaryExpression(left.ast(), op.ast(), right.ast()); //  DO WE NEED  A CLASS FOR
   },
 
   Exp8_closure(_1, id, _2, expression, _3, _4) {
@@ -241,11 +241,11 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   },
 
   Exp9_dict(_1, expression, _2) {
-    return new SetExpression(expression.ast());
+    return new DictExpression(expression.ast());
   },
 
   Exp9_tuple(_1, expression, _2) {
-    return new SetExpression(expression.ast());
+    return new TupleExpression(expression.ast());
   },
 
   Exp9_parens(_1, expression, _2) {
@@ -269,52 +269,85 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   },
 
   VarExp_simple(id) {
-    // GO BACK AND DELETE ALL RANDOM TAGS
     return new IdentifierExpression(id.ast());
   },
 
   DeclId(id) {
-    // GO BACK AND DELETE ALL RANDOM TAGS
     return new IdentifierDeclaration(id.ast());
   },
 
-  // Param(type, id, _, expression) {
-  //   return new Parameter(type.ast(), id.ast(), arrayToNullable(expression.ast()));
-  // },
-  // Args(type, id, _, expression) {
-  //   return new Argument(type.ast(), id.ast(), expression.ast());
-  // },
-  //is this right?
-  Type(id) {
+  Param(type, id, _, expression) {
+    return new Parameter(
+      type.ast(),
+      id.ast(),
+      arrayToNullable(expression.ast())
+    );
+  },
+
+  Arg(type, id, _, expression) {
+    return new Argument(type.ast(), id.ast(), expression.ast());
+  },
+
+  Type_optional(type, optional) {
+    return new Optional(type.ast(), optional.ast());
+  },
+
+  Type_id(id) {
     return new IdType(id.ast());
   },
+
+  OptionalType(operand) {
+    return new Optional(operand.ast());
+  },
+
   NonemptyListOf(first, _, rest) {
     return [first.ast(), ...rest.ast()];
   },
+
   EmptyListOf() {
     return [];
   },
+
   id(_) {
     return this.sourceString;
   },
-  // NumType(_) {
-  //   return NumType;
-  // },
-  // StringType(_) {
-  //   return StringType;
-  // },
-  // BooleanType(_) {
-  //   return BooleanType;
-  // },
-  // ArrayType(_1, type, _2) {
-  //   return new ArrayType(type.ast());
-  // },
-  // SetType(_1, type, _2) {
-  //   return new SetType(type.ast());
-  // },
-  // DictType(_1, keyType, _2, valueType, _3) {
-  //   return new DictType(keyType.ast(), valueType.ast());
-  // },
+
+  numType(_) {
+    return NumType;
+  },
+
+  longType(_) {
+    return LongType;
+  },
+
+  stringType(_) {
+    return StringType;
+  },
+
+  booleanType(_) {
+    return BooleanType;
+  },
+
+  ArrayType(arr, _1, type, _2) {
+    return new ArrayType(arr.ast(), type.ast());
+  },
+
+  SetType(setz, _1, type, _2) {
+    return new SetType(setz.ast(), type.ast());
+  },
+
+  DictType(dictz, _1, keyType, _2, valueType, _3) {
+    return new DictType(dictz.ast(), keyType.ast(), valueType.ast());
+  },
+
+  TupleType(tup, _1, type, _2) {
+    return new TupleType(tup.ast(), type.ast());
+  },
+
+  constType(_) {
+    return ConstType;
+  },
+
   //do we need arrayToNullable(x.ast())??
   numlit(sign, digits, frac, exponent) {
     return new NumericLiteral(
@@ -324,12 +357,16 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
       arrayToNullable(exponent.ast())
     );
   },
+
   boollit(_) {
     return new BooleanLiteral(this.sourceString);
   },
+
+  // WHY DOES CASPER DO THIS
   strlit(_1, chars, _6) {
     return new StringLiteral(this.sourceString);
   },
+
   _terminal() {
     return this.sourceString;
   }
@@ -337,7 +374,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
 /* eslint-enable no-unused-vars */
 
 module.exports = text => {
-  const match = realHotGirlScript.match(withIndentsAndDedents(text));
+  const match = realHotGirlScript.match(text);
   if (!match.succeeded()) {
     throw new Error(`Syntax Error: ${match.message}`);
   }
@@ -352,6 +389,6 @@ function parse(sourceCode) {
   return astGenerator(match).ast();
 }
 
-const program = parse(`digitz 1!!!`);
+const program = parse(`digitz x: 1!!!`);
 // const program = parse(`dictz <wordz,digitz> x: $ "x"~1 #  !!!`);
 console.log(program);
