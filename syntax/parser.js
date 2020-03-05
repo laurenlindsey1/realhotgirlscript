@@ -1,7 +1,10 @@
+// ASK IF WE NEED TYPES IN HERE
+// DO WE NEED ID DECLARATION AND EXPRESSION??
+// PARAM AND PARAMS??
+
 // Parser module
   const fs = require('fs');
-//   const parse = require('./parser');
-//   const ast = parse(sourceCodeString);
+  // const ast = parse(sourceCodeString);
 
 const ohm = require("ohm-js");
 
@@ -52,7 +55,7 @@ const Parameter = require("../ast/parameter");
 const Argument = require("../ast/argument");
 const IdType = require("../ast/id-type");
 
-const grammar = ohm.grammar(fs.readFileSync("../grammar/realHotGirlScript.ohm"));
+const realHotGirlScript = ohm.grammar(fs.readFileSync("../grammar/realHotGirlScript.ohm"));
 
 // Ohm turns `x?` into either [x] or [], which we should clean up for our AST.
 function arrayToNullable(a) {
@@ -60,7 +63,7 @@ function arrayToNullable(a) {
 }
 
 /* eslint-disable no-unused-vars */
-const astGenerator = grammar.createSemantics().addOperation("ast", {
+const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   Program(statement) {
     return new Program(statement.ast());
   },
@@ -91,12 +94,12 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
     const alternate = arrayToNullable(lastBlock.ast());
     return new IfStatement(tests, consequents, alternate);
   },
-  Stmt_switch(_1, expression, _2, cases, body, _3) {
+  Stmt_switch(_1, expression, _2, cases, alternate, _3) {
 
     return new SwitchStatement(
       expression.ast(),
       cases.ast(),
-      arrayToNullable(alternate.ast())
+      arrayToNullable(alternate.ast()),
     );
   },
 
@@ -136,6 +139,7 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
     return new AssignmentStatement(target.ast(), source.ast());
   },
 
+  //THIS DOESNT SEEM RIGHT
   // Call(wait, id, _1, args, _2) {
   //   return new Call(arrayToNullable(wait.ast()), id.ast(), args.ast());
   // },
@@ -160,13 +164,13 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
     return new ReturnStatement(arrayToNullable(expression.ast()));
   },
 
-  Block(_1, statements, _2) {
-    return new Block(statements.ast());
-  },
+  // Block(_1, statements, _2) {   // WHY DOES IT EXPECT 1 ARG
+  //   return new Block(statements.ast());
+  // },
 
-  Case(_, expression, body) {
-    return new Case(expression.ast(), body.ast());
-  },
+  // Case(_, expression, body) {
+  //   return new Case(expression.ast(), body.ast());
+  // },
 
   Exp_or(left, op, right) {
     return new BinaryExpression(left.ast(), op.ast(), right.ast());
@@ -250,12 +254,12 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
     return new IdDeclaration(id.ast());
   },
 
-  Param(type, id, _, expression) {
-    return new Parameter(type.ast(), id.ast(), arrayToNullable(expression.ast()));
-  },
-  Args(type, id, _, expression) {
-    return new Argument(type.ast(), id.ast(), expression.ast());
-  },
+  // Param(type, id, _, expression) {
+  //   return new Parameter(type.ast(), id.ast(), arrayToNullable(expression.ast()));
+  // },
+  // Args(type, id, _, expression) {
+  //   return new Argument(type.ast(), id.ast(), expression.ast());
+  // },
   //is this right?
   Type(id) {
     return new IdType(id.ast());
@@ -269,6 +273,24 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
   id(_) {
     return this.sourceString;
   },
+  // NumType(_) {
+  //   return NumType;
+  // },
+  // StringType(_) {
+  //   return StringType;
+  // },
+  // BooleanType(_) {
+  //   return BooleanType;
+  // },
+  // ArrayType(_1, type, _2) {
+  //   return new ArrayType(type.ast());
+  // },
+  // SetType(_1, type, _2) {
+  //   return new SetType(type.ast());
+  // },
+  // DictType(_1, keyType, _2, valueType, _3) {
+  //   return new DictType(keyType.ast(), valueType.ast());
+  // },
   //do we need arrayToNullable(x.ast())??
   numlit(sign, digits, frac, exponent) {
 
@@ -288,12 +310,21 @@ const astGenerator = grammar.createSemantics().addOperation("ast", {
 /* eslint-enable no-unused-vars */
 
 module.exports = text => {
-  const match = grammar.match(withIndentsAndDedents(text));
+  const match = realHotGirlScript.match(withIndentsAndDedents(text));
   if (!match.succeeded()) {
     throw new Error(`Syntax Error: ${match.message}`);
   }
   return astGenerator(match).ast();
 };
 
-const program = parse(`[...5, ...2, 13, ...1]`);
+function parse(sourceCode) {
+  const match = realHotGirlScript.match(sourceCode);
+  if (!match.succeeded()) {
+    throw new Error(match.message);
+  }
+  return astGenerator(match).ast();
+}
+
+const program = parse(`digitz 1!!!`);
+// const program = parse(`dictz <wordz,digitz> x: $ "x"~1 #  !!!`);
 console.log(program);
