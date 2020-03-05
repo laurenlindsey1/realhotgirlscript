@@ -52,6 +52,8 @@ const StringLiteral = require("../ast/string-literal");
 const BooleanLiteral = require("../ast/boolean-literal");
 const IdType = require("../ast/id-type");
 const PrintStatement = require("../ast/print-statement");
+const Fraction = require("../ast/fraction");
+const Exponent = require("../ast/exponent");
 
 const realHotGirlScript = ohm.grammar(
   fs.readFileSync("../grammar/realHotGirlScript.ohm")
@@ -350,6 +352,14 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
 
   _terminal() {
     return this.sourceString;
+  },
+
+  frac(_, digit) {
+    return new Fraction(this.sourceString);
+  },
+
+  eExpo(lettere, sign, digit) {
+    return new Exponent(lettere.ast(), sign.ast(), this.sourceString);
   }
 });
 /* eslint-enable no-unused-vars */
