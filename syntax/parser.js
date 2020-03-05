@@ -56,7 +56,7 @@ const Fraction = require("../ast/fraction");
 const Exponent = require("../ast/exponent");
 
 const realHotGirlScript = ohm.grammar(
-  fs.readFileSync("../grammar/realHotGirlScript.ohm")
+  fs.readFileSync("grammar/realHotGirlScript.ohm")
 );
 
 function arrayToNullable(a) {
