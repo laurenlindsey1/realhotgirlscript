@@ -64,8 +64,8 @@ realHotGirlScript {
   VarExps     =  NonemptyListOf<VarExp, ",">                -- varExps
   Param       =  Type id (":" Exp)?                         -- param
   Params      =  ListOf<Param, ",">                         -- params
-  Arg         =  Type id ":" Exp                        -- arg
-  Args        =  ListOf<Arg, ",">                       -- args
+  Arg         =  Type id ":" Exp                            -- arg
+  Args        =  ListOf<Arg, ",">                           -- args
   Type        =  numType
   			      | longType
               | stringType
@@ -74,17 +74,17 @@ realHotGirlScript {
               | SetType
               | DictType
               | TupleType
-              | Type postfixop?												  --optional
-              | id                                      -- type
-  numType     =  "digitz"								                -- numKeyword
-  longType    =  "longz"                                -- longKeyWord
-  stringType  =  "wordz" 											          -- stringKeyword
-  booleanType =  "boolz"                                -- boolKeyword
-  ArrayType   =  arrayDecl "<"Type">"                   -- arrayKeyword
-  SetType     =  setDecl "<"Type">"                     -- setKeyword
-  DictType    =  dictDecl  "<" Type "," Type ">"        -- dictKeyword
-  TupleType   =  tupleDecl "<" Type(("," Type)*) ">"    -- tupleKeyword
-  constType   =  "stayz"                                -- constKeyword
+              | Type postfixop?                             --optional
+              | id                                          -- type
+  numType     =  "digitz"                                   -- numKeyword
+  longType    =  "longz"                                    -- longKeyWord
+  stringType  =  "wordz"                                    -- stringKeyword
+  booleanType =  "boolz"                                    -- boolKeyword
+  ArrayType   =  arrayDecl "<"Type">"                       -- arrayKeyword
+  SetType     =  setDecl "<"Type">"                         -- setKeyword
+  DictType    =  dictDecl  "<" Type "," Type ">"            -- dictKeyword
+  TupleType   =  tupleDecl "<" Type(("," Type)*) ">"        -- tupleKeyword
+  constType   =  "stayz"                                    -- constKeyword
   class       = "ATTENTIONATTENTION🗣" ~alnum
   continue    = "keepItPushin" ~alnum
   spread      = "spreadThatThang🍯" ~alnum
@@ -147,25 +147,25 @@ realHotGirlScript {
               | endKey
               | funcDecl
               | return
-              | break) ~idrest                          -- keyword
-  id          =  ~keyword ("_" | letter+) idrest*       -- id
-  idrest      =  "_" | alnum				                    -- idrest
+              | break) ~idrest                                 -- keyword
+  id          =  ~keyword ("_" | letter+) idrest*              -- id
+  idrest      =  "_" | alnum                                   -- idrest
   numlit      =  (("+" | "-")?) digit+ frac? eExpo?
   frac        =  "." digit*   -- fraction
   eExpo       =  (caseInsensitive<"e">) ("+" | "-")?
-                 digit+                                 -- eExpo
-  boollit     =  true | false                           -- boolit
+                 digit+                                        -- eExpo
+  boollit     =  true | false                                  -- boolit
   strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)*
                  "\""                                   
-  nonelit     = "deceasedOnYouHoes"  ~alnum             -- nonelit
-  escape      =  "\\" ("\\" | "\"" | "n")               -- simple
-  incremop 	  =  "++" | "--"                            -- incremop
-  addop       =  "+" | "-"                              -- addop
-  relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"   -- relop
-  mulop       =  "*" | "//" | "/" | "%"                 -- mulop
-  prefixop    =  "-" | negate | "+"                     -- prefixop
-  postfixop   =  "?"                                    -- postfixop
-  space       +=  " " | "\t" | comment                  -- space
-  comment     =  singleLnCmt (~"\n" any)*               -- singleline
-              |  ":/" (~"/:" any)* "/:"                 -- multiline
+  nonelit     = "deceasedOnYouHoes"  ~alnum                    -- nonelit
+  escape      =  "\\" ("\\" | "\"" | "n")                      -- simple
+  incremop 	  =  "++" | "--"                                   -- incremop
+  addop       =  "+" | "-"                                     -- addop
+  relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"          -- relop
+  mulop       =  "*" | "//" | "/" | "%"                        -- mulop
+  prefixop    =  "-" | negate | "+"                            -- prefixop
+  postfixop   =  "?"                                           -- postfixop
+  space       +=  " " | "\t" | comment                         -- space
+  comment     =  singleLnCmt (~"\n" any)*                      -- singleline
+              |  ":/" (~"/:" any)* "/:"                        -- multiline
 }
