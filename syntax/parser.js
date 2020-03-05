@@ -296,9 +296,9 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new IdType(id.ast());
   },
 
-  OptionalType(operand) {
-    return new Optional(operand.ast());
-  },
+  // OptionalType(operand) {
+  //   return new Optional(operand.ast());
+  // },
 
   NonemptyListOf(first, _, rest) {
     return [first.ast(), ...rest.ast()];
@@ -308,7 +308,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return [];
   },
 
-  id(_) {
+  id(_, id) {
     return this.sourceString;
   },
 
@@ -340,8 +340,8 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new DictType(dictz.ast(), keyType.ast(), valueType.ast());
   },
 
-  TupleType(tup, _1, type, _2) {
-    return new TupleType(tup.ast(), type.ast());
+  TupleType(tup, _1, type, possibleOtherType, _2) {
+    return new TupleType(tup.ast(), type.ast(), possibleOtherType.ast());
   },
 
   constType(_) {
