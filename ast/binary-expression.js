@@ -1,5 +1,5 @@
 module.exports = class BinaryExpression {
-  constructor(op, left, right) {
-    Object.assign(this, {op, left, right});
+  constructor(left, op, right) {
+    Object.assign(this, { left, op, right });
   }
 };

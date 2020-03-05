@@ -1,7 +1,7 @@
 const Type = require('./type');
 
 module.exports = class ArrayType {
-  constructor(arrayType) {
-    this.arrayType = arrayType;
+  constructor(arr, type) {
+    Object.assign(this, { arr, type });
   }
 };

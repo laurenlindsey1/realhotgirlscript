@@ -1,5 +1,5 @@
 module.exports = class VariableExpression {
-  constructor(name) {
-    this.name = name;
+  constructor(id) {
+    this.id = id;
   }
 };
