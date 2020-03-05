@@ -3,8 +3,8 @@
 // PARAM AND PARAMS??
 
 // Parser module
-  const fs = require('fs');
-  // const ast = parse(sourceCodeString);
+const fs = require("fs");
+// const ast = parse(sourceCodeString);
 
 const ohm = require("ohm-js");
 
@@ -55,7 +55,9 @@ const Parameter = require("../ast/parameter");
 const Argument = require("../ast/argument");
 const IdType = require("../ast/id-type");
 
-const realHotGirlScript = ohm.grammar(fs.readFileSync("../grammar/realHotGirlScript.ohm"));
+const realHotGirlScript = ohm.grammar(
+  fs.readFileSync("../grammar/realHotGirlScript.ohm")
+);
 
 // Ohm turns `x?` into either [x] or [], which we should clean up for our AST.
 function arrayToNullable(a) {
@@ -95,11 +97,10 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new IfStatement(tests, consequents, alternate);
   },
   Stmt_switch(_1, expression, _2, cases, alternate, _3) {
-
     return new SwitchStatement(
       expression.ast(),
       cases.ast(),
-      arrayToNullable(alternate.ast()),
+      arrayToNullable(alternate.ast())
     );
   },
 
@@ -116,8 +117,15 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     incop,
     body
   ) {
-    return new ClassicForLoop(type.ast(), initid.ast(), initexpression.ast(), testexpression.ast(),
-      updateid.ast(), incop.ast(), body.ast());
+    return new ClassicForLoop(
+      type.ast(),
+      initid.ast(),
+      initexpression.ast(),
+      testexpression.ast(),
+      updateid.ast(),
+      incop.ast(),
+      body.ast()
+    );
     //IS THIS RIGHT?
   },
 
@@ -293,9 +301,12 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   // },
   //do we need arrayToNullable(x.ast())??
   numlit(sign, digits, frac, exponent) {
-
-    return new NumericLiteral(arrayToNullable(sign.ast()), +this.sourceString,
-    arrayToNullable(frac.ast()), arrayToNullable(exponent.ast()));
+    return new NumericLiteral(
+      arrayToNullable(sign.ast()),
+      +this.sourceString,
+      arrayToNullable(frac.ast()),
+      arrayToNullable(exponent.ast())
+    );
   },
   boollit(_) {
     return new BooleanLiteral(!!this.sourceString);

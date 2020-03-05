@@ -86,7 +86,7 @@ fakeAssBitches x: fakeAssBitches() !!!
 digitz x: 10!!!
 x: 5!!!
 oop I checked that setting x to a non-digitz type threw an error so we can a test for that
-:yes yes yes
+:/yes yes yes
 yes
 yeah
 /:
@@ -194,7 +194,7 @@ weOutHereTryinToFunction leftOnRead hiMomma1(digitz onRepeat)$
 hiMomma1(digitz onRepeat: 10)!!!
 weOutHereTryinToFunction leftOnRead hiMomma(digitz onRepeat)$
     boolz likeWhiteOnRice: trueShit!!!
-    openHerUp🍑 [0spreadThatThang🍯10] $
+    openHerUp🍑 [0 spreadThatThang🍯 10] $
             iHaveSomethingToSay🙅🏾‍♀️ (likeWhiteOnRice)$
                 supLilBitch "I don't give a fuck"!!!
             #
@@ -206,7 +206,7 @@ weOutHereTryinToFunction leftOnRead hiMomma(digitz onRepeat)$
 hiMomma(digitz onRepeat: 10)!!!
 weOutHereTryinToFunction leftOnRead hiMomma1(digitz onRepeat)$
     boolz likeWhiteOnRice: trueShit!!!
-    openHerUp🍑 [0spreadThatThang🍯10] $
+    openHerUp🍑 [0 spreadThatThang🍯 10] $
             iHaveSomethingToSay🙅🏾‍♀️ (likeWhiteOnRice)$
                 keepItPushin!!!
             #
@@ -218,7 +218,7 @@ weOutHereTryinToFunction leftOnRead hiMomma1(digitz onRepeat)$
 hiMomma1(digitz onRepeat: 10)!!!
 weOutHereTryinToFunction leftOnRead hiMomma(digitz onRepeat)$
     boolz likeWhiteOnRice: trueShit!!!
-    openHerUp🍑 [0spreadThatThang🍯10] $
+    openHerUp🍑 [0 spreadThatThang🍯 10] $
             iHaveSomethingToSay🙅🏾‍♀️ (likeWhiteOnRice)$
                 supLilBitch "I don't give a fuck"!!!
             #
@@ -230,7 +230,7 @@ weOutHereTryinToFunction leftOnRead hiMomma(digitz onRepeat)$
 hiMomma(digitz onRepeat: 10)!!!
 weOutHereTryinToFunction leftOnRead hiMomma1(digitz onRepeat)$
     boolz likeWhiteOnRice: trueShit!!!
-    openHerUp🍑 [0spreadThatThang🍯10] $
+    openHerUp🍑 [0 spreadThatThang🍯 10] $
             iHaveSomethingToSay🙅🏾‍♀️ (likeWhiteOnRice)$
                 keepItPushin!!!
             #
@@ -259,7 +259,7 @@ hiMomma4(digitz compare1: 5, digitz compare2: 6, digitz compare3: 18)!!!
 # /:
 weOutHereTryinToFunction leftOnRead hiMomma6(arrayz<digitz> hotGirlz)$
     digitz hotGirlzLen: 4!!!
-    wylin🤪hotGirlzLen > 0             $
+    wylin🤪 hotGirlzLen > 0             $
         oop
         supLilBitch (hotGirlz[hotGirlzLen - 1])!!!
         hotGirlzLen-- !!!
@@ -267,14 +267,14 @@ weOutHereTryinToFunction leftOnRead hiMomma6(arrayz<digitz> hotGirlz)$
 #
 weOutHereTryinToFunction leftOnRead hiMomma7(dictz<digitz,wordz> hotGirlz)$
     digitz hotGirlzLen: 0!!!
-    wylin🤪hotGirlzLen < 4 $
-        supLilBitch (hotGirlz.(hotGirlzLen))!!!
+    wylin🤪 hotGirlzLen < 4 $
+        supLilBitch (h.hotGirlzLen)!!!
         hotGirlzLen++ !!!
     #
 #
 weOutHereTryinToFunction leftOnRead hiMomma8(dictz<digitz,wordz> hotGirlz)$
     digitz hotGirlzLen: 0!!!
-    wylin🤪hotGirlzLen < 4 $
+    wylin🤪 hotGirlzLen < 4 $
         supLilBitch (hotGirlz[hotGirlzLen])!!!
         hotGirlzLen++ !!!
     #
