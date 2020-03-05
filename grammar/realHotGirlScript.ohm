@@ -11,7 +11,7 @@ realHotGirlScript {
               |  for (numType | longType)  id ":"
                  Exp "🔥" Exp "🔥" id incremop Block        -- forloop1
               |  for "[" Exp spread Exp "]" Block           -- forloop2
-  SimpleStmt  =  constType? Type DeclIds ":" Exps           -- varDecl
+  SimpleStmt  =  const? Type DeclIds ":" Exps           -- varDecl
               |  VarExps ":" Exps                           -- assign
               |  Call                                       -- call
               |  Print                                      -- print
@@ -46,13 +46,13 @@ realHotGirlScript {
               |  numlit
               |  strlit
               |  nonelit
+              |  "(" Exp ")"                                -- parens
               |  "[" ListOf<Exp, ","> "]"                   -- arrays
               |  "$" ListOf<Exp, ","> "#"                   -- set
               |  "$" ListOf<KeyValue, ","> "#"              -- dict
               |  "(" ListOf<Exp, ","> ")"                   -- tuple
               |  Call
               |  VarExp
-              |  "(" Exp ")"                                -- parens
   KeyValue    =  Exp "~" Exp
   Call        =  await? id "(" Args ")"
   Exps        =  NonemptyListOf<Exp, ",">
@@ -84,7 +84,7 @@ realHotGirlScript {
   SetType     =  setDecl "<"Type">"
   DictType    =  dictDecl  "<" Type "," Type ">"
   TupleType   =  tupleDecl "<" Type(("," Type)*) ">"
-  constType   =  "stayz"
+  const   =  "stayz"
   class       = "ATTENTIONATTENTION🗣" ~alnum
   continue    = "keepItPushin" ~alnum
   spread      = "spreadThatThang🍯" ~alnum
@@ -118,7 +118,7 @@ realHotGirlScript {
               | stringType
               | booleanType
               | arrayDecl
-              | constType
+              | const
               | class
               | continue
               | spread
