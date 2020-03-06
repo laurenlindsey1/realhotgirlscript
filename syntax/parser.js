@@ -322,7 +322,6 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new TupleType(tup.ast(), type.ast(), possibleOtherType.ast());
   },
 
-  //do we need arrayToNullable(x.ast())??
   numlit(sign, digits, frac, exponent) {
     return new NumericLiteral(
       arrayToNullable(sign.ast()),
@@ -336,7 +335,6 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new BooleanLiteral(this.sourceString);
   },
 
-  // WHY DOES CASPER DO THIS
   strlit(_1, chars, _6) {
     return new StringLiteral(this.sourceString);
   },

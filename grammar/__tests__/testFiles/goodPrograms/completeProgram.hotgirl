@@ -18,7 +18,6 @@ weOutHereTryinToFunction arrayz<digitz> makeChange(digitz amount) $
 arrayz<digitz> g : [1,2,3]!!!
 digitz x: 10!!!
 x: 5!!!
-oop I checked that setting x to a non-digitz type threw an error so we can a test for that
 :/
 yes yes yes
 yes
@@ -81,11 +80,9 @@ ATTENTIONATTENTION🗣 fakeAssBitches () $
         supLilBitch "I love myself"!!!
     #
 #
-oop ask Toal how to do assignment for objects with the same identifier
 fakeAssBitches x: fakeAssBitches() !!!
 digitz x: 10!!!
 x: 5!!!
-oop I checked that setting x to a non-digitz type threw an error so we can a test for that
 :/yes yes yes
 yes
 yeah
@@ -263,7 +260,6 @@ hiMomma4(digitz compare1: 5, digitz compare2: 6, digitz compare3: 18)!!!
 weOutHereTryinToFunction leftOnRead hiMomma6(arrayz<digitz> hotGirlz)$
     digitz hotGirlzLen: 4!!!
     wylin🤪 hotGirlzLen > 0             $
-        oop
         supLilBitch (hotGirlz[hotGirlzLen - 1])!!!
         hotGirlzLen-- !!!
     #
