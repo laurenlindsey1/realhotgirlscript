@@ -1,3 +1,2 @@
-module.exports = class NumType {
-  };
+module.exports = class NumType {};
   
