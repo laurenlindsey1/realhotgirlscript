@@ -13,9 +13,6 @@ const { argv } = require("yargs")
 const fs = require("fs");
 const util = require("util");
 const parse = require("./syntax/parser");
-// require("./semantics/analyzer");
-// require("./semantics/optimizer");
-// require(`./backend/${argv.target}generator`);
 
 fs.readFile(argv._[0], "utf-8", (error, text) => {
   if (error) {
@@ -27,13 +24,4 @@ fs.readFile(argv._[0], "utf-8", (error, text) => {
     console.log(util.inspect(program, { depth: null }));
     return;
   }
-  //   program.analyze();
-  //   if (argv.o) {
-  //     program = program.optimize();
-  //   }
-  //   if (argv.i) {
-  //     console.log(util.inspect(program, { depth: null }));
-  //     return;
-  //   }
-  //   program.gen();
 });
