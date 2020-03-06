@@ -1,2 +1,1 @@
-module.exports = class LongType {
-};
+module.exports = class LongType {};
