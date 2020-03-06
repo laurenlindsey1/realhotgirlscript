@@ -11,7 +11,7 @@ realHotGirlScript {
               |  for (numType | longType)  id ":"
                  Exp "🔥" Exp "🔥" id incremop Block        -- forloop1
               |  for "[" Exp spread Exp "]" Block           -- forloop2
-  SimpleStmt  =  const? Type DeclIds ":" Exps           -- varDecl
+  SimpleStmt  =  const? Type DeclIds ":" Exps               -- varDecl
               |  VarExps ":" Exps                           -- assign
               |  Call                                       -- call
               |  Print                                      -- print
