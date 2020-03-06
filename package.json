@@ -19,7 +19,8 @@
   "dependencies": {
     "chai": "^4.2.0",
     "jest": "^25.1.0",
-    "ohm-js": "^0.14.0"
+    "ohm-js": "^0.14.0",
+    "yargs": "^15.1.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

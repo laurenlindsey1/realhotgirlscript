@@ -27,13 +27,13 @@ fs.readFile(argv._[0], "utf-8", (error, text) => {
     console.log(util.inspect(program, { depth: null }));
     return;
   }
-  program.analyze();
-  if (argv.o) {
-    program = program.optimize();
-  }
-  if (argv.i) {
-    console.log(util.inspect(program, { depth: null }));
-    return;
-  }
-  program.gen();
+  //   program.analyze();
+  //   if (argv.o) {
+  //     program = program.optimize();
+  //   }
+  //   if (argv.i) {
+  //     console.log(util.inspect(program, { depth: null }));
+  //     return;
+  //   }
+  //   program.gen();
 });
