@@ -1,2 +1,1 @@
-module.exports = class BooleanType {
-};
+module.exports = class BooleanType {};
