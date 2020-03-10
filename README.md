@@ -7,6 +7,8 @@ Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, obj
 RealHotGirlScript is brought to you by [KeAnna Anglin](https://github.com/keannaanglin "KeAnna's Github"),
 [Lauren Lindsey](https://github.com/laurenlindsey1 "Lauren's Github"), [Shanaya Nagendran](https://github.com/shanaya-n "Shanaya's Github"), and [Sage Strieker](https://github.com/Strieker "Sage's Github").
 
+Our langauge website can be found at [https://laurenlindsey1.github.io/realhotgirlscript/](https://laurenlindsey1.github.io/realhotgirlscript/).
+
 ## Features
 - optionals
 - keywords for variables ending with z
@@ -188,7 +190,6 @@ shutUpGirlfriend😈 number $
 #
 
 supLilBitch "today is a " + day!!!
-#  
 ```
 JavaScript
 ```
@@ -218,6 +219,7 @@ weOutHereTryinToFunction digitz largestNum(digitz x,  digitz y,  digitz z)$
     # BECAUSEIMONFUCKINGVACATION👅 $
         andThemsTheFacts z!!!
     #
+#
 ```
 JavaScript
 ```
