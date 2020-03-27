@@ -71,7 +71,7 @@ const {
     this.source.analyze(context);
     this.target.analyze(context);
     check.isAssignableTo(this.source, this.target.type);
-    check.isNotReadOnly(this.target);
+    check.isNotConstant(this.target);
   };
   
   Break.prototype.analyze = function(context) {
@@ -117,14 +117,17 @@ const {
     this.type = context.lookup(this.type);
   };
   
-  ForExp.prototype.analyze = function(context) {
-    this.low.analyze(context);
-    check.isInteger(this.low, 'Low bound in for');
-    this.high.analyze(context);
-    check.isInteger(this.high, 'High bound in for');
+  ClassicForLoop.prototype.analyze = function(context) {
+    this.type = context.lookup(this.type);
+    this.initexpression.analyze(context); //analyze assigns a type
+    check.isAssignableTo(this.initexpression, this.type);
+    this.testExpression.analyze(context);
+    check.isBoolean(this.testExpression, 'Condition in for');
+    variableToIncrement = context.lookup(updateid);
+    check.isIntegerOrLong(variableToIncrement, 'Increment in for');
     const bodyContext = context.createChildContextForLoop();
-    this.index = new Variable(this.index, this.low.type);
-    this.index.readOnly = true;
+    this.index = new Variable(this.initId, this.initexpression.type);
+    this.index.constant = true;
     bodyContext.add(this.index);
     this.body.analyze(bodyContext);
   };
@@ -259,8 +262,8 @@ const {
     context.add(this);
   };
   
-  WhileExp.prototype.analyze = function(context) {
-    this.test.analyze(context);
-    check.isInteger(this.test, 'Test in while');
+  WhileStatement.prototype.analyze = function(context) {
+    this.expression.analyze(context);
+    check.isBoolean(this.expression, 'Condition in while');
     this.body.analyze(context.createChildContextForLoop());
   };

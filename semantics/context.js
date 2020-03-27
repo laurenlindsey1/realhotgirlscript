@@ -27,8 +27,6 @@ require('./analyzer');
 //   4. A map for looking up all identifiers declared in this context.
 
 
-// we gotta deal with consts, let exps, and spreads!!!!!!!
-// do we need an analyzer?
 class Context {
   constructor({ parent = null, currentFunction = null, inLoop = false } = {}) {
     Object.assign(this, {
@@ -67,12 +65,6 @@ class Context {
     this.locals.set(declaration.id, entity);
   }
 
-  cannotRebindToConstantVariable(id) {
-    if (this.declarations[id] && !this.declarations[id].isMutable) {
-      throw new Error('Cannot rebind to constant variable');
-    }
-  }
-
   // Returns the entity bound to the given identifier, starting from this
   // context and searching "outward" through enclosing contexts if necessary.
   lookup(id) {
@@ -82,18 +74,6 @@ class Context {
       }
     }
     throw new Error(`Identifier ${id} has not been declared`);
-  }
-  // CASPER HAS THIS BUT WHY????
-  assertInFunction(message) {
-    if (!this.currentFunction) {
-      throw new Error(message);
-    }
-  }
-  // eslint-disable-next-line class-methods-use-this
-  assertIsFunction(entity) {
-    if (entity.constructor !== FunctionObject) {
-        throw new Error(`${entity.id} is not a function`);
-    }
   }
 }
 
