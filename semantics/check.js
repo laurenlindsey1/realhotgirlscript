@@ -1,6 +1,18 @@
 const util = require('util');
-const { ArrayType, Func, RecordType, IdExp } = require('../ast');
-const { IntType, StringType, NilType } = require('./builtins');
+
+// const { ArrayType, Func, RecordType, IdExp } = require('../ast');
+const ArrayType = require("../ast/array-type");
+const DictType = require("../ast/dict-type");
+const SetType = require("../ast/set-type");
+const TupleType = require("../ast/tuple-type");
+const IdType = require("../ast/id-type"); //if needed?
+const NumericLiteral = require("../ast/numeric-literal");
+const StringLiteral = require("../ast/string-literal");
+const BooleanLiteral = require("../ast/boolean-literal");
+const NoneLiteral = require("../ast/None");
+//do we need constant here?
+
+const { IntType, LongType, StringType, ConstType, BoolType, NoneType } = require('./builtins'); //standard functions?
 
 function doCheck(condition, message) {
   if (!condition) {
@@ -13,9 +25,13 @@ function doCheck(condition, message) {
 module.exports = {
   // Is this type an array type?
   isArrayType(type) {
+    //array type = primitives + objects 
     doCheck(type.constructor === ArrayType, 'Not an array type');
   },
 
+  isDictType(type) {
+    doCheck(type.constructor === DictType, 'Not a dictionary type');
+  },
   isRecordType(type) {
     doCheck(type.constructor === RecordType, 'Not a record type');
   },
@@ -25,8 +41,26 @@ module.exports = {
     doCheck(expression.type.constructor === ArrayType, 'Not an array');
   },
 
+  isDictionary(expression) {
+    //check for the right key/value pair
+    doCheck(expression.type.constructor === DictType, 'Not a dictionary');
+  },
+
+  isE(expression) {
+    //TODO: E or e
+
+  },
+  isValidSign(expression) {
+    //TODO: + or - or nothing
+
+  },
   //change name for structs
   isRecord(expression) {
+    doCheck(expression.type.constructor === RecordType, 'Not a record');
+  },
+
+  isValidType(expression) {
+    //primitives, objects, etc., anything
     doCheck(expression.type.constructor === RecordType, 'Not a record');
   },
 
@@ -44,7 +78,23 @@ module.exports = {
       'Not an integer or string'
     );
   },
+  
+  isIntegerOrLong(expression) {
+    doCheck(
+      expression.type === IntType || expression.type === LongType,
+      'Not an integer or long'
+    );
+  },
 
+  isStatement(statement) {
+    //TODO
+  },
+
+  isBlock(body) {
+    //TODO
+  },
+  
+  
   isFunction(value) {
     doCheck(value.constructor === Func, 'Not a function');
   },

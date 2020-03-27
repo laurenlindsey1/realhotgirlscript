@@ -46,39 +46,47 @@ const {
     Fraction,
     Exponent
   } = require('../ast');
-  const { IntType, StringType, NilType } = require('./builtins');
+  const { IntType, LongType, StringType, ConstType, BoolType, NoneType } = require('./builtins'); //standard functions?
   const check = require('./check');
   const Context = require('./context');
   
   module.exports = function(exp) {
     exp.analyze(Context.INITIAL);
   };
-  
-  ArrayExp.prototype.analyze = function(context) {
+
+  //  constructor(type, id, expression) {
+  Arugment.prototype.analyze = function(context) {
     this.type = context.lookup(this.type);
-    check.isArrayType(this.type);
-    this.size.analyze(context);
-    check.isInteger(this.size);
-    this.fill.analyze(context);
-    check.isAssignableTo(this.fill, this.type.memberType);
+    // check.isArrayType(this.type);
+    //TODO: we aren't sure on this one
+    // this.size.analyze(context);
+    // check.isInteger(this.size);
+    // this.fill.analyze(context);
+    // check.isAssignableTo(this.fill, this.type.memberType);
+  };
+  
+  ArrayExpression.prototype.analyze = function(context) {
+    this.expression.analyze(context);
+    check.isArray(this.expression);
   };
   
   ArrayType.prototype.analyze = function(context) {
-    this.memberType = context.lookup(this.memberType);
+    this.arr.analyze(context);
+    check.isArrayType(this.arr);
+    //got from goof?
+    this.type = getType(this.type);
+    // check.isArrayType(this.arr);
+
   };
   
-  Assignment.prototype.analyze = function(context) {
+  AssignmentStatement.prototype.analyze = function(context) {
     this.source.analyze(context);
     this.target.analyze(context);
     check.isAssignableTo(this.source, this.target.type);
     check.isNotConstant(this.target);
   };
-  
-  Break.prototype.analyze = function(context) {
-    check.inLoop(context, 'break');
-  };
-  
-  BinaryExp.prototype.analyze = function(context) {
+
+  BinaryExpression.prototype.analyze = function(context) {
     this.left.analyze(context);
     this.right.analyze(context);
     if (/[-+*/&|]/.test(this.op)) {
@@ -93,30 +101,143 @@ const {
     }
     this.type = IntType;
   };
-  
-  Binding.prototype.analyze = function(context) {
-    this.value.analyze(context);
+
+  Block.prototype.analyze = function(context) {
+    this.statements.analyze(statements);
+    this.statements.forEach(s => s.analyze(context));
+    check.isStatement(this.statements);
+  };
+
+  BooleanLiteral.prototype.analyze = function() {
+      if (typeof this.value === 'boolean') {
+        this.type = BooleanType;
+      } 
+  };
+
+  BreakStatement.prototype.analyze = function(context) {
+    check.inLoop(context, 'GTFO💩');
   };
   
+  //call statement?
   Call.prototype.analyze = function(context) {
-    this.callee = context.lookup(this.callee);
-    check.isFunction(this.callee, 'Attempt to call a non-function');
+    this.id = context.lookup(this.id);
+    check.isFunction(this.id, 'Attempt to call a non-function');
     this.args.forEach(arg => arg.analyze(context));
     check.legalArguments(this.args, this.callee.params);
-    this.type = this.callee.returnType;
+  };
+
+  Case.prototype.analyze = function(context) {
+    this.expression = context.lookup(this.expression);
+    check.isBoolean(this.expression, 'Expression for switch statement case');
+    this.body = context.lookup(this.body);
+    check.isBlock(this.body, 'Case body contains a non-statement');
+  };
+
+  //update class with analyze signature! see function declaration
+  ClassDeclaration.prototype.analyze = function(context) {
+    this.id = context.lookup(this.id);
+    //TODO: this is not going to work
+    check.fieldHasNotBeenUsed(this.id, usedFields);
+    this.params = context.lookup(this.params);
+    this.params.forEach(p => {
+      p.analyze(this.bodyContext);
+      check.isParam(this.params);
+    });
+    this.body = context.lookup(this.body);
+    check.isBlock(this.body, 'Class declaration does not contain block');
+  };
+
+  //TODO: ???
+  Closure.prototype.analyze = function(context) {
+
+  };
+
+  ContinueStatement.prototype.analyze = function(context) {
+    check.inLoop(context, 'keepItPushin');
+  };
+
+  DefaultCase.prototype.analyze = function(context) {
+    this.body = context.lookup(this.body);
+    check.isBlock(this.body, 'Default case body contains a non-statement');
+  };
+
+  DictExpression.prototype.analyze = function(context) {
+    this.expression.analyze(context);
+    check.isDictionary(this.expression);
+
   };
   
-  ExpSeq.prototype.analyze = function(context) {
-    this.exps.forEach(e => e.analyze(context));
-    if (this.exps.length > 0) {
-      this.type = this.exps[this.exps.length - 1].type;
-    }
+  DictType.prototype.analyze = function(context) {
+    this.dictz.analyze(context);
+    check.isDictType(this.dictz);
+    this.valuetype = getType(this.v);
+    this.keytype.forEach(k => {
+      k.analyze(context);
+      check.isPrimitiveType(this.k);
+     });
+    this.valuetype.forEach(v => {
+        v.analyze(context);
+        check.isValidType(this.v);        
+    });
+  };
+
+  Exponent.prototype.analyze = function(context) {
+    this.lettere.analyze(context);
+    check.isE(this.lettere);
+    this.sign.analyze(context);
+    check.isValidSign(this.sign);
+    this.digit.analyze(context);
+    check.isIntegerOrLong(this.digit);
+  };
+
+  Fraction.prototype.analyze = function(context) {
+    this.digit.analyze(context);
+    check.isIntegerOrLong(this.digit);
+  };
+
+   // Function analysis is broken up into two parts in order to support (nutual)
+  // recursion. First we have to do semantic analysis just on the signature
+  // (including the return type). This is so other functions that may be declared
+  // before this one have calls to this one checked.
+  FunctionDeclaration.prototype.analyzeSignature = function(context) {
+    this.body = context.createChildContextForFunctionBody();
+    this.params.forEach(p => p.analyze(this.body));
+    this.type = !this.type ? undefined : context.lookup(this.type);
   };
   
-  Field.prototype.analyze = function(context) {
-    this.type = context.lookup(this.type);
+  FunctionDeclaration.prototype.analyze = function() {
+    this.body.analyze(this.body);
+    check.isAssignableTo(this.body, this.type, 'Type mismatch in function return');
+    delete this.body; // This was only temporary, delete to keep output clean.
+  };
+
+  //id type vs id expression vs id declaration???
+  IdType.prototype.analyze = function(context){
+    this.id.analyze(this.id);
+    check.isValidType(this.id);
+  }
+
+  //not sure about this one either
+  IfStatement.prototype.analyze = function(context) {
+    this.cases.analyze(context);
+    this.cases.forEach(c => {
+      c.analyze(context);
+      check.isBoolean(this.c, 'If statement is not a boolean');
+      if (this.alternate) {
+        this.alternate.analyze(context);
+        if (this.c.type) {
+          check.expressionsHaveTheSameType(this.c, this.alternate);
+        } else {
+          check.mustNotHaveAType(this.alternate);
+        }
+      }
+    });
+    this.type = this.cases.type;
   };
   
+
+  // STOPPED AT IF STATEMENT.JS 
+
   ClassicForLoop.prototype.analyze = function(context) {
     this.type = context.lookup(this.type);
     this.initexpression.analyze(context); //analyze assigns a type
@@ -132,42 +253,7 @@ const {
     this.body.analyze(bodyContext);
   };
   
-  // Function analysis is broken up into two parts in order to support (nutual)
-  // recursion. First we have to do semantic analysis just on the signature
-  // (including the return type). This is so other functions that may be declared
-  // before this one have calls to this one checked.
-  Func.prototype.analyzeSignature = function(context) {
-    this.bodyContext = context.createChildContextForFunctionBody();
-    this.params.forEach(p => p.analyze(this.bodyContext));
-    this.returnType = !this.returnType ? undefined : context.lookup(this.returnType);
-  };
-  
-  Func.prototype.analyze = function() {
-    this.body.analyze(this.bodyContext);
-    check.isAssignableTo(this.body, this.returnType, 'Type mismatch in function return');
-    delete this.bodyContext; // This was only temporary, delete to keep output clean.
-  };
-  
-  IdExp.prototype.analyze = function(context) {
-    this.ref = context.lookup(this.ref);
-    this.type = this.ref.type;
-  };
-  
-  IfExp.prototype.analyze = function(context) {
-    this.test.analyze(context);
-    check.isInteger(this.test, 'Test in if');
-    this.consequent.analyze(context);
-    if (this.alternate) {
-      this.alternate.analyze(context);
-      if (this.consequent.type) {
-        check.expressionsHaveTheSameType(this.consequent, this.alternate);
-      } else {
-        check.mustNotHaveAType(this.alternate);
-      }
-    }
-    this.type = this.consequent.type;
-  };
-  
+
   LetExp.prototype.analyze = function(context) {
     const newContext = context.createChildContextForBlock();
     this.decs.filter(d => d.constructor === TypeDec).map(d => newContext.add(d));
