@@ -122,16 +122,17 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     );
   },
 
-  Stmt_forloop2(_1, _2, expression, _3, spreadop, _4, body) {
-    return new Loop.SpreadForLoop(expression.ast(), spreadop.ast(), body.ast());
+  Stmt_forloop2(_1, _2, min, _3, max, _4, body) {
+    return new Loop.SpreadForLoop(min.ast(), max.ast(), body.ast());
   },
 
-  SimpleStmt_varDecl(constant, type, id, _, expression) {
+  //change to plural
+  SimpleStmt_varDecl(constant, type, ids, _, expressions) {
     return new VariableDeclaration(
       arrayToNullable(constant.ast()),
       type.ast(),
-      id.ast(),
-      expression.ast()
+      ids.ast(),
+      expressions.ast()
     );
   },
 

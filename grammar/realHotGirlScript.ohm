@@ -10,7 +10,8 @@ realHotGirlScript {
               |  switch Exp "$" Case+ DefaultCase? "#"      -- switch
               |  for (numType | longType)  id ":"
                  Exp "🔥" Exp "🔥" id incremop Block        -- forloop1
-              |  for "[" Exp spread Exp "]" Block           -- forloop2
+              |  for "[" numlit spread 
+                   numlit "]" Block           -- forloop2
   SimpleStmt  =  const? Type DeclIds ":" Exps               -- varDecl
               |  VarExps ":" Exps                           -- assign
               |  Call                                       -- call

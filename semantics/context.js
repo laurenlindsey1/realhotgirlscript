@@ -6,10 +6,15 @@
  *   const Context = require('./semantics/context');
  */
 
-const { TypeDec } = require('../ast');
-const { standardFunctions, IntType, StringType, NilType } = require('./builtins');
+const { TypeDec } = require("../ast");
+const {
+  standardFunctions,
+  IntType,
+  StringType,
+  NilType
+} = require("./builtins");
 
-require('./analyzer');
+require("./analyzer");
 
 // When doing semantic analysis we pass around context objects.
 //
@@ -26,14 +31,13 @@ require('./analyzer');
 //
 //   4. A map for looking up all identifiers declared in this context.
 
-
 class Context {
   constructor({ parent = null, currentFunction = null, inLoop = false } = {}) {
     Object.assign(this, {
       parent,
       currentFunction,
       inLoop,
-      locals: new Map(),
+      locals: new Map()
     });
   }
 
@@ -44,7 +48,11 @@ class Context {
 
   createChildContextForLoop() {
     // When entering a loop body, just set the inLoop field, retain others
-    return new Context({ parent: this, currentFunction: this.currentFunction, inLoop: true });
+    return new Context({
+      parent: this,
+      currentFunction: this.currentFunction,
+      inLoop: true
+    });
   }
 
   createChildContextForBlock() {
@@ -52,16 +60,19 @@ class Context {
     return new Context({
       parent: this,
       currentFunction: this.currentFunction,
-      inLoop: this.inLoop,
+      inLoop: this.inLoop
     });
   }
 
   // Adds a declaration to this context.
+  //take in type and id
   add(declaration) {
     if (this.locals.has(declaration.id)) {
+      //possibly check if it has the same type as well, because we can have same name, diff type
       throw new Error(`${declaration.id} already declared in this scope`);
     }
-    const entity = declaration instanceof TypeDec ? declaration.type : declaration;
+    const entity =
+      declaration instanceof TypeDec ? declaration.type : declaration;
     this.locals.set(declaration.id, entity);
   }
 

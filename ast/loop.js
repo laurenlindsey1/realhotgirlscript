@@ -24,9 +24,9 @@ class ClassicForLoop extends Loop {
 }
 
 class SpreadForLoop extends Loop {
-  constructor(expression, spreadop, body) {
+  constructor(min, max, body) {
     super();
-    Object.assign(this, { expression, spreadop, body });
+    Object.assign(this, { min, max, body });
   }
 }
 
