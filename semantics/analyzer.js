@@ -97,17 +97,23 @@ AssignmentStatement.prototype.analyze = function (context) {
 BinaryExpression.prototype.analyze = function (context) {
   this.left.analyze(context);
   this.right.analyze(context);
-  if (/[-+*/&|]/.test(this.op)) {
+  if (/[-+*/]/.test(this.op)) {
     check.isInteger(this.left);
     check.isInteger(this.right);
+    this.type = IntType;
+  } else if (/&& | \|\|/.test(this.op)) { // not sure if this is how you do && or ||
+    check.isBoolean(this.left);
+    check.isBoolean(this.right);
+    this.type = BoolType;
   } else if (/<=?|>=?/.test(this.op)) {
     check.expressionsHaveTheSameType(this.left, this.right);
     check.isIntegerOrString(this.left);
     check.isIntegerOrString(this.right);
+    this.type = BoolType;
   } else {
     check.expressionsHaveTheSameType(this.left, this.right);
+    this.type = BoolType;
   }
-  this.type = IntType;
 };
 
 Block.prototype.analyze = function (context) {
@@ -256,6 +262,9 @@ KeyValueExpression.prototype.analyze = function (context) {
   check.isExpression(this.value, "Value is not an expression");
 };
 
+
+// tiger has a Literal rule in its grammar which creates a Literal class in the ast
+// we don't have that so we have to figure out how to do this properly
 //previously Literal
 PrimitiveType.prototype.analyze = function () {
   if (typeof this.value === "digitz") {

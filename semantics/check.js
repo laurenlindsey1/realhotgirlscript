@@ -68,6 +68,10 @@ module.exports = {
     doCheck(expression.type === IntType, 'Not an integer');
   },
 
+  isBoolean(expression) {
+    doCheck(expression.type === BoolType, 'Not a boolean');
+  },
+
   mustNotHaveAType(expression) {
     doCheck(!expression.type, 'Expression must not have a type');
   },
