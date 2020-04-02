@@ -25,7 +25,6 @@ const {
   IdType,
   KeyValueExpression,
   Loop,
-  LongType,
   MemberExpression,
   NumericLiteral,
   NumType,
@@ -101,7 +100,8 @@ BinaryExpression.prototype.analyze = function (context) {
     check.isInteger(this.left);
     check.isInteger(this.right);
     this.type = IntType;
-  } else if (/&& | \|\|/.test(this.op)) { // not sure if this is how you do && or ||
+  } else if (/&& | \|\|/.test(this.op)) {
+    // not sure if this is how you do && or ||
     check.isBoolean(this.left);
     check.isBoolean(this.right);
     this.type = BoolType;
@@ -262,21 +262,19 @@ KeyValueExpression.prototype.analyze = function (context) {
   check.isExpression(this.value, "Value is not an expression");
 };
 
-
 // tiger has a Literal rule in its grammar which creates a Literal class in the ast
 // we don't have that so we have to figure out how to do this properly
 //previously Literal
 PrimitiveType.prototype.analyze = function () {
-  if (typeof this.value === "digitz") {
+  if (typeof this.value === "number") {
     this.type = IntType;
-  } else if (typeof this.value === "wordz") {
-    this.type = StringType;
-  } else if (typeof this.value === "longz") {
     this.type = LongType;
-  } else if (typeof this.value === "stayz") {
-    this.type = ConstType;
-  } else {
+  } else if (typeof this.value === "string") {
+    this.type = StringType;
+  } else if (typeof this.value === "boolean") {
     this.type = BooleanType;
+  } else {
+    this.type = ConstType;
   }
 };
 

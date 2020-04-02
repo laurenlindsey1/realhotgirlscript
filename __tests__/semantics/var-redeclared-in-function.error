@@ -1,0 +1,5 @@
+weOutHereTryinToFunction leftOnRead variableRedeclaration()$
+    wordz repeat: "lets redeclare this string!"!!!
+    wordz repeat: "this better give us an error"!!!
+    supLilBitch repeat !!!
+#

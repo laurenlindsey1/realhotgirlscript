@@ -1,0 +1,5 @@
+weOutHereTryinToFunction leftOnRead outOfScope()$
+    wordz message: "this string is unable to be read outside of this function"!!!
+#
+
+message: "trying to access a variable that is out of scope"!!!
