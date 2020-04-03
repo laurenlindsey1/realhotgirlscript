@@ -46,21 +46,19 @@ module.exports = {
     doCheck(expression.type.constructor === DictType, 'Not a dictionary');
   },
 
-  isE(expression) {
-    //TODO: E or e
+  isE(lettere) {
+    doCheck(lettere === "e" || lettere === "E", 'Not an E');
 
   },
-  isValidSign(expression) {
-    //TODO: + or - or nothing
 
-  },
-  //change name for structs
-  isRecord(expression) {
-    doCheck(expression.type.constructor === RecordType, 'Not a record');
+  isValidSign(sign) {
+    doCheck(sign === "+" || sign === "-" || sign === "", 'Not a valid sign');
   },
 
+  // figure out
   isValidType(expression) {
     //primitives, objects, etc., anything
+    // doCheck(expression.type.constructor === RecordType, 'Not a record');
     doCheck(expression.type.constructor === RecordType, 'Not a record');
   },
 

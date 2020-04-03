@@ -8,7 +8,7 @@ const LongType = new PrimitiveType("longz");
 const StringType = new PrimitiveType("string");
 const ConstType = new PrimitiveType("stayz");
 const BoolType = new PrimitiveType("boolz");
-const NoneType = new PrimitiveType("none");
+// const NoneType = new PrimitiveType("none");
 
 const standardFunctions = [
     // not sure if this is how we should be declaring new Param
@@ -17,7 +17,7 @@ const standardFunctions = [
   new Func("supLilBitch", [new Param("s", StringType)]),
   
   // continue? negate? void?
-  
+
 
   // new Func('size', [new Param('s', StringType)], IntType),
   // new Func(
@@ -39,6 +39,6 @@ module.exports = {
   StringType,
   ConstType,
   BoolType,
-  NoneType,
+//   NoneType,
   standardFunctions
 };

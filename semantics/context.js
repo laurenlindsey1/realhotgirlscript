@@ -7,14 +7,17 @@
  */
 
 // const { TypeDec } = require("../ast");
+
+const FunctionObject = require("../ast/function-object");
+
 const {
   standardFunctions,
   IntType,
   LongType,
   StringType,
   ConstType,
-  BoolType,
-  NoneType
+  BoolType
+  // NoneType
 } = require("./builtins");
 
 require("./analyzer");
@@ -40,7 +43,8 @@ class Context {
       parent,
       currentFunction,
       inLoop,
-      declarations: Object.create(null)
+      variableDeclarations: Object.create(null),
+      typeDeclarations: Object.create(null)
       // declarations: new Map()
     });
   }
@@ -68,13 +72,20 @@ class Context {
     });
   }
 
+  addClass(classType, classId) {
+    if ((classId || classType.classId) in this.typeDeclarations) {
+      throw new Error(`Class identifier already declared in this scope`);
+    }
+    this.typeDeclarations[classId || classType.classId] = classType;
+  }
+  
   // Adds a declaration to this context.
   //take in type and id
-  add(entity, id) {
-    if ((id || entity.id) in this.declarations) {
-      throw new Error(`${id} already declared in this scope`);
+  addVar(type, id) {
+    if ((id || type.id) in this.declarations) {
+      throw new Error(`Identifier already declared in this scope`);
     }
-    this.declarations[id || entity.id] = entity;
+    this.declarations[id || type.id] = type;
   }
 
   // from Scriptofino
@@ -106,13 +117,42 @@ class Context {
     }
     throw new Error(`Identifier ${id} has not been declared`);
   }
+
+  // Do we need these?
+  // assertInFunction(message) {
+  //   if (!this.currentFunction) {
+  //     throw new Error(message);
+  //   }
+  // }
+
+  // // eslint-disable-next-line class-methods-use-this
+  // assertIsFunction(entity) {
+  //   if (entity.constructor !== FunctionObject) {
+  //     throw new Error(`Call is not a function`);
+  //   }
+  // }
 }
 
 Context.INITIAL = new Context();
-[IntType, LongType, StringType, ConstType, BoolType, NoneType, ...standardFunctions].forEach(entity => {
-  print(`HERE ${this.declarations}!!!!!\n`);
-  // THIS IS WHERE THE 'undefined already declared in this scope' ERROR IS COMING FROM
-  Context.INITIAL.add(entity);
+standardFunctions.forEach(f => {
+  Context.INITIAL.variableDeclarations[f.id] = f;  //is this variableDec or classDec?
 });
+
+//  PLEASE FIGURE THIS OUT!!!!!!!!!!!!!!!
+
+Context.INITIAL.typeDeclarations.digitz = IntType;
+Context.INITIAL.typeDeclarations.longz = LongType;
+Context.INITIAL.typeDeclarations.wordz = StringType;
+Context.INITIAL.typeDeclarations.boolz = BoolType;
+Context.INITIAL.typeDeclarations.stayz = ConstType;
+
+// Context.INITIAL.typeMap.none = NoneType;
+
+// Context.INITIAL = new Context();
+// [IntType, LongType, StringType, ConstType, BoolType, ...standardFunctions].forEach(entity => {
+//   print(`HERE ${this.typeDeclarations}!!!!!\n`);
+//   // THIS IS WHERE THE 'undefined already declared in this scope' ERROR IS COMING FROM
+//   Context.INITIAL.addClass(entity);
+// });
 
 module.exports = Context;

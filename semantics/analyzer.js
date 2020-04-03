@@ -9,7 +9,7 @@ const BreakStatement = require("../ast/break-statement");
 const Call = require("../ast/call");
 const Case = require("../ast/case");
 const ClassDeclaration = require("../ast/class-declaration");
-const ClassicForLoop = require("../ast/loop"); // not sure if this is right
+// const ClassicForLoop = require("../ast/loop.Loop"); // not sure if this is right
 const Closure = require("../ast/closure");
 const ContinueStatement = require("../ast/continue-statement");
 const DefaultCase = require("../ast/default-case");
@@ -31,8 +31,8 @@ const NumType = require("../ast/numeric-type");
 const Optional = require("../ast/optional-type");
 const Parameter = require("../ast/parameter");
 const PrimitiveType = require("../ast/primitive-type");
-const Print = require("../ast/print");
-const PrintStatement = require("../ast/print-statement");
+// const Print = require("../ast/print");
+// const PrintStatement = require("../ast/print-statement");
 const Program = require("../ast/program");
 const ReturnStatement = require("../ast/return-statement");
 const SetExpression = require("../ast/set-expression");
@@ -54,9 +54,9 @@ const {
   LongType,
   StringType,
   ConstType,
-  BoolType,
-  NoneType
-} = require("./builtins"); //standard functions?
+  BoolType
+  // NoneType
+} = require("./builtins");
 const check = require("./check");
 const Context = require("./context");
 
@@ -147,15 +147,15 @@ Case.prototype.analyze = function (context) {
 //update class with analyze signature! see function declaration
 //use legal arguments check on all args and params
 ClassDeclaration.prototype.analyze = function (context) {
-  this.id = context.add(this);
   this.params.forEach(p => {
     p.analyze(this.bodyContext);
     check.fieldHasNotBeenUsed(this.p, usedFields);
     check.isParam(this.params);
-    // this.p = context.add()
+    // this.p = context.addClass()
   });
   this.body = context.lookup(this.body);
   check.isBlock(this.body, "Class declaration does not contain block");
+  context.addClass(this);
 };
 
 // ClassicForLoop.prototype.analyze = function (context) {
@@ -309,18 +309,11 @@ Optional.prototype.analyze = function (context) {
   //TODO
 };
 
+// Is this right for ours??
 Parameter.prototype.analyze = function (context) {
   //TODO, following is from tiger
   this.type = context.lookup(this.type);
-  context.add(this);
-};
-
-Print.prototype.analyze = function (context) {
-  //TODO
-};
-
-PrintStatement.prototype.analyze = function (context) {
-  //TODO
+  context.addVar(this);
 };
 
 Program.prototype.analyze = function (context) {
@@ -347,7 +340,7 @@ SetType.prototype.analyze = function (context) {
   const usedFields = new Set();
   this.fields.forEach(field => {
     check.fieldHasNotBeenUsed(field.id, usedFields);
-    usedFields.add(field.id);
+    usedFields.addVar(field.id);
     field.analyze(context);
   });
 };
@@ -407,7 +400,7 @@ UnaryExpression.prototype.analyze = function (context) {
 //constant, id, type, expression
 VariableDeclaration.prototype.analyze = function (context) {
   //how to we update add method??
-  this.vardec = context.add(this.type, this.id);
+  // this.vardec = context.addVar(this.type, this.id);
   //TODO: the rest, this is from tigers "Variable"
   this.init.analyze(context);
   if (this.type) {
@@ -417,7 +410,7 @@ VariableDeclaration.prototype.analyze = function (context) {
     // Yay! type inference!
     this.type = this.init.type;
   }
-  context.add(this);
+  context.addVar(this);
 };
 
 //TODO: this is the tiger one
