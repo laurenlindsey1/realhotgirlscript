@@ -9,7 +9,7 @@ const BreakStatement = require("../ast/break-statement");
 const Call = require("../ast/call");
 const Case = require("../ast/case");
 const ClassDeclaration = require("../ast/class-declaration");
-// const ClassicForLoop = require("../ast/loop/ClassicForLoop"); // not sure if this is right
+const ClassicForLoop = require("../ast/loop"); // not sure if this is right
 const Closure = require("../ast/closure");
 const ContinueStatement = require("../ast/continue-statement");
 const DefaultCase = require("../ast/default-case");
@@ -37,6 +37,7 @@ const Program = require("../ast/program");
 const ReturnStatement = require("../ast/return-statement");
 const SetExpression = require("../ast/set-expression");
 const SetType = require("../ast/set-type");
+const SpreadForLoop = require("../ast/loop"); // not sure if this is right
 const StringLiteral = require("../ast/string-literal");
 const SubscriptedExpression = require("../ast/subscripted-expression");
 const SwitchStatement = require("../ast/switch-statement");
@@ -156,6 +157,21 @@ ClassDeclaration.prototype.analyze = function (context) {
   this.body = context.lookup(this.body);
   check.isBlock(this.body, "Class declaration does not contain block");
 };
+
+// ClassicForLoop.prototype.analyze = function (context) {
+//   this.type = context.lookup(this.type);
+//   this.initexpression.analyze(context); //analyze assigns a type
+//   check.isAssignableTo(this.initexpression, this.type);
+//   this.testExpression.analyze(context);
+//   check.isBoolean(this.testExpression, "Condition in for");
+//   variableToIncrement = context.lookup(updateid);
+//   check.isIntegerOrLong(variableToIncrement, "Increment in for");
+//   const bodyContext = context.createChildContextForLoop();
+//   this.index = new Variable(this.initId, this.initexpression.type);
+//   this.index.constant = true;
+//   bodyContext.add(this.index);
+//   this.body.analyze(bodyContext);
+// };
 
 //TODO: ???
 Closure.prototype.analyze = function (context) {};
@@ -280,35 +296,6 @@ PrimitiveType.prototype.analyze = function () {
   }
 };
 
-ClassicForLoop.prototype.analyze = function (context) {
-  this.type = context.lookup(this.type);
-  this.initexpression.analyze(context); //analyze assigns a type
-  check.isAssignableTo(this.initexpression, this.type);
-  this.testExpression.analyze(context);
-  check.isBoolean(this.testExpression, "Condition in for");
-  variableToIncrement = context.lookup(updateid);
-  check.isIntegerOrLong(variableToIncrement, "Increment in for");
-  const bodyContext = context.createChildContextForLoop();
-  this.index = new Variable(this.initId, this.initexpression.type);
-  this.index.constant = true;
-  bodyContext.add(this.index);
-  this.body.analyze(bodyContext);
-};
-
-SpreadForLoop.prototype.analyze = function (context) {
-  this.min = context.lookup(this.min);
-  this.min.analyze(context);
-  check.isIntegerOrLong(this.min, "Min in for loop is not a number");
-  this.max = context.lookup(this.max);
-  this.max.analyze(context);
-  check.isIntegerOrLong(this.max, "Max in for loop is not a number");
-
-  //do we need this?
-  const bodyContext = context.createChildContextForLoop();
-  bodyContext.add(this.block);
-  this.block.analyze(bodyContext);
-};
-
 MemberExpression.prototype.analyze = function (context) {
   this.varexp = context.lookup(this.varexp);
   //in variable declaration, add and in here check that it exists in the thing it was added in?
@@ -374,11 +361,25 @@ SetType.prototype.getFieldForId = function (id) {
   return field;
 };
 
-SwitchStatement.prototype.analyze = function (context) {
+SimpleStmt_call.prototype.analyze = function (context) {
   //TODO
 };
 
-SimpleStmt_call.prototype.analyze = function (context) {
+// SpreadForLoop.prototype.analyze = function (context) {
+//   this.min = context.lookup(this.min);
+//   this.min.analyze(context);
+//   check.isIntegerOrLong(this.min, "Min in for loop is not a number");
+//   this.max = context.lookup(this.max);
+//   this.max.analyze(context);
+//   check.isIntegerOrLong(this.max, "Max in for loop is not a number");
+
+//   //do we need this?
+//   const bodyContext = context.createChildContextForLoop();
+//   bodyContext.add(this.block);
+//   this.block.analyze(bodyContext);
+// };
+
+SwitchStatement.prototype.analyze = function (context) {
   //TODO
 };
 

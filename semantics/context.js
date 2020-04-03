@@ -10,8 +10,11 @@
 const {
   standardFunctions,
   IntType,
+  LongType,
   StringType,
-  NilType
+  ConstType,
+  BoolType,
+  NoneType
 } = require("./builtins");
 
 require("./analyzer");
@@ -37,7 +40,8 @@ class Context {
       parent,
       currentFunction,
       inLoop,
-      locals: new Map()
+      declarations: Object.create(null)
+      // declarations: new Map()
     });
   }
 
@@ -72,22 +76,32 @@ class Context {
     }
     this.declarations[id || entity.id] = entity;
   }
+
+  // from Scriptofino
+  // add(entity) {
+  //   if (entity.id in this.declarations) {
+  //     throw new Error(`${entity.id} already declared in scope`);
+  //   }
+  //   this.declarations[entity.id] = entity;
+  // }
+
+  // from Tiger
   // add(declaration) {
-  //   if (this.locals.has(declaration.id)) {
+  //   if (this.declarations.has(declaration.id)) {
   //     //possibly check if it has the same type as well, because we can have same name, diff type
   //     throw new Error(`${declaration.id} already declared in this scope`);
   //   }
   //   const entity =
   //     declaration instanceof TypeDec ? declaration.type : declaration;
-  //   this.locals.set(declaration.id, entity);
+  //   this.declarations.set(declaration.id, entity);
   // }
 
   // Returns the entity bound to the given identifier, starting from this
   // context and searching "outward" through enclosing contexts if necessary.
   lookup(id) {
     for (let context = this; context !== null; context = context.parent) {
-      if (context.locals.has(id)) {
-        return context.locals.get(id);
+      if (context.declarations.has(id)) {
+        return context.declarations.get(id);
       }
     }
     throw new Error(`Identifier ${id} has not been declared`);
@@ -95,7 +109,9 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-[IntType, StringType, NilType, ...standardFunctions].forEach(entity => {
+[IntType, LongType, StringType, ConstType, BoolType, NoneType, ...standardFunctions].forEach(entity => {
+  print(`HERE ${this.declarations}!!!!!\n`);
+  // THIS IS WHERE THE 'undefined already declared in this scope' ERROR IS COMING FROM
   Context.INITIAL.add(entity);
 });
 

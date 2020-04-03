@@ -1,4 +1,4 @@
-class Loop {} // Do we need to account for multiple ids and expressions??
+class Loop {}
 
 class ClassicForLoop extends Loop {
   constructor(

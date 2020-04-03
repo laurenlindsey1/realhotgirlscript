@@ -16,14 +16,15 @@ const standardFunctions = [
     // Casper's grammar takes in id, type, exp but their parameter.js only needs type, id??
   new Func("supLilBitch", [new Param("s", StringType)]),
   
+  // continue? negate? void?
+  
+
   // new Func('size', [new Param('s', StringType)], IntType),
   // new Func(
   //   'substring',
   //   [new Param('s', StringType), new Param('first', IntType), new Param('n', IntType)],
   //   StringType
   // ),
-
-  // continue? negate? void?
 ];
 
 /* eslint-disable no-param-reassign */
