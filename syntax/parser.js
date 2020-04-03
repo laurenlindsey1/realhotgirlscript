@@ -321,7 +321,11 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   },
 
   TupleType(tup, _1, type, _2, possibleOtherType, _3) {
-    return new TupleType(tup.ast(), type.ast(), possibleOtherType.ast());
+    return new TupleType(
+      tup.ast(),
+      type.ast(),
+      arrayToNullable(possibleOtherType.ast())
+    );
   },
 
   numlit(sign, digits, frac, exponent) {
@@ -354,11 +358,11 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   },
   nonelit(_) {
     return new NoneLiteral();
-  }
+  },
 });
 /* eslint-enable no-unused-vars */
 
-module.exports = text => {
+module.exports = (text) => {
   const match = realHotGirlScript.match(text);
   if (!match.succeeded()) {
     throw new Error(`Syntax Error: ${match.message}`);

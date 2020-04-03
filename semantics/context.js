@@ -16,7 +16,7 @@ const {
   LongType,
   StringType,
   ConstType,
-  BoolType
+  BoolType,
   // NoneType
 } = require("./builtins");
 
@@ -44,7 +44,7 @@ class Context {
       currentFunction,
       inLoop,
       variableDeclarations: Object.create(null),
-      typeDeclarations: Object.create(null)
+      typeDeclarations: Object.create(null),
       // declarations: new Map()
     });
   }
@@ -59,7 +59,7 @@ class Context {
     return new Context({
       parent: this,
       currentFunction: this.currentFunction,
-      inLoop: true
+      inLoop: true,
     });
   }
 
@@ -68,7 +68,7 @@ class Context {
     return new Context({
       parent: this,
       currentFunction: this.currentFunction,
-      inLoop: this.inLoop
+      inLoop: this.inLoop,
     });
   }
 
@@ -78,7 +78,7 @@ class Context {
     }
     this.typeDeclarations[classId || classType.classId] = classType;
   }
-  
+
   // Adds a declaration to this context.
   //take in type and id
   addVar(type, id) {
@@ -111,31 +111,31 @@ class Context {
   // context and searching "outward" through enclosing contexts if necessary.
   lookup(id) {
     for (let context = this; context !== null; context = context.parent) {
-      if (context.declarations.has(id)) {
-        return context.declarations.get(id);
+      if (context.variableDeclarations.has(id)) {
+        return context.variableDeclarations.get(id);
       }
     }
     throw new Error(`Identifier ${id} has not been declared`);
   }
 
   // Do we need these?
-  // assertInFunction(message) {
-  //   if (!this.currentFunction) {
-  //     throw new Error(message);
-  //   }
-  // }
+  assertInFunction(message) {
+    if (!this.currentFunction) {
+      throw new Error(message);
+    }
+  }
 
-  // // eslint-disable-next-line class-methods-use-this
-  // assertIsFunction(entity) {
-  //   if (entity.constructor !== FunctionObject) {
-  //     throw new Error(`Call is not a function`);
-  //   }
-  // }
+  // eslint-disable-next-line class-methods-use-this
+  assertIsFunction(entity) {
+    if (entity.constructor !== FunctionObject) {
+      throw new Error(`Call is not a function`);
+    }
+  }
 }
 
 Context.INITIAL = new Context();
-standardFunctions.forEach(f => {
-  Context.INITIAL.variableDeclarations[f.id] = f;  //is this variableDec or classDec?
+standardFunctions.forEach((f) => {
+  Context.INITIAL.variableDeclarations[f.id] = f;
 });
 
 //  PLEASE FIGURE THIS OUT!!!!!!!!!!!!!!!
@@ -147,12 +147,5 @@ Context.INITIAL.typeDeclarations.boolz = BoolType;
 Context.INITIAL.typeDeclarations.stayz = ConstType;
 
 // Context.INITIAL.typeMap.none = NoneType;
-
-// Context.INITIAL = new Context();
-// [IntType, LongType, StringType, ConstType, BoolType, ...standardFunctions].forEach(entity => {
-//   print(`HERE ${this.typeDeclarations}!!!!!\n`);
-//   // THIS IS WHERE THE 'undefined already declared in this scope' ERROR IS COMING FROM
-//   Context.INITIAL.addClass(entity);
-// });
 
 module.exports = Context;
