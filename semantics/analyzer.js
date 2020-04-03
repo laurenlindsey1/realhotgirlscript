@@ -1,51 +1,53 @@
-const {
-  Argument,
-  ArrayExpression,
-  ArrayType,
-  AssignmentStatement,
-  BinaryExpression,
-  Block,
-  BooleanLiteral,
-  BooleanType,
-  BreakStatement,
-  Call,
-  Case,
-  ClassDeclaration,
-  Closure,
-  ContinueStatement,
-  DefaultCase,
-  DictExpression,
-  DictType,
-  Exponent,
-  Fraction,
-  FunctionDeclaration,
-  IfStatement,
-  IdentifierDeclaration,
-  IdentifierExpression,
-  IdType,
-  KeyValueExpression,
-  Loop,
-  MemberExpression,
-  NumericLiteral,
-  NumType,
-  Optional,
-  Parameter,
-  Print,
-  PrintStatement,
-  Program,
-  ReturnStatement,
-  SetExpression,
-  SetType,
-  StringLiteral,
-  SubscriptedExpression,
-  SwitchStatement,
-  SimpleStmt_call,
-  TupleType,
-  TupleExpression,
-  UnaryExpression,
-  VariableDeclaration,
-  WhileStatement
-} = require("../ast");
+const Argument = require("../ast/argument");
+const ArrayExpression = require("../ast/array-expression");
+const ArrayType = require("../ast/array-type");
+const AssignmentStatement = require("../ast/assignment-statement");
+const Block = require("../ast/block");
+const BooleanLiteral = require("../ast/boolean-literal");
+const BinaryExpression = require("../ast/binary-expression");
+const BreakStatement = require("../ast/break-statement");
+const Call = require("../ast/call");
+const Case = require("../ast/case");
+const ClassDeclaration = require("../ast/class-declaration");
+// const ClassicForLoop = require("../ast/loop/ClassicForLoop"); // not sure if this is right
+const Closure = require("../ast/closure");
+const ContinueStatement = require("../ast/continue-statement");
+const DefaultCase = require("../ast/default-case");
+const DictExpression = require("../ast/dict-expression");
+const DictType = require("../ast/dict-type");
+const Exponent = require("../ast/exponent");
+const Fraction = require("../ast/fraction");
+const FunctionDeclaration = require("../ast/function-declaration");
+const IdentifierDeclaration = require("../ast/identifier-declaration");
+const IdentifierExpression = require("../ast/identifier-expression");
+const IdType = require("../ast/id-type");
+const IfStatement = require("../ast/if-statement");
+const KeyValueExpression = require("../ast/keyvalue-expression");
+const Loop = require("../ast/loop");
+const MemberExpression = require("../ast/member-expression");
+const NoneLiteral = require("../ast/None");
+const NumericLiteral = require("../ast/numeric-literal");
+const NumType = require("../ast/numeric-type");
+const Optional = require("../ast/optional-type");
+const Parameter = require("../ast/parameter");
+const PrimitiveType = require("../ast/primitive-type");
+const Print = require("../ast/print");
+const PrintStatement = require("../ast/print-statement");
+const Program = require("../ast/program");
+const ReturnStatement = require("../ast/return-statement");
+const SetExpression = require("../ast/set-expression");
+const SetType = require("../ast/set-type");
+const StringLiteral = require("../ast/string-literal");
+const SubscriptedExpression = require("../ast/subscripted-expression");
+const SwitchStatement = require("../ast/switch-statement");
+const SimpleStmt_call = require("../ast/simple-statement-call");
+const TupleType = require("../ast/tuple-type");
+const TupleExpression = require("../ast/tuple-expression");
+const UnaryExpression = require("../ast/unary-expression");
+const VariableDeclaration = require("../ast/variable-declaration");
+const WhileStatement = require("../ast/while-statement");
+
+
 const {
   IntType,
   LongType,

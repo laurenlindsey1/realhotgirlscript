@@ -1,4 +1,7 @@
-const { Func, Param, PrimitiveType } = require("../ast");
+const Func = require("../ast/function-object");
+const PrimitiveType = require("../ast/primitive-type");
+const Param = require("../ast/parameter");
+
 
 const IntType = new PrimitiveType("digitz");
 const LongType = new PrimitiveType("longz");
@@ -8,13 +11,19 @@ const BoolType = new PrimitiveType("boolz");
 const NoneType = new PrimitiveType("none");
 
 const standardFunctions = [
-  new Func("supLilBitch", [new Param("s", StringType)])
+    // not sure if this is how we should be declaring new Param
+    // since our parameter.js takes in type, id, expression
+    // Casper's grammar takes in id, type, exp but their parameter.js only needs type, id??
+  new Func("supLilBitch", [new Param("s", StringType)]),
+  
   // new Func('size', [new Param('s', StringType)], IntType),
   // new Func(
   //   'substring',
   //   [new Param('s', StringType), new Param('first', IntType), new Param('n', IntType)],
   //   StringType
   // ),
+
+  // continue? negate? void?
 ];
 
 /* eslint-disable no-param-reassign */

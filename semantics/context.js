@@ -6,7 +6,7 @@
  *   const Context = require('./semantics/context');
  */
 
-const { TypeDec } = require("../ast");
+// const { TypeDec } = require("../ast");
 const {
   standardFunctions,
   IntType,
@@ -66,15 +66,21 @@ class Context {
 
   // Adds a declaration to this context.
   //take in type and id
-  add(declaration) {
-    if (this.locals.has(declaration.id)) {
-      //possibly check if it has the same type as well, because we can have same name, diff type
-      throw new Error(`${declaration.id} already declared in this scope`);
+  add(entity, id) {
+    if ((id || entity.id) in this.declarations) {
+      throw new Error(`${id} already declared in this scope`);
     }
-    const entity =
-      declaration instanceof TypeDec ? declaration.type : declaration;
-    this.locals.set(declaration.id, entity);
+    this.declarations[id || entity.id] = entity;
   }
+  // add(declaration) {
+  //   if (this.locals.has(declaration.id)) {
+  //     //possibly check if it has the same type as well, because we can have same name, diff type
+  //     throw new Error(`${declaration.id} already declared in this scope`);
+  //   }
+  //   const entity =
+  //     declaration instanceof TypeDec ? declaration.type : declaration;
+  //   this.locals.set(declaration.id, entity);
+  // }
 
   // Returns the entity bound to the given identifier, starting from this
   // context and searching "outward" through enclosing contexts if necessary.
