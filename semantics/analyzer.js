@@ -31,8 +31,6 @@ const NumericLiteral = require("../ast/numeric-literal");
 const Optional = require("../ast/optional-type");
 const Parameter = require("../ast/parameter");
 const PrimitiveType = require("../ast/primitive-type");
-// const Print = require("../ast/print");
-// const PrintStatement = require("../ast/print-statement");
 const Program = require("../ast/program");
 const ReturnStatement = require("../ast/return-statement");
 const SetExpression = require("../ast/set-expression");
@@ -116,7 +114,7 @@ BinaryExpression.prototype.analyze = function (context) {
 };
 
 Block.prototype.analyze = function (context) {
-  this.statements.analyze(statements);
+  this.statements.analyze(this.statements);
   this.statements.forEach((s) => s.analyze(context));
   check.isStatement(this.statements);
 };

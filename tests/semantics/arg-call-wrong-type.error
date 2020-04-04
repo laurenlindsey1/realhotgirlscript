@@ -7,3 +7,5 @@ weOutHereTryinToFunction digitz largestNum(digitz x,  digitz y,  digitz z)$
         andThemsTheFacts z!!!
     #
 #
+
+largestNum(digitz x: 2, digitz y: 4, digitz z: "shanaya")!!!
