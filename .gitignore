@@ -1,3 +1,4 @@
 echo .DS_Store >> .gitignore
-
+coverage
 node_modules
+.vscode
