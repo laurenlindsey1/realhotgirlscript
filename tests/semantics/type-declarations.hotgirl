@@ -10,4 +10,4 @@ decimal: 6.9!!!
 
 dictz <wordz,wordz> stateCapitals: $ California ~ "Sacramento", Nevada ~ "Carson City", Oregon ~ "Salem"#!!!
 arrayz <digitz> numbers: [1, 2, 3, 4]!!!
-setz <wordz> names: $“Shanaya”, “Keanna”, “Sage”, “Lauren”#!!!
+setz <wordz> names: $"Shanaya", "Keanna", "Sage", "Lauren"#!!!
