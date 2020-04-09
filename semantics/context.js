@@ -8,19 +8,18 @@
 
 // const { TypeDec } = require("../ast");
 
-const FunctionObject = require("../ast/function-object");
+const FunctionObject = require('../ast/function-object');
 
 const {
   standardFunctions,
   IntType,
   LongType,
   StringType,
-  ConstType,
   BoolType,
-  // NoneType
-} = require("./builtins");
+  NoneType,
+} = require('./builtins');
 
-require("./analyzer");
+require('./analyzer');
 
 // When doing semantic analysis we pass around context objects.
 //
@@ -43,9 +42,8 @@ class Context {
       parent,
       currentFunction,
       inLoop,
-      variableDeclarations: Object.create(null),
-      typeDeclarations: Object.create(null),
-      // declarations: new Map()
+      variableDeclarations: new Map(),
+      typeDeclarations: new Map(),
     });
   }
 
@@ -73,39 +71,18 @@ class Context {
   }
 
   addClass(classType, classId) {
-    if ((classId || classType.classId) in this.typeDeclarations) {
+    if (this.typeDeclarations.has(classId)) {
       throw new Error(`Class identifier already declared in this scope`);
     }
-    this.typeDeclarations[classId || classType.classId] = classType;
+    this.typeDeclarations.set(classId, classType);
   }
 
-  // Adds a declaration to this context.
-  //take in type and id
   addVar(type, id) {
-    if ((id || type.id) in this.declarations) {
+    if (this.variableDeclarations.has(id)) {
       throw new Error(`Identifier already declared in this scope`);
     }
-    this.declarations[id || type.id] = type;
+    this.variableDeclarations.set(id, type);
   }
-
-  // from Scriptofino
-  // add(entity) {
-  //   if (entity.id in this.declarations) {
-  //     throw new Error(`${entity.id} already declared in scope`);
-  //   }
-  //   this.declarations[entity.id] = entity;
-  // }
-
-  // from Tiger
-  // add(declaration) {
-  //   if (this.declarations.has(declaration.id)) {
-  //     //possibly check if it has the same type as well, because we can have same name, diff type
-  //     throw new Error(`${declaration.id} already declared in this scope`);
-  //   }
-  //   const entity =
-  //     declaration instanceof TypeDec ? declaration.type : declaration;
-  //   this.declarations.set(declaration.id, entity);
-  // }
 
   // Returns the entity bound to the given identifier, starting from this
   // context and searching "outward" through enclosing contexts if necessary.
@@ -118,14 +95,21 @@ class Context {
     throw new Error(`Identifier ${id} has not been declared`);
   }
 
-  // Do we need these?
+  lookupClass(id) {
+    for (let context = this; context !== null; context = context.parent) {
+      if (context.typeDeclarations.has(id)) {
+        return context.typeDeclarations.get(id);
+      }
+    }
+    throw new Error(`Identifier ${id} has not been declared`);
+  }
+
   assertInFunction(message) {
     if (!this.currentFunction) {
       throw new Error(message);
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   assertIsFunction(entity) {
     if (entity.constructor !== FunctionObject) {
       throw new Error(`Call is not a function`);
@@ -134,18 +118,11 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-standardFunctions.forEach((f) => {
+standardFunctions.forEach(f => {
   Context.INITIAL.variableDeclarations[f.id] = f;
 });
-
-//  PLEASE FIGURE THIS OUT!!!!!!!!!!!!!!!
-
-Context.INITIAL.typeDeclarations.digitz = IntType;
-Context.INITIAL.typeDeclarations.longz = LongType;
-Context.INITIAL.typeDeclarations.wordz = StringType;
-Context.INITIAL.typeDeclarations.boolz = BoolType;
-Context.INITIAL.typeDeclarations.stayz = ConstType;
-
-// Context.INITIAL.typeMap.none = NoneType;
+[IntType, LongType, StringType, BoolType, NoneType].forEach(type => {
+  Context.INITIAL.typeDeclarations.set(type.name, type);
+});
 
 module.exports = Context;

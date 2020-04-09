@@ -10,7 +10,7 @@ realHotGirlScript {
               |  switch Exp "$" Case+ DefaultCase? "#"      -- switch
               |  for (numType | longType)  id ":"
                  Exp "🔥" Exp "🔥" id incremop Block        -- forloop1
-              |  for "[" numlit spread 
+              |  for "[" numlit spread
                    numlit "]" Block           -- forloop2
   SimpleStmt  =  const? Type DeclIds ":" Exps               -- varDecl
               |  VarExps ":" Exps                           -- assign
@@ -21,7 +21,7 @@ realHotGirlScript {
               |  return Exp?                                -- return
               |  Exp
   Block       =  "$" Stmt* "#"
-  Print 	    =  print Exp
+  Print 	     =  print Exp
   Case        =  case Exp Block
   DefaultCase =  default Block
   Exp         =  Exp "||" Exp1                              -- or
@@ -36,7 +36,7 @@ realHotGirlScript {
   Exp4        =  prefixop Exp5                              -- unary
               |  Exp5
   Exp5        =  Exp6 postfixop                             -- optional
-  			      |  Exp6
+  			     |  Exp6
   Exp6        =  Exp7 incremop                              -- increment
               |  Exp7
   Exp7        =  Exp8 "^" Exp8                              -- exponentiation
@@ -68,15 +68,15 @@ realHotGirlScript {
   Arg         =  Type id ":" Exp
   Args        =  ListOf<Arg, ",">
   Type        =  Type postfixop                             -- optional
-              |numType
-  			     | longType
-              | stringType
-              | booleanType
-              | ArrayType
-              | SetType
-              | DictType
-              | TupleType
-              | id                                          -- id
+              |  numType
+  			     |  longType
+              |  stringType
+              |  booleanType
+              |  ArrayType
+              |  SetType
+              |  DictType
+              |  TupleType
+              |  id                                         -- id
   numType     =  "digitz"
   longType    =  "longz"
   stringType  =  "wordz"
@@ -85,70 +85,70 @@ realHotGirlScript {
   SetType     =  setDecl "<"Type">"
   DictType    =  dictDecl  "<" Type "," Type ">"
   TupleType   =  tupleDecl "<" Type(("," Type)*) ">"
-  const   =  "stayz"
-  class       = "ATTENTIONATTENTION🗣" ~alnum
-  continue    = "keepItPushin" ~alnum
-  spread      = "spreadThatThang🍯" ~alnum
-  singleLnCmt = "oop" ~alnum
-  negate      = "BANGENERGY" ~alnum
-  while       = "wylin🤪"  ~alnum
-  if          = "iHaveSomethingToSay🙅🏾‍♀️" ~alnum
-  elseif      = "becauseWhyyy😼" ~alnum
-  else        = "BECAUSEIMONFUCKINGVACATION👅" ~alnum
-  switch      = "shutUpGirlfriend😈" ~alnum
-  void        = "leftOnRead" ~alnum
+  const       =  "stayz"
+  class       =  "ATTENTIONATTENTION🗣" ~alnum
+  continue    =  "keepItPushin" ~alnum
+  spread      =  "spreadThatThang🍯" ~alnum
+  singleLnCmt =  "oop" ~alnum
+  negate      =  "BANGENERGY" ~alnum
+  while       =  "wylin🤪"  ~alnum
+  if          =  "iHaveSomethingToSay🙅🏾‍♀️" ~alnum
+  elseif      =  "becauseWhyyy😼" ~alnum
+  else        =  "BECAUSEIMONFUCKINGVACATION👅" ~alnum
+  switch      =  "shutUpGirlfriend😈" ~alnum
+  void        =  "leftOnRead" ~alnum
   for         =  "openHerUp🍑" ~alnum
-  async       = "sheWaits😩" ~alnum
-  case        = "andWhatAboutIt👉" ~alnum
-  print       = "supLilBitch" ~alnum
-  default     = "andLetMeDoMe🤑" ~alnum
-  await       = "hotlineBling💎" ~alnum
-  true        = "trueShit" ~alnum
-  arrayDecl   = "arrayz" ~alnum
-  setDecl     = "setz" ~alnum
-  dictDecl    = "dictz" ~alnum
-  tupleDecl   = "tuplez" ~alnum
-  false       = "fraudulentAssBitch" ~alnum
-  let         = "seeYa" ~alnum
-  endKey      = "wouldntWannBeYa" ~alnum
-  funcDecl    = "weOutHereTryinToFunction" ~alnum
-  return      = "andThemsTheFacts" ~alnum
-  break       = "GTFO💩" ~alnum
-  keyword     = (numType
-              | longType
-              | stringType
-              | booleanType
-              | arrayDecl
-              | const
-              | class
-              | continue
-              | spread
-              | singleLnCmt
-              | negate
-              | while
-              | if
-              | elseif
-              | else
-              | switch
-              | void
-              | for
-              | async
-              | case
-              | print
-              | default
-              | await
-              | true
-              | arrayDecl
-              | setDecl
-              | dictDecl
-              | tupleDecl
-              | nonelit
-              | false
-              | let
-              | endKey
-              | funcDecl
-              | return
-              | break) ~idrest
+  async       =  "sheWaits😩" ~alnum
+  case        =  "andWhatAboutIt👉" ~alnum
+  print       =  "supLilBitch" ~alnum
+  default     =  "andLetMeDoMe🤑" ~alnum
+  await       =  "hotlineBling💎" ~alnum
+  true        =  "trueShit" ~alnum
+  arrayDecl   =  "arrayz" ~alnum
+  setDecl     =  "setz" ~alnum
+  dictDecl    =  "dictz" ~alnum
+  tupleDecl   =  "tuplez" ~alnum
+  false       =  "fraudulentAssBitch" ~alnum
+  let         =  "seeYa" ~alnum
+  endKey      =  "wouldntWannBeYa" ~alnum
+  funcDecl    =  "weOutHereTryinToFunction" ~alnum
+  return      =  "andThemsTheFacts" ~alnum
+  break       =  "GTFO💩" ~alnum
+  keyword     =  (numType
+              |  longType
+              |  stringType
+              |  booleanType
+              |  arrayDecl
+              |  const
+              |  class
+              |  continue
+              |  spread
+              |  singleLnCmt
+              |  negate
+              |  while
+              |  if
+              |  elseif
+              |  else
+              |  switch
+              |  void
+              |  for
+              |  async
+              |  case
+              |  print
+              |  default
+              |  await
+              |  true
+              |  arrayDecl
+              |  setDecl
+              |  dictDecl
+              |  tupleDecl
+              |  nonelit
+              |  false
+              |  let
+              |  endKey
+              |  funcDecl
+              |  return
+              |  break) ~idrest
   id          =  ~keyword ("_" | letter+) idrest*
   idrest      =  "_" | alnum
   numlit      =  (("+" | "-")?) digit+ frac? eExpo?
@@ -157,8 +157,8 @@ realHotGirlScript {
                  digit+
   boollit     =  true | false
   strlit      =  "\"" (~"\\" ~"\"" ~"\n" any | escape)*
-                 "\""                                   
-  nonelit     = "deceasedOnYouHoes"  ~alnum
+                 "\""
+  nonelit     =  "deceasedOnYouHoes"  ~alnum
   escape      =  "\\" ("\\" | "\"" | "n")                      -- simple
   incremop 	  =  "++" | "--"
   addop       =  "+" | "-"
@@ -166,7 +166,7 @@ realHotGirlScript {
   mulop       =  "*" | "//" | "/" | "%"
   prefixop    =  "-" | negate | "+"
   postfixop   =  "?"
-  space       +=  " " | "\t" | comment
+  space      +=  " " | "\t" | comment
   comment     =  singleLnCmt (~"\n" any)*                      -- singleline
               |  ":/" (~"/:" any)* "/:"                        -- multiline
 }
