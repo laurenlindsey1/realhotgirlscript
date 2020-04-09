@@ -1,4 +1,4 @@
-module.exports = class SimpleStmt_call {
+module.exports = class CallStatement {
   constructor(call) {
     this.call = call;
   }

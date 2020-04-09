@@ -83,8 +83,8 @@ realHotGirlScript {
   booleanType =  "boolz"
   ArrayType   =  arrayDecl "<"Type">"
   SetType     =  setDecl "<"Type">"
-  DictType    =  dictDecl  "<" Type "," Type ">"
-  TupleType   =  tupleDecl "<" Type(("," Type)*) ">"
+  DictType    =  dictDecl "<" Type "," Type ">"
+  TupleType   =  tupleDecl "<" Type ("," Type)* ">"
   const       =  "stayz"
   class       =  "ATTENTIONATTENTION🗣" ~alnum
   continue    =  "keepItPushin" ~alnum

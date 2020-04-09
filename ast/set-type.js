@@ -1,5 +1,5 @@
 module.exports = class SetType {
-  constructor(setz, type) {
-    Object.assign(this, { setz, type });
+  constructor(memberType) {
+    Object.assign(this, { memberType });
   }
 };

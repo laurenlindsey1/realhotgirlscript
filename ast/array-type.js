@@ -1,5 +1,5 @@
 module.exports = class ArrayType {
-  constructor(arr, type) {
-    Object.assign(this, { arr, type });
+  constructor(memberType) {
+    Object.assign(this, { memberType });
   }
 };

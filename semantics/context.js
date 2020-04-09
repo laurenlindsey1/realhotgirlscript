@@ -104,12 +104,6 @@ class Context {
     throw new Error(`Identifier ${id} has not been declared`);
   }
 
-  assertInFunction(message) {
-    if (!this.currentFunction) {
-      throw new Error(message);
-    }
-  }
-
   assertIsFunction(entity) {
     if (entity.constructor !== FunctionObject) {
       throw new Error(`Call is not a function`);

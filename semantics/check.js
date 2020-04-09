@@ -5,12 +5,7 @@ const ArrayType = require('../ast/array-type');
 const DictType = require('../ast/dict-type');
 const SetType = require('../ast/set-type');
 const TupleType = require('../ast/tuple-type');
-const IdType = require('../ast/id-type'); //if needed?
-const NumericLiteral = require('../ast/numeric-literal');
-const StringLiteral = require('../ast/string-literal');
-const BooleanLiteral = require('../ast/boolean-literal');
-const NoneLiteral = require('../ast/None');
-//do we need constant here?
+const IdExp = require('../ast/identifier-expression');
 
 const { IntType, LongType, StringType, BoolType, NoneType } = require('./builtins'); //standard functions?
 
@@ -36,8 +31,8 @@ module.exports = {
     doCheck(type.constructor === TupleType, 'Not a tuple type');
   },
 
-  isRecordType(type) {
-    doCheck(type.constructor === RecordType, 'Not a record type');
+  isSetType(type) {
+    doCheck(type.constructor === SetType, 'Not a record type');
   },
 
   // Is the type of this expression an array type?
@@ -111,13 +106,15 @@ module.exports = {
   // Can we assign expression to a variable/param/field of type type?
   isAssignableTo(expression, type) {
     doCheck(
-      (expression.type === NilType && type.constructor === RecordType) || expression.type === type,
+      expression.type === type || (expression.type === IntType && type == LongType),
       `Expression of type ${util.format(expression.type)} not compatible with type ${util.format(
         type
       )}`
     );
   },
 
+  // const x = 3
+  // x = 5
   isNotConstant(lvalue) {
     doCheck(
       !(lvalue.constructor === IdExp && lvalue.ref.constant),

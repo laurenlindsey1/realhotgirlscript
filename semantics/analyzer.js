@@ -9,7 +9,7 @@ const BreakStatement = require('../ast/break-statement');
 const Call = require('../ast/call');
 const Case = require('../ast/case');
 const ClassDeclaration = require('../ast/class-declaration');
-// const ClassicForLoop = require("../ast/loop.Loop"); // not sure if this is right
+const { ClassicForLoop, SpreadForLoop } = require('../ast/loop');
 const Closure = require('../ast/closure');
 const ContinueStatement = require('../ast/continue-statement');
 const DefaultCase = require('../ast/default-case');
@@ -23,11 +23,9 @@ const IdentifierExpression = require('../ast/identifier-expression');
 const IdType = require('../ast/id-type');
 const IfStatement = require('../ast/if-statement');
 const KeyValueExpression = require('../ast/keyvalue-expression');
-const Loop = require('../ast/loop');
 const MemberExpression = require('../ast/member-expression');
 const NoneLiteral = require('../ast/None');
 const NumericLiteral = require('../ast/numeric-literal');
-// const NumType = require("../ast/numeric-type");
 const Optional = require('../ast/optional-type');
 const Parameter = require('../ast/parameter');
 const PrimitiveType = require('../ast/primitive-type');
@@ -35,11 +33,10 @@ const Program = require('../ast/program');
 const ReturnStatement = require('../ast/return-statement');
 const SetExpression = require('../ast/set-expression');
 const SetType = require('../ast/set-type');
-const SpreadForLoop = require('../ast/loop'); // not sure if this is right
 const StringLiteral = require('../ast/string-literal');
 const SubscriptedExpression = require('../ast/subscripted-expression');
 const SwitchStatement = require('../ast/switch-statement');
-const SimpleStmt_call = require('../ast/simple-statement-call');
+const CallStatement = require('../ast/call-statement');
 const TupleType = require('../ast/tuple-type');
 const TupleExpression = require('../ast/tuple-expression');
 const UnaryExpression = require('../ast/unary-expression');
@@ -50,8 +47,24 @@ const { IntType, LongType, StringType, BoolType, NoneType } = require('./builtin
 const check = require('./check');
 const Context = require('./context');
 
-module.exports = function (exp) {
-  exp.analyze(Context.INITIAL);
+module.exports = function (program) {
+  program.analyze(Context.INITIAL);
+};
+
+StringLiteral.prototype.analyze = function () {
+  this.type = StringType;
+};
+
+NoneLiteral.prototype.analyze = function () {
+  this.type = NoneType;
+};
+
+BooleanLiteral.prototype.analyze = function () {
+  this.type = BoolType;
+};
+
+NumericLiteral.prototype.analyze = function () {
+  this.type = IntType;
 };
 
 // how do we check against parameters
@@ -67,12 +80,11 @@ ArrayExpression.prototype.analyze = function (context) {
   check.isArray(this.expression);
 };
 
+// Syntax: ArrayType   =  arrayDecl "<"Type">"
+// Example: arrayz<boolz>
+// AST Node: memberType
 ArrayType.prototype.analyze = function (context) {
-  this.arr.analyze(context);
-  check.isArrayType(this.arr);
-  //got from goof?
-  this.type = getType(this.type);
-  // check.isArrayType(this.arr);
+  this.memberType = this.memberType.analyze(context);
 };
 
 AssignmentStatement.prototype.analyze = function (context) {
@@ -107,7 +119,6 @@ BinaryExpression.prototype.analyze = function (context) {
 };
 
 Block.prototype.analyze = function (context) {
-  this.statements.analyze(this.statements);
   this.statements.forEach(s => s.analyze(context));
   check.isStatement(this.statements);
 };
@@ -116,7 +127,7 @@ BreakStatement.prototype.analyze = function (context) {
   check.inLoop(context, 'GTFO💩');
 };
 
-//call statement?
+// Calls are invoked from both CallStatement and within expressions
 Call.prototype.analyze = function (context) {
   this.id = context.lookup(this.id);
   check.isFunction(this.id, 'Attempt to call a non-function');
@@ -136,8 +147,8 @@ Case.prototype.analyze = function (context) {
 ClassDeclaration.prototype.analyze = function (context) {
   this.params.forEach(p => {
     p.analyze(this.bodyContext);
-    check.fieldHasNotBeenUsed(this.p, usedFields);
-    c; // heck.isParam(this.params);
+    // TODO: consider forcing all fields to be uniquely named
+    // check.isParam(this.params);
     // this.p = context.addClass()
   });
   this.body = context.lookup(this.body);
@@ -145,17 +156,21 @@ ClassDeclaration.prototype.analyze = function (context) {
   context.addClass(this);
 };
 
-Loop.ClassicForLoop.prototype.analyze = function (context) {
+ClassicForLoop.prototype.analyze = function (context) {
   this.type = context.lookup(this.type);
   this.initexpression.analyze(context); //analyze assigns a type
   check.isAssignableTo(this.initexpression, this.type);
   this.testExpression.analyze(context);
   check.isBoolean(this.testExpression, 'Condition in for');
-  variableToIncrement = context.lookup(updateid);
+  const variableToIncrement = context.lookup(this.updateid);
   check.isIntegerOrLong(variableToIncrement, 'Increment in for');
   const bodyContext = context.createChildContextForLoop();
-  this.index = new Variable(this.initId, this.initexpression.type);
-  this.index.constant = true;
+  this.index = new VariableDeclaration(
+    true,
+    this.initexpression.type,
+    [this.initId],
+    [this.initexpression]
+  );
   bodyContext.add(this.index);
   this.body.analyze(bodyContext);
 };
@@ -178,17 +193,8 @@ DictExpression.prototype.analyze = function (context) {
 };
 
 DictType.prototype.analyze = function (context) {
-  this.dictz.analyze(context);
-  check.isDictType(this.dictz);
-  this.valuetype = getType(this.v);
-  this.keytype.forEach(k => {
-    k.analyze(context);
-    check.isValidType(this.k);
-  });
-  this.valuetype.forEach(v => {
-    v.analyze(context);
-    check.isValidType(this.v, Context);
-  });
+  this.keyType = this.keyType.analyze(context);
+  this.valueType = this.valueType.analyze(context);
 };
 
 Exponent.prototype.analyze = function (context) {
@@ -224,23 +230,22 @@ FunctionDeclaration.prototype.analyze = function () {
 //id type vs id expression vs id declaration???
 IdType.prototype.analyze = function (context) {
   this.id.analyze(this.id);
-  check.isValidType(this.id, Context);
+  check.isValidType(this.id, context);
 };
 
 //might not need this one
 IdentifierDeclaration.prototype.analyze = function (context) {
   this.id.analyze(this.id);
-  check.isValidType(this.id, Context);
+  check.isValidType(this.id, context);
 };
 
 IdentifierExpression.prototype.analyze = function (context) {
   this.id.analyze(this.id);
-  check.isValidType(this.id, Context);
+  check.isValidType(this.id, context);
 };
 
 //not sure about this one either
 IfStatement.prototype.analyze = function (context) {
-  this.cases.analyze(context);
   this.cases.forEach(c => {
     c.analyze(context);
     check.isBoolean(this.c, 'If statement is not a boolean');
@@ -291,7 +296,7 @@ MemberExpression.prototype.analyze = function (context) {
 // Do we need to analyze optionals?
 Optional.prototype.analyze = function (context) {
   if (['?'].includes(this.operand)) {
-    check.isValidType(this.operand);
+    check.isValidType(this.operand, context);
   }
 };
 
@@ -313,7 +318,7 @@ Program.prototype.analyze = function (context) {
 
 ReturnStatement.prototype.analyze = function (context) {
   this.expression.analyze(context);
-  context.assertInFunction('Return statement not in function');
+  check.inFunction(context, 'Return statement not in function');
 };
 
 SetExpression.prototype.analyze = function (context) {
@@ -327,29 +332,16 @@ SetExpression.prototype.analyze = function (context) {
 };
 
 SetType.prototype.analyze = function (context) {
-  //following is from tiger
-  const usedFields = new Set();
-  this.fields.forEach(field => {
-    check.fieldHasNotBeenUsed(field.id, usedFields);
-    usedFields.addVar(field.id);
-    field.analyze(context);
-  });
+  this.memberType = this.memberType.analyze(context);
 };
 
-//this is from tiger
-SetType.prototype.getFieldForId = function (id) {
-  const field = this.fields.find(f => f.id === id);
-  if (!field) {
-    throw new Error('No such field');
-  }
-  return field;
+CallStatement.prototype.analyze = function (context) {
+  this.call.analyze(context);
+  // Since this is called from a statement, the function probably should
+  // not have a return type, but it's ok bc Java and C throw it away too
 };
 
-SimpleStmt_call.prototype.analyze = function (context) {
-  //TODO
-};
-
-Loop.SpreadForLoop.prototype.analyze = function (context) {
+SpreadForLoop.prototype.analyze = function (context) {
   this.min = context.lookup(this.min);
   this.min.analyze(context);
   check.isIntegerOrLong(this.min, 'Min in for loop is not a number');
@@ -377,17 +369,7 @@ SubscriptedExpression.prototype.analyze = function (context) {
 };
 
 TupleType.prototype.analyze = function (context) {
-  let acceptableTypes = [];
-  this.tup.analyze(context);
-  check.isTupleType(this.tup);
-  this.tupletype = getType(this.v);
-  this.othertype.forEach(k => {
-    k.analyze(context);
-    check.isValidType(this.k);
-    acceptableTypes.push(this.k);
-  });
-  check.isValidType(this.tupletype);
-  acceptableTypes.push(this.tupletype);
+  this.memberTypes = this.memberTypes.map(t => t.analyze(context));
 };
 
 TupleExpression.prototype.analyze = function (context) {
@@ -399,7 +381,7 @@ UnaryExpression.prototype.analyze = function (context) {
   this.operand.analyze(context);
   if (['BANGENERGY'].includes(this.op)) {
     check.isBoolean(this.operand);
-    this.type = BooleanType;
+    this.type = BoolType;
   } else if (['-', '+'].includes(this.op)) {
     try {
       check.isInteger(this.operand);
@@ -415,25 +397,19 @@ UnaryExpression.prototype.analyze = function (context) {
   }
 };
 
-//constant, id, type, expression
+// Syntax: const? Type DeclIds ":" Exps
+// Example: const longz a, b, c : 1, 2, 3
+// AST Node: constant, type, ids, expressions
 VariableDeclaration.prototype.analyze = function (context) {
-  //how to we update add method??
-  // this.vardec = context.addVar(this.type, this.id);
-  //TODO: the rest, this is from tigers "Variable"
-  this.init.analyze(context);
-  if (this.type) {
-    this.type = context.lookup(this.type);
-    check.isAssignableTo(this.init, this.type);
-  } else {
-    // Yay! type inference!
-    this.type = this.init.type;
-  }
-  context.addVar(this);
+  this.type = context.lookup(this.type);
+  this.expressions.forEach(e => check.isAssignableTo(e, this.type));
+  check.sameNumberOfInitializersAsVariables(this.expressions, this.ids); // YOU DO IT
+  this.ids.forEach(id => context.addVar(this.type, id));
 };
 
 WhileStatement.prototype.analyze = function (context) {
   this.expression.analyze(context);
   check.isBoolean(this.expression, 'Condition in while');
   const bodyContext = context.createChildContextForLoop();
-  this.body.forEach(s => s.analyze(bodyContext));
+  this.body.analyze(bodyContext);
 };

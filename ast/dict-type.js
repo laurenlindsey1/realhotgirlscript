@@ -1,5 +1,5 @@
 module.exports = class DictType {
-  constructor(dictz, keytype, valuetype) {
-    Object.assign(this, { dictz, keytype, valuetype });
+  constructor(keyType, valueType) {
+    Object.assign(this, { keyType, valueType });
   }
 };

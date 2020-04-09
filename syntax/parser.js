@@ -30,7 +30,7 @@ const SetExpression = require('../ast/set-expression');
 const SetType = require('../ast/set-type');
 const StringType = require('../ast/string-type');
 const SwitchStatement = require('../ast/switch-statement');
-const SimpleStmt_call = require('../ast/simple-statement-call');
+const CallStatement = require('../ast/call-statement');
 const TupleType = require('../ast/tuple-type');
 const TupleExpression = require('../ast/tuple-expression');
 const UnaryExpression = require('../ast/unary-expression');
@@ -139,7 +139,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation('ast', {
   },
 
   SimpleStmt_call(call) {
-    return new SimpleStmt_call(call.ast());
+    return new CallStatement(call.ast());
   },
 
   SimpleStmt_print(expression) {
@@ -302,20 +302,20 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation('ast', {
     return new BooleanType();
   },
 
-  ArrayType(arr, _1, type, _2) {
-    return new ArrayType(arr.ast(), type.ast());
+  ArrayType(_1, _2, memberType, _3) {
+    return new ArrayType(memberType.ast());
   },
 
-  SetType(setz, _1, type, _2) {
-    return new SetType(setz.ast(), type.ast());
+  SetType(_1, _2, memberType, _3) {
+    return new SetType(memberType.ast());
   },
 
-  DictType(dictz, _1, keyType, _2, valueType, _3) {
-    return new DictType(dictz.ast(), keyType.ast(), valueType.ast());
+  DictType(_0, _1, keyType, _2, valueType, _3) {
+    return new DictType(keyType.ast(), valueType.ast());
   },
 
-  TupleType(tup, _1, type, _2, possibleOtherType, _3) {
-    return new TupleType(tup.ast(), type.ast(), arrayToNullable(possibleOtherType.ast()));
+  TupleType(_0, _1, type, _2, moreTypes, _3) {
+    return new TupleType([type.ast(), ...moreTypes.ast()]);
   },
 
   numlit(sign, digits, frac, exponent) {
