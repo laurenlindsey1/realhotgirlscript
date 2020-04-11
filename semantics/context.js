@@ -8,7 +8,7 @@
 
 // const { TypeDec } = require("../ast");
 
-const FunctionObject = require('../ast/function-object');
+const FunctionObject = require("../ast/function-object");
 
 const {
   standardFunctions,
@@ -17,9 +17,9 @@ const {
   StringType,
   BoolType,
   NoneType,
-} = require('./builtins');
+} = require("./builtins");
 
-require('./analyzer');
+require("./analyzer");
 
 // When doing semantic analysis we pass around context objects.
 //
@@ -43,7 +43,7 @@ class Context {
       currentFunction,
       inLoop,
       variableDeclarations: new Map(),
-      typeDeclarations: new Map(),
+      classDeclarations: new Map(),
     });
   }
 
@@ -70,11 +70,11 @@ class Context {
     });
   }
 
-  addClass(classType, classId) {
-    if (this.typeDeclarations.has(classId)) {
+  addClass(classId) {
+    if (this.classDeclarations.has(classId)) {
       throw new Error(`Class identifier already declared in this scope`);
     }
-    this.typeDeclarations.set(classId, classType);
+    this.classDeclarations.set(classId);
   }
 
   addVar(type, id) {
@@ -86,7 +86,7 @@ class Context {
 
   // Returns the entity bound to the given identifier, starting from this
   // context and searching "outward" through enclosing contexts if necessary.
-  lookup(id) {
+  lookupVar(id) {
     for (let context = this; context !== null; context = context.parent) {
       if (context.variableDeclarations.has(id)) {
         return context.variableDeclarations.get(id);
@@ -97,8 +97,8 @@ class Context {
 
   lookupClass(id) {
     for (let context = this; context !== null; context = context.parent) {
-      if (context.typeDeclarations.has(id)) {
-        return context.typeDeclarations.get(id);
+      if (context.classDeclarations.has(id)) {
+        return context.classDeclarations.get(id);
       }
     }
     throw new Error(`Identifier ${id} has not been declared`);
@@ -112,11 +112,11 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-standardFunctions.forEach(f => {
+standardFunctions.forEach((f) => {
   Context.INITIAL.variableDeclarations[f.id] = f;
 });
-[IntType, LongType, StringType, BoolType, NoneType].forEach(type => {
-  Context.INITIAL.typeDeclarations.set(type.name, type);
+[IntType, LongType, StringType, BoolType, NoneType].forEach((type) => {
+  Context.INITIAL.classDeclarations.set(type.name, type);
 });
 
 module.exports = Context;
