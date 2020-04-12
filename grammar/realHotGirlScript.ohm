@@ -65,7 +65,7 @@ realHotGirlScript {
   VarExps     =  NonemptyListOf<VarExp, ",">
   Param       =  Type id (":" Exp)?
   Params      =  ListOf<Param, ",">
-  Arg         =  Type id ":" Exp
+  Arg         =  id ":" Exp
   Args        =  ListOf<Arg, ",">
   Type        =  Type postfixop                             -- optional
               |  intType

@@ -8,7 +8,7 @@
 
 // const { TypeDec } = require("../ast");
 
-const FunctionObject = require("../ast/function-object");
+const FunctionObject = require('../ast/function-object');
 
 const {
   standardFunctions,
@@ -17,9 +17,9 @@ const {
   StringType,
   BoolType,
   NoneType,
-} = require("./builtins");
+} = require('./builtins');
 
-require("./analyzer");
+require('./analyzer');
 
 // When doing semantic analysis we pass around context objects.
 //
@@ -70,18 +70,18 @@ class Context {
     });
   }
 
-  addClass(classId) {
-    if (this.classDeclarations.has(classId)) {
-      throw new Error(`Class identifier already declared in this scope`);
-    }
-    this.classDeclarations.set(classId);
-  }
-
-  addVar(type, id) {
+  addVar(id, entity) {
     if (this.variableDeclarations.has(id)) {
       throw new Error(`Identifier already declared in this scope`);
     }
-    this.variableDeclarations.set(id, type);
+    this.variableDeclarations.set(id, entity);
+  }
+
+  addClass(id, entity) {
+    if (this.classDeclarations.has(id)) {
+      throw new Error(`Class identifier already declared in this scope`);
+    }
+    this.classDeclarations.set(id, entity);
   }
 
   // Returns the entity bound to the given identifier, starting from this
@@ -112,10 +112,10 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-standardFunctions.forEach((f) => {
+standardFunctions.forEach(f => {
   Context.INITIAL.variableDeclarations[f.id] = f;
 });
-[IntType, LongType, StringType, BoolType, NoneType].forEach((type) => {
+[IntType, LongType, StringType, BoolType, NoneType].forEach(type => {
   Context.INITIAL.classDeclarations.set(type.name, type);
 });
 

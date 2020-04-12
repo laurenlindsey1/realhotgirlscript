@@ -262,8 +262,8 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation('ast', {
     return new Parameter(type.ast(), id.ast(), arrayToNullable(expression.ast()));
   },
 
-  Arg(type, id, _, expression) {
-    return new Argument(type.ast(), id.ast(), expression.ast());
+  Arg(id, _, expression) {
+    return new Argument(id.ast(), expression.ast());
   },
 
   Type_optional(type, optional) {
@@ -319,7 +319,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation('ast', {
   },
 
   numlit(sign, digits, frac, exponent) {
-    return +this.sourceString;
+    return new NumericLiteral(+this.sourceString);
   },
 
   boollit(_) {
