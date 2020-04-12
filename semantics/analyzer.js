@@ -103,7 +103,7 @@ AssignmentStatement.prototype.analyze = function (context) {
 BinaryExpression.prototype.analyze = function (context) {
   this.left.analyze(context);
   this.right.analyze(context);
-  if (/[-+*/]/.test(this.op)) {
+  if (/[^-+*/]/.test(this.op)) {
     check.isInteger(this.left);
     check.isInteger(this.right);
     this.type = IntType;
@@ -145,8 +145,9 @@ Call.prototype.analyze = function (context) {
 Case.prototype.analyze = function (context) {
   this.expression.analyze(context);
   check.isBoolean(this.expression, "Expression for switch statement case");
-  this.body.analyze();
-  check.isBlock(this.body, "Case body contains a non-statement");
+  this.body.forEach((b) => {
+    b.analyze(context);
+  });
 };
 
 //update class with analyze signature! see function declaration
@@ -189,8 +190,9 @@ ContinueStatement.prototype.analyze = function (context) {
 };
 
 DefaultCase.prototype.analyze = function (context) {
-  this.body.analyze(context);
-  check.isBlock(this.body, "Default case body contains a non-statement");
+  this.body.forEach((b) => {
+    b.analyze(context);
+  });
 };
 
 DictExpression.prototype.analyze = function (context) {
@@ -203,11 +205,8 @@ DictType.prototype.analyze = function (context) {
   this.valueType = this.valueType.analyze(context);
 };
 
+//not sure if we need this or not, if tests work without it, remove later
 Exponent.prototype.analyze = function (context) {
-  this.lettere.analyze(context);
-  check.isE(this.lettere);
-  this.sign.analyze(context);
-  check.isValidSign(this.sign, Context);
   this.digit.analyze(context);
   check.isIntegerOrLong(this.digit);
 };
@@ -246,21 +245,19 @@ IdentifierExpression.prototype.analyze = function (context) {
   check.isValidType(this.id, context);
 };
 
-//not sure about this one either
 IfStatement.prototype.analyze = function (context) {
-  this.cases.forEach((c) => {
-    c.analyze(context);
-    check.isBoolean(this.c, "If statement is not a boolean");
-    if (this.alternate) {
-      this.alternate.analyze(context);
-      if (this.c.type) {
-        check.expressionsHaveTheSameType(this.c, this.alternate);
-      } else {
-        check.mustNotHaveAType(this.alternate);
-      }
-    }
+  this.tests.forEach((test) => {
+    test.analyze(context);
+    check.isBoolean(test);
   });
-  this.type = this.cases.type;
+  this.consequents.forEach((block) => {
+    const blockContext = context.createChildContextForBlock();
+    block.forEach((statement) => statement.analyze(blockContext));
+  });
+  if (this.alternate) {
+    const alternateBlock = context.createChildContextForBlock();
+    this.alternate.forEach((s) => s.analyze(alternateBlock));
+  }
 };
 
 KeyValueExpression.prototype.analyze = function (context) {
@@ -289,10 +286,8 @@ PrintStatement.prototype.analyze = function (context) {
 
 MemberExpression.prototype.analyze = function (context) {
   this.varexp.analyze(context);
-  //in variable declaration, add and in here check that it exists in the thing it was added in?
-  check.isAlreadyDeclared(this.varexp, "varexp has not been declared");
-  this.member = context.lookup(this.member);
-  //check for if it is a valid member
+  this.varexp = context.lookupVar(this.varexp);
+  this.member = context.lookupVar(this.member);
   this.member.analyze(context);
 };
 
@@ -303,7 +298,6 @@ Optional.prototype.analyze = function (context) {
   }
 };
 
-// Is this right for ours??
 Parameter.prototype.analyze = function (context) {
   this.type = this.type.analyze(context);
   if (this.expression) {
@@ -350,23 +344,30 @@ SpreadForLoop.prototype.analyze = function (context) {
   this.max.analyze(context);
   check.isIntegerOrLong(this.max, "Max in for loop is not a number");
 
-  //do we need this?
   const bodyContext = context.createChildContextForLoop();
-  bodyContext.add(this.block);
-  this.block.analyze(bodyContext);
+  this.body.analyze(bodyContext);
 };
 
+//expression, cases alternate
 SwitchStatement.prototype.analyze = function (context) {
-  //TODO
+  this.expression.analyze(context);
+
+  //TODO: this is from the if statement
+  this.consequents.forEach((block) => {
+    const blockContext = context.createChildContextForBlock();
+    block.forEach((statement) => statement.analyze(blockContext));
+  });
+  if (this.alternate) {
+    const alternateBlock = context.createChildContextForBlock();
+    this.alternate.forEach((s) => s.analyze(alternateBlock));
+  }
 };
 
 SubscriptedExpression.prototype.analyze = function (context) {
-  //TODO, following is from tiger
-  this.array.analyze(context);
-  check.isArray(this.array);
+  this.varexp.analyze(context);
+  this.varexp = context.lookupVar(this.varexp);
+  this.subscript = context.lookupVar(this.subscript);
   this.subscript.analyze(context);
-  check.isInteger(this.subscript);
-  this.type = this.array.type.memberType;
 };
 
 TupleType.prototype.analyze = function (context) {

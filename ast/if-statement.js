@@ -1,5 +1,5 @@
 module.exports = class IfElseStatement {
-    constructor(cases, alternate) {
-        Object.assign(this, { cases, alternate });
-    }
+  constructor(tests, consequents, alternate) {
+    Object.assign(this, { tests, consequents, alternate });
+  }
 };
