@@ -1,7 +1,9 @@
 # Real Hot Girl Script
+
 ![](REALHOTGIRLSCRIPT.PNG)
 
 ## Introduction
+
 Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax pulls from some of the sayings that the members of the team have each used as they programmed throughout the years together, as well as references to pop culture icons, such as Megan thee Stallion, Rickey Thompson, and Trevor Wallace.
 
 RealHotGirlScript is brought to you by [KeAnna Anglin](https://github.com/keannaanglin "KeAnna's Github"),
@@ -10,32 +12,33 @@ RealHotGirlScript is brought to you by [KeAnna Anglin](https://github.com/keanna
 Our langauge website can be found at [https://laurenlindsey1.github.io/realhotgirlscript/](https://laurenlindsey1.github.io/realhotgirlscript/).
 
 ## Features
-- optionals
+
 - keywords for variables ending with z
 - data structures similar to arrays, sets, and dictionaries
-- closures that mimic Swift and Haskell styles
 - object oriented programming
 - switch statements
-- ```.hotgirl``` file extension
+- `.hotgirl` file extension
 - static typing
 
 ## Types
-| JavaScript  | RealHotGirlScript |
-| --- |---|
-| string      | wordz |
-| number     | digitz (for integer values with paramterized length) or longz (for integers with unlimited length) |   
-| const | stayz     |
-| bool | boolz      |
+
+| JavaScript | RealHotGirlScript                                                                                  |
+| ---------- | -------------------------------------------------------------------------------------------------- |
+| string     | wordz                                                                                              |
+| number     | digitz (for integer values with paramterized length) or longz (for integers with unlimited length) |
+| const      | stayz                                                                                              |
+| bool       | boolz                                                                                              |
 
 ## Variable Declaration and Assignment
-| JavaScript  | RealHotGirlScript |
-| --- |---|
-| let x = 5;      | digitz x: 5!!! |
-| let y = “hello!”;     | wordz y: “hello!”!!! |   
-| let z = 6.9; | longz z: 6.9!!!     |
-| let t = true; | boolz t: trueShit!!!     |
-| let f = false; | boolz f: fraudulentAssBitch!!!     |
-| const name = “real hot girl script”; | stayz name: “real hot girl script”!!!      |
+
+| JavaScript                           | RealHotGirlScript                     |
+| ------------------------------------ | ------------------------------------- |
+| let x = 5;                           | digitz x: 5!!!                        |
+| let y = “hello!”;                    | wordz y: “hello!”!!!                  |
+| let z = 6.9;                         | longz z: 6.9!!!                       |
+| let t = true;                        | boolz t: trueShit!!!                  |
+| let f = false;                       | boolz f: fraudulentAssBitch!!!        |
+| const name = “real hot girl script”; | stayz name: “real hot girl script”!!! |
 
 ```
 dictz <wordz,wordz> stateCapitals: $ California ~ "Sacramento", Nevada ~ "Carson City", Oregon ~ "Salem"#!!!
@@ -44,11 +47,13 @@ setz <wordz> names: $“Shanaya”, “Keanna”, “Sage”, “Lauren”#!!!
 ```
 
 ## Built In Functions
-| JavaScript  | RealHotGirlScript |
-| --- |---|
-| console.log(“Hello World!”);  |  supLilBitch “Hello World!”!!!|
+
+| JavaScript                   | RealHotGirlScript             |
+| ---------------------------- | ----------------------------- |
+| console.log(“Hello World!”); | supLilBitch “Hello World!”!!! |
 
 ## Function Declaration
+
 ```
 weOutHereTryinToFunction leftOnRead helloWorld()$
   supLilBitch "Hello World"!!!
@@ -65,7 +70,9 @@ weOutHereTryinToFunction stringz helloWorld(stringz place)$
 ```
 
 ## Comments
-Single line comments are marked with ```oop``` and multiline comments are marked with ```:/``` at the beginning and ```/:``` at the end.
+
+Single line comments are marked with `oop` and multiline comments are marked with `:/` at the beginning and `/:` at the end.
+
 ```
 oop this is a single line comment
 
@@ -73,38 +80,43 @@ oop this is a single line comment
 this is a multiline comment
 /:
 ```
+
 ## Arithmetic
+
 - sum = 2 + 4
 - difference = 4 - 2
-- multiplication = 2 * 4
+- multiplication = 2 \* 4
 - integer division = 4 // 2
 - float division = 4 / 2
 - exponents = 2 ^ 4
 - modulus = 4 % 2
 
 ## A guide to our keywords
-| RealHotGirlScript  | Traditional |
-| --- |---|
-| ATTENTIONATTENTION🗣  |  class |
-| weOutHereTryinToFunction |  function |
-| andThemsTheFacts |  return |
-| keepItPushin |  continue |
-| spreadThatThang🍯 |  spread |
-| iHaveSomethingToSay🙅🏾‍♀️ |  if |
-| becauseWhyyy😼 |  else if |
-| BECAUSEIMONFUCKINGVACATION👅 |  else |
-| shutUpGirlfriend😈 |  switch |
-| andWhatAboutIt👉 |  case |
-| andLetMeDoMe🤑 |  default |
-| leftOnRead |  void |
-| openHerUp🍑 |  for |
-| sheWaits😩 |  async |
-| supLilBitch |  print |
-| hotlineBling💎 |  await |
-| GTFO💩 |  break |
+
+| RealHotGirlScript            | Traditional |
+| ---------------------------- | ----------- |
+| ATTENTIONATTENTION🗣          | class       |
+| weOutHereTryinToFunction     | function    |
+| andThemsTheFacts             | return      |
+| keepItPushin                 | continue    |
+| spreadThatThang🍯            | spread      |
+| iHaveSomethingToSay🙅🏾‍♀️        | if          |
+| becauseWhyyy😼               | else if     |
+| BECAUSEIMONFUCKINGVACATION👅 | else        |
+| shutUpGirlfriend😈           | switch      |
+| andWhatAboutIt👉             | case        |
+| andLetMeDoMe🤑               | default     |
+| leftOnRead                   | void        |
+| openHerUp🍑                  | for         |
+| sheWaits😩                   | async       |
+| supLilBitch                  | print       |
+| hotlineBling💎               | await       |
+| GTFO💩                       | break       |
 
 ## Control Flow
+
 ### If Statements
+
 ```
 iHaveSomethingToSay🙅🏾‍♀️ x == 0 $
   andThemsTheFacts trueShit!!!
@@ -112,14 +124,18 @@ iHaveSomethingToSay🙅🏾‍♀️ x == 0 $
   andThemsTheFacts fraudulentAssBitch!!!
  #
 ```
+
 ### While Loops
+
 ```
 wylin🤪 i < 10  $
   text : text + "The number is " + i!!!
   i++!!!
 #
 ```
+
 ### For Loops
+
 ```
 openHerUp🍑 digitz i: 0 🔥 i < 5 🔥 i++ $
   supLilBitch "The number is " + i!!!
@@ -127,6 +143,7 @@ openHerUp🍑 digitz i: 0 🔥 i < 5 🔥 i++ $
 ```
 
 ### For Loops with Spread
+
 ```
 openHerUp🍑 [0 spreadThatThang🍯 10] $
   supLilBitch "We love spreads"!!!
@@ -136,42 +153,59 @@ openHerUp🍑 [0 spreadThatThang🍯 10] $
 ## Example Programs
 
 #### Hello World
+
 RealHotGirlScript
+
 ```
 suplilbitch “Hello World!”!!!
 ```
+
 JavaScript
+
 ```
 console.log("Hello World!");
 ```
+
 #### Adding Two Numbers
+
 RealHotGirlScript
+
 ```
 weOutHereTryinToFunction digitz add (digitz a, digitz b) $
   andThemsTheFacts a + b!!!
 #
 ```
+
 JavaScript
+
 ```
 function add (a, b) {
   return a + b;
 }
 ```
+
 #### Even or Odd
+
 RealHotGirlScript
+
 ```
 weOutHereTryinToFunction boolz evenOrOdd(digitz x)$
      andThemsTheFacts x % 2 == 0!!!
 #
 ```
+
 JavaScript
+
 ```
 function evenOrOdd(x) {
     return x % 2 == 0;
 }
 ```
+
 #### Switch Statement
+
 RealHotGirlScript
+
 ```
 digitz number: 0!!!
 wordz day: ""!!!
@@ -191,7 +225,9 @@ shutUpGirlfriend😈 number $
 
 supLilBitch "today is a " + day!!!
 ```
+
 JavaScript
+
 ```
 let number = 0;
 let day;
@@ -208,8 +244,11 @@ switch (number) {
 
 console.log(“today is a ” + day);
 ```
+
 #### Largest Number of Three
+
 RealHotGirlScript
+
 ```
 weOutHereTryinToFunction digitz largestNum(digitz x,  digitz y,  digitz z)$
     iHaveSomethingToSay🙅🏾‍♀️ x >= y && x >= z $
@@ -221,7 +260,9 @@ weOutHereTryinToFunction digitz largestNum(digitz x,  digitz y,  digitz z)$
     #
 #
 ```
+
 JavaScript
+
 ```
 function largestNum(x, y, z) {
     if (x >= y && x >= z) {

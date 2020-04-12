@@ -10,7 +10,6 @@ const Call = require("../ast/call");
 const Case = require("../ast/case");
 const ClassDeclaration = require("../ast/class-declaration");
 const { ClassicForLoop, SpreadForLoop } = require("../ast/loop");
-const Closure = require("../ast/closure");
 const ContinueStatement = require("../ast/continue-statement");
 const DefaultCase = require("../ast/default-case");
 const DictExpression = require("../ast/dict-expression");
@@ -26,7 +25,6 @@ const KeyValueExpression = require("../ast/keyvalue-expression");
 const MemberExpression = require("../ast/member-expression");
 const NoneLiteral = require("../ast/None");
 const NumericLiteral = require("../ast/numeric-literal");
-const Optional = require("../ast/optional-type");
 const Parameter = require("../ast/parameter");
 const PrimitiveType = require("../ast/primitive-type");
 const PrintStatement = require("../ast/print-statement");
@@ -182,9 +180,6 @@ ClassicForLoop.prototype.analyze = function (context) {
   this.body.analyze(bodyContext);
 };
 
-//TODO: ???
-Closure.prototype.analyze = function (context) {};
-
 ContinueStatement.prototype.analyze = function (context) {
   check.inLoop(context, "keepItPushin");
 };
@@ -289,13 +284,6 @@ MemberExpression.prototype.analyze = function (context) {
   this.varexp = context.lookupVar(this.varexp);
   this.member = context.lookupVar(this.member);
   this.member.analyze(context);
-};
-
-// Do we need to analyze optionals?
-Optional.prototype.analyze = function (context) {
-  if (["?"].includes(this.operand)) {
-    check.isValidType(this.operand, context);
-  }
 };
 
 Parameter.prototype.analyze = function (context) {

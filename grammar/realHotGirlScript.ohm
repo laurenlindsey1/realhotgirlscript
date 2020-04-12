@@ -35,15 +35,11 @@ realHotGirlScript {
               |  Exp4
   Exp4        =  prefixop Exp5                              -- unary
               |  Exp5
-  Exp5        =  Exp6 postfixop                             -- optional
-  			     |  Exp6
-  Exp6        =  Exp7 incremop                              -- increment
+  Exp5        =  Exp6 incremop                              -- increment
+              |  Exp6
+  Exp6        =  Exp7 "^" Exp7                              -- exponentiation
               |  Exp7
-  Exp7        =  Exp8 "^" Exp8                              -- exponentiation
-              |  Exp8
-  Exp8        =  let id ":" (Exp"@")+ endKey                -- closure
-              |  Exp9
-  Exp9        =  boollit
+  Exp7        =  boollit
               |  numlit
               |  strlit
               |  nonelit
@@ -67,8 +63,7 @@ realHotGirlScript {
   Params      =  ListOf<Param, ",">
   Arg         =  id ":" Exp
   Args        =  ListOf<Arg, ",">
-  Type        =  Type postfixop                             -- optional
-              |  intType
+  Type        =  intType
   			     |  longType
               |  stringType
               |  booleanType
@@ -110,7 +105,6 @@ realHotGirlScript {
   tupleDecl   =  "tuplez" ~alnum
   false       =  "fraudulentAssBitch" ~alnum
   let         =  "seeYa" ~alnum
-  endKey      =  "wouldntWannBeYa" ~alnum
   funcDecl    =  "weOutHereTryinToFunction" ~alnum
   return      =  "andThemsTheFacts" ~alnum
   break       =  "GTFO💩" ~alnum
@@ -145,7 +139,6 @@ realHotGirlScript {
               |  nonelit
               |  false
               |  let
-              |  endKey
               |  funcDecl
               |  return
               |  break) ~idrest
@@ -165,7 +158,6 @@ realHotGirlScript {
   relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"
   mulop       =  "*" | "//" | "/" | "%"
   prefixop    =  "-" | negate | "+"
-  postfixop   =  "?"
   space      +=  " " | "\t" | comment
   comment     =  singleLnCmt (~"\n" any)*                      -- singleline
               |  ":/" (~"/:" any)* "/:"                        -- multiline

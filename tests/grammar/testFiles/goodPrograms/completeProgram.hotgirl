@@ -90,7 +90,6 @@ yeah
 stayz wordz whoIAm : "A real hot girl."!!!
 stayz digitz fiver: 5!!!
 stayz longz bigBoy: 3456789087654323456789!!!
-stayz digitz? hello: 6?!!!
 sheWaits😩 weOutHereTryinToFunction leftOnRead hiMomma()$
     supLilBitch "I love myself"!!!
 #
@@ -140,7 +139,7 @@ sheWaits😩 weOutHereTryinToFunction leftOnRead hiMomma()$
     supLilBitch "I love myself"!!!
 #
 hotlineBling💎 hiMomma()!!!
-seeYa x : x * 10@ wouldntWannBeYa!!!
+oop seeYa x : x * 10@ wouldntWannBeYa!!!
 tuplez<digitz> a : (0.2e5, 30, 40, 50)!!!
 sheWaits😩 weOutHereTryinToFunction leftOnRead hiMomma(digitz x, digitz y)$
         boolz x: 10!!!
@@ -279,30 +278,30 @@ weOutHereTryinToFunction leftOnRead hiMomma8(dictz<digitz,wordz> hotGirlz)$
     #
 #
 hiMomma8(dictz <digitz,wordz> hotGirlz: $1 ~ "hotgirl1", 2 ~ "hotgirl2", 3 ~ "hotgirl3", 4 ~ "hotgirl4"#)!!!
-weOutHereTryinToFunction digitz? hiMomma9(digitz? possibleNum)$
+weOutHereTryinToFunction digitz hiMomma9(digitz possibleNum)$
     iHaveSomethingToSay🙅🏾‍♀️(possibleNum != deceasedOnYouHoes)$
         andThemsTheFacts possibleNum!!!
     #
     andThemsTheFacts "Sorry, you didn't give us an actual fucking number!"!!!
 #
-weOutHereTryinToFunction setz<digitz>? hiMomma10(setz<digitz>? girlzzzz)$
+weOutHereTryinToFunction setz<digitz> hiMomma10(setz<digitz> girlzzzz)$
     iHaveSomethingToSay🙅🏾‍♀️(girlzzzz != deceasedOnYouHoes)$
         supLilBitch "Try me, see what happens, trust it won't be cute"!!!
     #
     andThemsTheFacts "Sorry, you didn't give us an actual fucking set!"!!!
 #
-hiMomma10(setz<digitz>? girlzzzz:$1, 2, 3, 4, 5#)!!!
-hiMomma10(setz<digitz>? girlzzzz: $#)!!!
-hiMomma10(setz<digitz>? girlzzzz: deceasedOnYouHoes)!!!
-weOutHereTryinToFunction tuplez<wordz>? hiMomma11(tuplez<wordz>? girlzzzz)$
+hiMomma10(setz<digitz> girlzzzz:$1, 2, 3, 4, 5#)!!!
+hiMomma10(setz<digitz> girlzzzz: $#)!!!
+hiMomma10(setz<digitz> girlzzzz: deceasedOnYouHoes)!!!
+weOutHereTryinToFunction tuplez<wordz> hiMomma11(tuplez<wordz> girlzzzz)$
     iHaveSomethingToSay🙅🏾‍♀️(girlzzzz != deceasedOnYouHoes)$
         supLilBitch "Try me, see what happens, trust it won't be cute"!!!
     #
     andThemsTheFacts "Sorry, you didn't give us an actual fucking tuple!"!!!
 #
-hiMomma11(tuplez<wordz>? girlzzzz: ("real", "ass", "bitches"))!!!
-hiMomma11(tuplez<wordz>? girlzzzz: ())!!!
-hiMomma11(tuplez<wordz>? girlzzzz: deceasedOnYouHoes)!!!
+hiMomma11(tuplez<wordz> girlzzzz: ("real", "ass", "bitches"))!!!
+hiMomma11(tuplez<wordz> girlzzzz: ())!!!
+hiMomma11(tuplez<wordz> girlzzzz: deceasedOnYouHoes)!!!
 weOutHereTryinToFunction leftOnRead hiMomma12(setz<digitz> hotGirlz: $1, 2, 3, 4, 5#)$
     digitz hotGirlzLen: 0!!!
     wylin🤪 hotGirlzLen < 4 $
@@ -310,7 +309,7 @@ weOutHereTryinToFunction leftOnRead hiMomma12(setz<digitz> hotGirlz: $1, 2, 3, 4
         hotGirlzLen++ !!!
     #
 #
-hiMomma12(setz<digitz>? girlzzzz: $-2, 4, 6, 8, 10#)!!!
+hiMomma12(setz<digitz> girlzzzz: $-2, 4, 6, 8, 10#)!!!
 hiMomma12()!!!
 oop I know the following is a dumb program, but it tests true and false keywords
 weOutHereTryinToFunction boolz hiMomma13(digitz uARealHotGirl)$

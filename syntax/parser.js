@@ -1,64 +1,64 @@
-const fs = require('fs');
+const fs = require("fs");
 
-const ohm = require('ohm-js');
+const ohm = require("ohm-js");
 
-const ArrayExpression = require('../ast/array-expression');
-const ArrayType = require('../ast/array-type');
-const AssignmentStatement = require('../ast/assignment-statement');
-const BinaryExpression = require('../ast/binary-expression');
-const Block = require('../ast/block');
-const BooleanType = require('../ast/boolean-type');
-const BreakStatement = require('../ast/break-statement');
-const Call = require('../ast/call');
-const ClassDeclaration = require('../ast/class-declaration');
-const Closure = require('../ast/closure');
-const ContinueStatement = require('../ast/continue-statement');
-const DictExpression = require('../ast/dict-expression');
-const DictType = require('../ast/dict-type');
-const FunctionDeclaration = require('../ast/function-declaration');
-const IfStatement = require('../ast/if-statement');
-const LongType = require('../ast/long-type');
-const IntType = require('../ast/int-type');
-const Loop = require('../ast/loop');
-const NumericLiteral = require('../ast/numeric-literal');
-const Optional = require('../ast/optional-type');
-const Print = require('../ast/print');
-const Program = require('../ast/program');
-const ReturnStatement = require('../ast/return-statement');
-const DefaultCase = require('../ast/default-case');
-const SetExpression = require('../ast/set-expression');
-const SetType = require('../ast/set-type');
-const StringType = require('../ast/string-type');
-const SwitchStatement = require('../ast/switch-statement');
-const CallStatement = require('../ast/call-statement');
-const TupleType = require('../ast/tuple-type');
-const TupleExpression = require('../ast/tuple-expression');
-const UnaryExpression = require('../ast/unary-expression');
-const VariableDeclaration = require('../ast/variable-declaration');
-const WhileStatement = require('../ast/while-statement');
-const Case = require('../ast/case');
-const KeValueExpression = require('../ast/keyvalue-expression');
-const SubscriptedExpression = require('../ast/subscripted-expression');
-const IdentifierExpression = require('../ast/identifier-expression');
-const IdentifierDeclaration = require('../ast/identifier-declaration');
-const Parameter = require('../ast/parameter');
-const Argument = require('../ast/argument');
-const StringLiteral = require('../ast/string-literal');
-const BooleanLiteral = require('../ast/boolean-literal');
-const IdType = require('../ast/id-type');
-const PrintStatement = require('../ast/print-statement');
-const Fraction = require('../ast/fraction');
-const Exponent = require('../ast/exponent');
-const NoneLiteral = require('../ast/None');
+const ArrayExpression = require("../ast/array-expression");
+const ArrayType = require("../ast/array-type");
+const AssignmentStatement = require("../ast/assignment-statement");
+const BinaryExpression = require("../ast/binary-expression");
+const Block = require("../ast/block");
+const BooleanType = require("../ast/boolean-type");
+const BreakStatement = require("../ast/break-statement");
+const Call = require("../ast/call");
+const ClassDeclaration = require("../ast/class-declaration");
+const ContinueStatement = require("../ast/continue-statement");
+const DictExpression = require("../ast/dict-expression");
+const DictType = require("../ast/dict-type");
+const FunctionDeclaration = require("../ast/function-declaration");
+const IfStatement = require("../ast/if-statement");
+const LongType = require("../ast/long-type");
+const IntType = require("../ast/int-type");
+const Loop = require("../ast/loop");
+const NumericLiteral = require("../ast/numeric-literal");
+const Print = require("../ast/print");
+const Program = require("../ast/program");
+const ReturnStatement = require("../ast/return-statement");
+const DefaultCase = require("../ast/default-case");
+const SetExpression = require("../ast/set-expression");
+const SetType = require("../ast/set-type");
+const StringType = require("../ast/string-type");
+const SwitchStatement = require("../ast/switch-statement");
+const CallStatement = require("../ast/call-statement");
+const TupleType = require("../ast/tuple-type");
+const TupleExpression = require("../ast/tuple-expression");
+const UnaryExpression = require("../ast/unary-expression");
+const VariableDeclaration = require("../ast/variable-declaration");
+const WhileStatement = require("../ast/while-statement");
+const Case = require("../ast/case");
+const KeValueExpression = require("../ast/keyvalue-expression");
+const SubscriptedExpression = require("../ast/subscripted-expression");
+const IdentifierExpression = require("../ast/identifier-expression");
+const IdentifierDeclaration = require("../ast/identifier-declaration");
+const Parameter = require("../ast/parameter");
+const Argument = require("../ast/argument");
+const StringLiteral = require("../ast/string-literal");
+const BooleanLiteral = require("../ast/boolean-literal");
+const IdType = require("../ast/id-type");
+const PrintStatement = require("../ast/print-statement");
+const Fraction = require("../ast/fraction");
+const Exponent = require("../ast/exponent");
+const NoneLiteral = require("../ast/None");
 
-const realHotGirlScript = ohm.grammar(fs.readFileSync('grammar/realHotGirlScript.ohm'));
+const realHotGirlScript = ohm.grammar(
+  fs.readFileSync("grammar/realHotGirlScript.ohm")
+);
 
 function arrayToNullable(a) {
   return a.length === 0 ? null : a[0];
 }
 
 /* eslint-disable no-unused-vars */
-const astGenerator = realHotGirlScript.createSemantics().addOperation('ast', {
+const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
   Program(statement) {
     return new Program(statement.ast());
   },
@@ -93,7 +93,11 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation('ast', {
   },
 
   Stmt_switch(_1, expression, _2, cases, alternate, _3) {
-    return new SwitchStatement(expression.ast(), cases.ast(), arrayToNullable(alternate.ast()));
+    return new SwitchStatement(
+      expression.ast(),
+      cases.ast(),
+      arrayToNullable(alternate.ast())
+    );
   },
 
   Stmt_forloop1(
@@ -198,39 +202,31 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation('ast', {
     return new UnaryExpression(op.ast(), operand.ast());
   },
 
-  Exp5_optional(op, operand) {
+  Exp5_increment(op, operand) {
     return new UnaryExpression(op.ast(), operand.ast());
   },
 
-  Exp6_increment(op, operand) {
-    return new UnaryExpression(op.ast(), operand.ast());
-  },
-
-  Exp7_exponentiation(left, op, right) {
+  Exp6_exponentiation(left, op, right) {
     return new BinaryExpression(left.ast(), op.ast(), right.ast());
   },
 
-  Exp8_closure(_1, id, _2, expression, _3, _4) {
-    return new Closure(id.ast(), expression.ast()); //  HOW TO DEAL WITH EXP@ GO BACK AND FIX SINGULAR VS PLURAL
-  },
-
-  Exp9_arrays(_1, expression, _2) {
+  Exp7_arrays(_1, expression, _2) {
     return new ArrayExpression(expression.ast());
   },
 
-  Exp9_set(_1, expression, _2) {
+  Exp7_set(_1, expression, _2) {
     return new SetExpression(expression.ast());
   },
 
-  Exp9_dict(_1, expression, _2) {
+  Exp7_dict(_1, expression, _2) {
     return new DictExpression(expression.ast());
   },
 
-  Exp9_tuple(_1, expression, _2) {
+  Exp7_tuple(_1, expression, _2) {
     return new TupleExpression(expression.ast());
   },
 
-  Exp9_parens(_1, expression, _2) {
+  Exp7_parens(_1, expression, _2) {
     return expression.ast();
   },
 
@@ -259,15 +255,15 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation('ast', {
   },
 
   Param(type, id, _, expression) {
-    return new Parameter(type.ast(), id.ast(), arrayToNullable(expression.ast()));
+    return new Parameter(
+      type.ast(),
+      id.ast(),
+      arrayToNullable(expression.ast())
+    );
   },
 
   Arg(id, _, expression) {
     return new Argument(id.ast(), expression.ast());
-  },
-
-  Type_optional(type, optional) {
-    return new Optional(type.ast(), optional.ast());
   },
 
   Type_id(id) {
@@ -348,7 +344,7 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation('ast', {
 });
 /* eslint-enable no-unused-vars */
 
-module.exports = text => {
+module.exports = (text) => {
   const match = realHotGirlScript.match(text);
   if (!match.succeeded()) {
     throw new Error(`Syntax Error: ${match.message}`);
