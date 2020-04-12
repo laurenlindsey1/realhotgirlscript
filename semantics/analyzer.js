@@ -79,9 +79,9 @@ Argument.prototype.analyze = function (context) {
 ArrayExpression.prototype.analyze = function (context) {
   this.expression.forEach((m) => m.analyze(context));
   if (this.expression.length) {
-    this.type = new ArrayType(this.expression[0].arrayz);
+    this.type = new ArrayType(this.expression[0].type);
     for (let i = 1; i < this.expression.length; i += 1) {
-      check.sameType(this.expression[i].arrayz, this.type.type);
+      check.sameType(this.expression[i].type, this.type.type);
     }
   }
 };
@@ -95,6 +95,55 @@ AssignmentStatement.prototype.analyze = function (context) {
   this.target.analyze(context);
   check.isAssignableTo(this.source, this.target.type);
   check.isNotConstant(this.target);
+
+  // from casper
+  this.source.forEach((s) => s.analyze(context));
+  this.target.forEach((id) => id.analyze(context));
+  if (this.target.length !== this.source.length) {
+    throw new Error("Number of ids does not equal number of exps");
+  }
+
+  this.target.forEach((id, index) => {
+    const variable =
+      id.constructor === SubscriptedExpression
+        ? context.lookupVar(id.id.id)
+        : context.lookupVar(id.id);
+    const variableType = variable.type.constructor;
+    const emptyArrayorSetorTuple =
+      (variableType === ArrayType ||
+        variableType === SetType ||
+        variableType === TupleType) &&
+      this.source[index].members &&
+      this.source[index].members.length === 0;
+    const emptyDict =
+      variableType === DictType && this.source[index].exp.length === 0;
+
+    if (emptyArrayorSetorTuple || emptyDict) {
+      switch (variable.type.constructor) {
+        case ArrayType:
+          this.source[index].type = new ArrayType(variable.type.memberType);
+          break;
+        case SetType:
+          this.source[index].type = new SetType(variable.type.memberType);
+          break;
+        case TupleType:
+          this.source[index].type = new TupleType(variable.type.memberType);
+          break;
+        default:
+          // case DictType
+          const keyType = variable.type.keyType;
+          const valueType = variable.type.valueType;
+          this.source[index].type = new DictType(keyType, valueType);
+      }
+    } else {
+      check.isAssignableTo(
+        this.source[index],
+        id.constructor === SubscriptedExpression
+          ? variable.type.memberType
+          : variable.type
+      );
+    }
+  });
 };
 
 //CHECK AGAINST OHM EDITOR
@@ -111,12 +160,12 @@ BinaryExpression.prototype.analyze = function (context) {
     check.isBoolean(this.right);
     this.type = BoolType;
   } else if (/<=?|>=?/.test(this.op)) {
-    check.expressionsHaveTheSameType(this.left, this.right);
+    check.sameType(this.left, this.right);
     check.isIntegerOrString(this.left);
     check.isIntegerOrString(this.right);
     this.type = BoolType;
   } else {
-    check.expressionsHaveTheSameType(this.left, this.right);
+    check.sameType(this.left, this.right);
     this.type = BoolType;
   }
 };
@@ -143,9 +192,7 @@ Call.prototype.analyze = function (context) {
 Case.prototype.analyze = function (context) {
   this.expression.analyze(context);
   check.isBoolean(this.expression, "Expression for switch statement case");
-  this.body.forEach((b) => {
-    b.analyze(context);
-  });
+  this.body.analyze(context);
 };
 
 //update class with analyze signature! see function declaration
@@ -185,14 +232,31 @@ ContinueStatement.prototype.analyze = function (context) {
 };
 
 DefaultCase.prototype.analyze = function (context) {
-  this.body.forEach((b) => {
-    b.analyze(context);
-  });
+  this.body.analyze(context);
 };
 
 DictExpression.prototype.analyze = function (context) {
   this.expression.analyze(context);
   check.isDictionary(this.expression);
+
+  if (this.expression.length) {
+    this.type = new DictType(
+      this.expression[0].keyType,
+      this.expression[0].valueType
+    );
+    let keyValue = new KeyValueExpression(
+      this.expression[0].keyType,
+      this.expression[0].valueType
+    );
+    for (let i = 1; i < this.expression.length; i += 1) {
+      check.sameType(this.expression[i].keyType, this.type.keyType);
+      check.sameType(this.expression[i].valueType, this.type.valueType);
+      keyValue = new KeyValueExpression(
+        this.expression[i].keyType,
+        this.expression[i].valueType
+      );
+    }
+  }
 };
 
 DictType.prototype.analyze = function (context) {
@@ -336,18 +400,13 @@ SpreadForLoop.prototype.analyze = function (context) {
   this.body.analyze(bodyContext);
 };
 
-//expression, cases alternate
 SwitchStatement.prototype.analyze = function (context) {
   this.expression.analyze(context);
-
-  //TODO: this is from the if statement
-  this.consequents.forEach((block) => {
-    const blockContext = context.createChildContextForBlock();
-    block.forEach((statement) => statement.analyze(blockContext));
+  this.cases.forEach((c) => {
+    const currCase = new Case(c.expression, c.body);
   });
   if (this.alternate) {
-    const alternateBlock = context.createChildContextForBlock();
-    this.alternate.forEach((s) => s.analyze(alternateBlock));
+    this.alternate = new DefaultCase(this.alternate.body);
   }
 };
 
@@ -363,10 +422,17 @@ TupleType.prototype.analyze = function (context) {
 };
 
 TupleExpression.prototype.analyze = function (context) {
-  //TODO how do we ensure that the types inputted are the right types declared in the expression?
+  this.expressions.analyze(context);
+  check.isTupleType(this.expressions);
+
+  const memTypes = [];
+  this.expressions.forEach((mem) => {
+    mem.analyze(context);
+    memTypes.push(mem.type);
+  });
+  this.type = new TupleType(memTypes);
 };
 
-// a little weird...
 UnaryExpression.prototype.analyze = function (context) {
   this.operand.analyze(context);
   if (["BANGENERGY"].includes(this.op)) {
@@ -387,11 +453,8 @@ UnaryExpression.prototype.analyze = function (context) {
   }
 };
 
-// Syntax: const? Type DeclIds ":" Exps
-// Example: const longz a, b, c : 1, 2, 3
-// AST Node: constant, type, ids, expressions
 VariableDeclaration.prototype.analyze = function (context) {
-  this.type = this.type.analyze(context);
+  // this.type = this.type.analyze(context);
   this.expressions.forEach((e) => check.isAssignableTo(e, this.type));
   check.sameNumberOfInitializersAsVariables(this.expressions, this.ids);
   this.ids.forEach((id) => context.addVar(id, this));

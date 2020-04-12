@@ -48,8 +48,15 @@ module.exports = {
   },
 
   isDictionary(expression) {
-    //check for the right key/value pair
     doCheck(expression.type.constructor === DictType, "Not a dictionary");
+  },
+
+  isTuple(expression) {
+    doCheck(expression.type.constructor === TupleType, "Not a tuple");
+  },
+
+  isSet(expression) {
+    doCheck(expression.type.constructor === SetType, "Not a set");
   },
 
   // figure out
@@ -93,7 +100,7 @@ module.exports = {
   },
 
   // Are two types exactly the same?
-  expressionsHaveTheSameType(e1, e2) {
+  sameType(e1, e2) {
     doCheck(e1.type === e2.type, "Types must match exactly");
   },
 
@@ -133,6 +140,7 @@ module.exports = {
   },
 
   // Same number of args and params; all types compatible
+  // TODO
   legalArguments(args, params) {
     doCheck(
       args.length === params.length,

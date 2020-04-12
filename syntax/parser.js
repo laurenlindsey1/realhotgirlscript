@@ -222,8 +222,8 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new DictExpression(expression.ast());
   },
 
-  Exp7_tuple(_1, expression, _2) {
-    return new TupleExpression(expression.ast());
+  Exp7_tuple(_1, expressions, _2) {
+    return new TupleExpression(expressions.ast());
   },
 
   Exp7_parens(_1, expression, _2) {
