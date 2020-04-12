@@ -29,6 +29,7 @@ const NumericLiteral = require("../ast/numeric-literal");
 const Optional = require("../ast/optional-type");
 const Parameter = require("../ast/parameter");
 const PrimitiveType = require("../ast/primitive-type");
+const PrintStatement = require("../ast/print-statement");
 const Program = require("../ast/program");
 const ReturnStatement = require("../ast/return-statement");
 const SetExpression = require("../ast/set-expression");
@@ -75,6 +76,7 @@ NumericLiteral.prototype.analyze = function () {
 
 // how do we check against parameters
 //  constructor(type, id, expression) {
+// syntax: Type id ":" Exp
 Argument.prototype.analyze = function (context) {
   this.type = context.lookup(this.type);
   this.expression.analyze(context);
@@ -134,11 +136,13 @@ BreakStatement.prototype.analyze = function (context) {
 };
 
 // Calls are invoked from both CallStatement and within expressions
+// TODO: how do we deal with await?
 Call.prototype.analyze = function (context) {
   this.id = context.lookup(this.id);
   check.isFunction(this.id, "Attempt to call a non-function");
   this.args.forEach((arg) => arg.analyze(context));
-  check.legalArguments(this.args, this.callee.params);
+  check.legalArguments(this.args, this.id.params);
+  this.type = this.id.type;
 };
 
 Case.prototype.analyze = function (context) {
@@ -294,6 +298,10 @@ PrimitiveType.prototype.analyze = function () {
   } else {
     this.type = NoneType;
   }
+};
+
+PrintStatement.prototype.analyze = function () {
+  this.expression.analyze(context);
 };
 
 MemberExpression.prototype.analyze = function (context) {

@@ -18,7 +18,7 @@ const DictType = require("../ast/dict-type");
 const FunctionDeclaration = require("../ast/function-declaration");
 const IfStatement = require("../ast/if-statement");
 const LongType = require("../ast/long-type");
-const NumType = require("../ast/numeric-type");
+const IntType = require("../ast/int-type");
 const Loop = require("../ast/loop");
 const NumericLiteral = require("../ast/numeric-literal");
 const Optional = require("../ast/optional-type");
@@ -296,8 +296,8 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return this.sourceString;
   },
 
-  numType(_) {
-    return new NumType();
+  intType(_) {
+    return new IntType();
   },
 
   longType(_) {
