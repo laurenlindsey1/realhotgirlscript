@@ -77,6 +77,7 @@ NumericLiteral.prototype.analyze = function () {
 // how do we check against parameters
 //  constructor(type, id, expression) {
 // syntax: Type id ":" Exp
+// SERIOUS REWORK MUST  COME BACK TO THIS
 Argument.prototype.analyze = function (context) {
   this.type = context.lookup(this.type);
   this.expression.analyze(context);
@@ -88,9 +89,6 @@ ArrayExpression.prototype.analyze = function (context) {
   check.isArray(this.expression);
 };
 
-// Syntax: ArrayType   =  arrayDecl "<"Type">"
-// Example: arrayz<boolz>
-// AST Node: memberType
 ArrayType.prototype.analyze = function (context) {
   this.memberType = this.memberType.analyze(context);
 };
@@ -102,7 +100,7 @@ AssignmentStatement.prototype.analyze = function (context) {
   check.isNotConstant(this.target);
 };
 
-//update for booleans in video , and and or ops
+//CHECK AGAINST OHM EDITOR
 BinaryExpression.prototype.analyze = function (context) {
   this.left.analyze(context);
   this.right.analyze(context);
@@ -284,9 +282,6 @@ KeyValueExpression.prototype.analyze = function (context) {
   check.isExpression(this.value, "Value is not an expression");
 };
 
-// tiger has a Literal rule in its grammar which creates a Literal class in the ast
-// we don't have that so we have to figure out how to do this properly
-//previously Literal
 PrimitiveType.prototype.analyze = function () {
   if (typeof this.value === "number") {
     this.type = IntType;
@@ -411,7 +406,7 @@ UnaryExpression.prototype.analyze = function (context) {
         check.isLong(this.operand);
         this.type = LongType;
       } catch (e) {
-        throw new Error("Not a NumType");
+        throw new Error("Not a IntType");
       }
     }
   }
