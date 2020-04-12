@@ -1,52 +1,58 @@
-const Argument = require('../ast/argument');
-const ArrayExpression = require('../ast/array-expression');
-const ArrayType = require('../ast/array-type');
-const AssignmentStatement = require('../ast/assignment-statement');
-const Block = require('../ast/block');
-const BooleanLiteral = require('../ast/boolean-literal');
-const BinaryExpression = require('../ast/binary-expression');
-const BreakStatement = require('../ast/break-statement');
-const Call = require('../ast/call');
-const Case = require('../ast/case');
-const ClassDeclaration = require('../ast/class-declaration');
-const { ClassicForLoop, SpreadForLoop } = require('../ast/loop');
-const Closure = require('../ast/closure');
-const ContinueStatement = require('../ast/continue-statement');
-const DefaultCase = require('../ast/default-case');
-const DictExpression = require('../ast/dict-expression');
-const DictType = require('../ast/dict-type');
-const Exponent = require('../ast/exponent');
-const Fraction = require('../ast/fraction');
-const FunctionDeclaration = require('../ast/function-declaration');
-const IdentifierDeclaration = require('../ast/identifier-declaration');
-const IdentifierExpression = require('../ast/identifier-expression');
-const IdType = require('../ast/id-type');
-const IfStatement = require('../ast/if-statement');
-const KeyValueExpression = require('../ast/keyvalue-expression');
-const MemberExpression = require('../ast/member-expression');
-const NoneLiteral = require('../ast/None');
-const NumericLiteral = require('../ast/numeric-literal');
-const Optional = require('../ast/optional-type');
-const Parameter = require('../ast/parameter');
-const PrimitiveType = require('../ast/primitive-type');
-const PrintStatement = require('../ast/print-statement');
-const Program = require('../ast/program');
-const ReturnStatement = require('../ast/return-statement');
-const SetExpression = require('../ast/set-expression');
-const SetType = require('../ast/set-type');
-const StringLiteral = require('../ast/string-literal');
-const SubscriptedExpression = require('../ast/subscripted-expression');
-const SwitchStatement = require('../ast/switch-statement');
-const CallStatement = require('../ast/call-statement');
-const TupleType = require('../ast/tuple-type');
-const TupleExpression = require('../ast/tuple-expression');
-const UnaryExpression = require('../ast/unary-expression');
-const VariableDeclaration = require('../ast/variable-declaration');
-const WhileStatement = require('../ast/while-statement');
+const Argument = require("../ast/argument");
+const ArrayExpression = require("../ast/array-expression");
+const ArrayType = require("../ast/array-type");
+const AssignmentStatement = require("../ast/assignment-statement");
+const Block = require("../ast/block");
+const BooleanLiteral = require("../ast/boolean-literal");
+const BinaryExpression = require("../ast/binary-expression");
+const BreakStatement = require("../ast/break-statement");
+const Call = require("../ast/call");
+const Case = require("../ast/case");
+const ClassDeclaration = require("../ast/class-declaration");
+const { ClassicForLoop, SpreadForLoop } = require("../ast/loop");
+const Closure = require("../ast/closure");
+const ContinueStatement = require("../ast/continue-statement");
+const DefaultCase = require("../ast/default-case");
+const DictExpression = require("../ast/dict-expression");
+const DictType = require("../ast/dict-type");
+const Exponent = require("../ast/exponent");
+const Fraction = require("../ast/fraction");
+const FunctionDeclaration = require("../ast/function-declaration");
+const IdentifierDeclaration = require("../ast/identifier-declaration");
+const IdentifierExpression = require("../ast/identifier-expression");
+const IdType = require("../ast/id-type");
+const IfStatement = require("../ast/if-statement");
+const KeyValueExpression = require("../ast/keyvalue-expression");
+const MemberExpression = require("../ast/member-expression");
+const NoneLiteral = require("../ast/None");
+const NumericLiteral = require("../ast/numeric-literal");
+const Optional = require("../ast/optional-type");
+const Parameter = require("../ast/parameter");
+const PrimitiveType = require("../ast/primitive-type");
+const PrintStatement = require("../ast/print-statement");
+const Program = require("../ast/program");
+const ReturnStatement = require("../ast/return-statement");
+const SetExpression = require("../ast/set-expression");
+const SetType = require("../ast/set-type");
+const StringLiteral = require("../ast/string-literal");
+const SubscriptedExpression = require("../ast/subscripted-expression");
+const SwitchStatement = require("../ast/switch-statement");
+const CallStatement = require("../ast/call-statement");
+const TupleType = require("../ast/tuple-type");
+const TupleExpression = require("../ast/tuple-expression");
+const UnaryExpression = require("../ast/unary-expression");
+const VariableDeclaration = require("../ast/variable-declaration");
+const WhileStatement = require("../ast/while-statement");
 
-const { IntType, LongType, StringType, BoolType, NoneType } = require('./builtins');
-const check = require('./check');
-const Context = require('./context');
+const {
+  IntType,
+  LongType,
+  StringType,
+  BoolType,
+  NoneType,
+} = require("./builtins");
+const check = require("./check");
+const Context = require("./context");
 
 module.exports = function (program) {
   program.analyze(Context.INITIAL);
@@ -73,8 +79,13 @@ Argument.prototype.analyze = function (context) {
 };
 
 ArrayExpression.prototype.analyze = function (context) {
-  this.expression.analyze(context);
-  check.isArray(this.expression);
+  this.expression.forEach((m) => m.analyze(context));
+  if (this.expression.length) {
+    this.type = new ArrayType(this.expression[0].arrayz);
+    for (let i = 1; i < this.expression.length; i += 1) {
+      check.sameType(this.expression[i].arrayz, this.type.type);
+    }
+  }
 };
 
 ArrayType.prototype.analyze = function (context) {
@@ -96,7 +107,7 @@ BinaryExpression.prototype.analyze = function (context) {
     check.isInteger(this.left);
     check.isInteger(this.right);
     this.type = IntType;
-  } else if (/&& | \|\|/.test(this.op)) {
+  } else if (/&&|\|\|/.test(this.op)) {
     // not sure if this is how you do && or ||
     check.isBoolean(this.left);
     check.isBoolean(this.right);
@@ -113,20 +124,19 @@ BinaryExpression.prototype.analyze = function (context) {
 };
 
 Block.prototype.analyze = function (context) {
-  this.statements.forEach(s => s.analyze(context));
-  check.isStatement(this.statements);
+  this.statements.forEach((stmt) => {
+    stmt.analyze(context);
+  });
 };
 
 BreakStatement.prototype.analyze = function (context) {
-  check.inLoop(context, 'GTFO💩');
+  check.inLoop(context, "GTFO💩");
 };
 
-// Calls are invoked from both CallStatement and within expressions
-// TODO: how do we deal with await?
 Call.prototype.analyze = function (context) {
   this.id = context.lookupVar(this.id);
-  check.isFunction(this.id, 'Attempt to call a non-function');
-  this.args.forEach(arg => arg.analyze(context));
+  check.isFunction(this.id, "Attempt to call a non-function");
+  this.args.forEach((arg) => arg.analyze(context));
   check.legalArguments(this.args, this.id.params);
   check.asyncAwait(this.id.async, this.wait);
   this.type = this.id.type;
@@ -134,9 +144,9 @@ Call.prototype.analyze = function (context) {
 
 Case.prototype.analyze = function (context) {
   this.expression.analyze(context);
-  check.isBoolean(this.expression, 'Expression for switch statement case');
+  check.isBoolean(this.expression, "Expression for switch statement case");
   this.body.analyze();
-  check.isBlock(this.body, 'Case body contains a non-statement');
+  check.isBlock(this.body, "Case body contains a non-statement");
 };
 
 //update class with analyze signature! see function declaration
@@ -145,14 +155,11 @@ Case.prototype.analyze = function (context) {
 // AST: id, params, body
 ClassDeclaration.prototype.analyze = function (context) {
   context.addClass(this.id, this);
-  this.params.forEach(p => {
+  this.bodyContext = context.createChildContextForFunctionBody();
+  this.params.forEach((p) => {
     p.analyze(this.bodyContext);
-    // TODO: consider forcing all fields to be uniquely named
-    // check.isParam(this.params);
-    // this.p = context.addClass(id)
   });
   this.body.analyze(context);
-  check.isBlock(this.body, 'Class declaration does not contain body');
 };
 
 ClassicForLoop.prototype.analyze = function (context) {
@@ -160,9 +167,9 @@ ClassicForLoop.prototype.analyze = function (context) {
   this.initexpression.analyze(context); //analyze assigns a type
   check.isAssignableTo(this.initexpression, this.type);
   this.testExpression.analyze(context);
-  check.isBoolean(this.testExpression, 'Condition in for');
+  check.isBoolean(this.testExpression, "Condition in for");
   const variableToIncrement = context.lookupVar(this.updateid);
-  check.isIntegerOrLong(variableToIncrement, 'Increment in for');
+  check.isIntegerOrLong(variableToIncrement, "Increment in for");
   const bodyContext = context.createChildContextForLoop();
   this.index = new VariableDeclaration(
     true,
@@ -178,12 +185,12 @@ ClassicForLoop.prototype.analyze = function (context) {
 Closure.prototype.analyze = function (context) {};
 
 ContinueStatement.prototype.analyze = function (context) {
-  check.inLoop(context, 'keepItPushin');
+  check.inLoop(context, "keepItPushin");
 };
 
 DefaultCase.prototype.analyze = function (context) {
   this.body.analyze(context);
-  check.isBlock(this.body, 'Default case body contains a non-statement');
+  check.isBlock(this.body, "Default case body contains a non-statement");
 };
 
 DictExpression.prototype.analyze = function (context) {
@@ -217,7 +224,7 @@ Fraction.prototype.analyze = function (context) {
 FunctionDeclaration.prototype.analyzeSignature = function (context) {
   this.type = this.type.analyze(context);
   this.bodyContext = context.createChildContextForFunctionBody();
-  this.params.forEach(p => p.analyze(this.bodyContext));
+  this.params.forEach((p) => p.analyze(this.bodyContext));
 };
 
 FunctionDeclaration.prototype.analyze = function () {
@@ -241,9 +248,9 @@ IdentifierExpression.prototype.analyze = function (context) {
 
 //not sure about this one either
 IfStatement.prototype.analyze = function (context) {
-  this.cases.forEach(c => {
+  this.cases.forEach((c) => {
     c.analyze(context);
-    check.isBoolean(this.c, 'If statement is not a boolean');
+    check.isBoolean(this.c, "If statement is not a boolean");
     if (this.alternate) {
       this.alternate.analyze(context);
       if (this.c.type) {
@@ -258,18 +265,18 @@ IfStatement.prototype.analyze = function (context) {
 
 KeyValueExpression.prototype.analyze = function (context) {
   this.key.analyze(context);
-  check.isExpression(this.key, 'Key is not an expression');
+  check.isExpression(this.key, "Key is not an expression");
   this.value.analyze(context);
-  check.isExpression(this.value, 'Value is not an expression');
+  check.isExpression(this.value, "Value is not an expression");
 };
 
 PrimitiveType.prototype.analyze = function () {
-  if (typeof this.value === 'number') {
+  if (typeof this.value === "number") {
     this.type = IntType;
     this.type = LongType;
-  } else if (typeof this.value === 'string') {
+  } else if (typeof this.value === "string") {
     this.type = StringType;
-  } else if (typeof this.value === 'boolean') {
+  } else if (typeof this.value === "boolean") {
     this.type = BoolType;
   } else {
     this.type = NoneType;
@@ -283,7 +290,7 @@ PrintStatement.prototype.analyze = function (context) {
 MemberExpression.prototype.analyze = function (context) {
   this.varexp.analyze(context);
   //in variable declaration, add and in here check that it exists in the thing it was added in?
-  check.isAlreadyDeclared(this.varexp, 'varexp has not been declared');
+  check.isAlreadyDeclared(this.varexp, "varexp has not been declared");
   this.member = context.lookup(this.member);
   //check for if it is a valid member
   this.member.analyze(context);
@@ -291,7 +298,7 @@ MemberExpression.prototype.analyze = function (context) {
 
 // Do we need to analyze optionals?
 Optional.prototype.analyze = function (context) {
-  if (['?'].includes(this.operand)) {
+  if (["?"].includes(this.operand)) {
     check.isValidType(this.operand, context);
   }
 };
@@ -306,19 +313,19 @@ Parameter.prototype.analyze = function (context) {
 };
 
 Program.prototype.analyze = function (context) {
-  this.statements.forEach(stmt => {
+  this.statements.forEach((stmt) => {
     stmt.analyze(context);
   });
 };
 
 ReturnStatement.prototype.analyze = function (context) {
   this.expression.analyze(context);
-  check.inFunction(context, 'Return statement not in function');
+  check.inFunction(context, "Return statement not in function");
   check.isAssignableTo(this.expression, context.currentFunction.type);
 };
 
 SetExpression.prototype.analyze = function (context) {
-  this.expression.forEach(m => m.analyze(context));
+  this.expression.forEach((m) => m.analyze(context));
   if (this.expression.length) {
     this.type = new SetType(this.expression[0].setz);
     for (let i = 1; i < this.expression.length; i += 1) {
@@ -339,9 +346,9 @@ CallStatement.prototype.analyze = function (context) {
 
 SpreadForLoop.prototype.analyze = function (context) {
   this.min.analyze(context);
-  check.isIntegerOrLong(this.min, 'Min in for loop is not a number');
+  check.isIntegerOrLong(this.min, "Min in for loop is not a number");
   this.max.analyze(context);
-  check.isIntegerOrLong(this.max, 'Max in for loop is not a number');
+  check.isIntegerOrLong(this.max, "Max in for loop is not a number");
 
   //do we need this?
   const bodyContext = context.createChildContextForLoop();
@@ -363,7 +370,7 @@ SubscriptedExpression.prototype.analyze = function (context) {
 };
 
 TupleType.prototype.analyze = function (context) {
-  this.memberTypes = this.memberTypes.map(t => t.analyze(context));
+  this.memberTypes = this.memberTypes.map((t) => t.analyze(context));
 };
 
 TupleExpression.prototype.analyze = function (context) {
@@ -373,10 +380,10 @@ TupleExpression.prototype.analyze = function (context) {
 // a little weird...
 UnaryExpression.prototype.analyze = function (context) {
   this.operand.analyze(context);
-  if (['BANGENERGY'].includes(this.op)) {
+  if (["BANGENERGY"].includes(this.op)) {
     check.isBoolean(this.operand);
     this.type = BoolType;
-  } else if (['-', '+'].includes(this.op)) {
+  } else if (["-", "+"].includes(this.op)) {
     try {
       check.isInteger(this.operand);
       this.type = IntType;
@@ -385,7 +392,7 @@ UnaryExpression.prototype.analyze = function (context) {
         check.isLong(this.operand);
         this.type = LongType;
       } catch (e) {
-        throw new Error('Not a IntType');
+        throw new Error("Not a IntType");
       }
     }
   }
@@ -396,14 +403,14 @@ UnaryExpression.prototype.analyze = function (context) {
 // AST Node: constant, type, ids, expressions
 VariableDeclaration.prototype.analyze = function (context) {
   this.type = this.type.analyze(context);
-  this.expressions.forEach(e => check.isAssignableTo(e, this.type));
+  this.expressions.forEach((e) => check.isAssignableTo(e, this.type));
   check.sameNumberOfInitializersAsVariables(this.expressions, this.ids);
-  this.ids.forEach(id => context.addVar(id, this));
+  this.ids.forEach((id) => context.addVar(id, this));
 };
 
 WhileStatement.prototype.analyze = function (context) {
   this.expression.analyze(context);
-  check.isBoolean(this.expression, 'Condition in while');
+  check.isBoolean(this.expression, "Condition in while");
   const bodyContext = context.createChildContextForLoop();
   this.body.analyze(bodyContext);
 };
