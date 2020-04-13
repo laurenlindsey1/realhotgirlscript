@@ -1,1 +1,2 @@
-module.exports = class LongType {};
+const PrimitiveType = require('./primitive-type');
+module.exports = new PrimitiveType('longz');

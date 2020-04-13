@@ -1,14 +1,14 @@
-const util = require("util");
+const util = require('util');
 
-const ArrayType = require("../ast/array-type");
-const DictType = require("../ast/dict-type");
-const SetType = require("../ast/set-type");
-const TupleType = require("../ast/tuple-type");
-const IdExp = require("../ast/identifier-expression");
-const FunctionDeclaration = require("../ast/function-declaration");
+const ArrayType = require('../ast/array-type');
+const DictType = require('../ast/dict-type');
+const SetType = require('../ast/set-type');
+const TupleType = require('../ast/tuple-type');
+const IdExp = require('../ast/identifier-expression');
+const FunctionDeclaration = require('../ast/function-declaration');
 
 // not using nonetype so we didnt import it
-const { IntType, LongType, StringType, BoolType } = require("./builtins"); //standard functions?
+const { IntType, LongType, StringType, BoolType } = require('./builtins'); //standard functions?
 
 function doCheck(condition, message) {
   if (!condition) {
@@ -18,95 +18,114 @@ function doCheck(condition, message) {
 
 module.exports = {
   isArrayType(type) {
-    doCheck(type.constructor === ArrayType, "Not an array type");
+    doCheck(type.constructor === ArrayType, 'Not an array type');
   },
 
   isDictType(type) {
-    doCheck(type.constructor === DictType, "Not a dictionary type");
+    doCheck(type.constructor === DictType, 'Not a dictionary type');
   },
 
   isTupleType(type) {
-    doCheck(type.constructor === TupleType, "Not a tuple type");
+    doCheck(type.constructor === TupleType, 'Not a tuple type');
   },
 
   isSetType(type) {
-    doCheck(type.constructor === SetType, "Not a set type");
+    doCheck(type.constructor === SetType, 'Not a set type');
   },
 
   // Is the type of this expression an array type?
   isArray(expression) {
-    doCheck(expression.type.constructor === ArrayType, "Not an array");
+    doCheck(expression.type.constructor === ArrayType, 'Not an array');
   },
 
   isDictionary(expression) {
-    doCheck(expression.type.constructor === DictType, "Not a dictionary");
+    doCheck(expression.type.constructor === DictType, 'Not a dictionary');
   },
 
   isTuple(expression) {
-    doCheck(expression.type.constructor === TupleType, "Not a tuple");
+    doCheck(expression.type.constructor === TupleType, 'Not a tuple');
   },
 
   isSet(expression) {
-    doCheck(expression.type.constructor === SetType, "Not a set");
+    doCheck(expression.type.constructor === SetType, 'Not a set');
   },
 
   isInteger(expression) {
-    doCheck(expression.type === IntType, "Not an integer");
+    doCheck(expression.type === IntType, 'Not an integer');
   },
 
   isBoolean(expression) {
-    doCheck(expression.type === BoolType, "Not a boolean");
+    doCheck(expression.type === BoolType, 'Not a boolean');
   },
 
   mustNotHaveAType(expression) {
-    doCheck(!expression.type, "Expression must not have a type");
+    doCheck(!expression.type, 'Expression must not have a type');
   },
 
   isIntegerOrString(expression) {
     doCheck(
       expression.type === IntType || expression.type === StringType,
-      "Not an integer or string"
+      'Not an integer or string'
     );
   },
 
   isIntegerOrLong(expression) {
-    doCheck(
-      expression.type === IntType || expression.type === LongType,
-      "Not an integer or long"
-    );
+    doCheck(expression.type === IntType || expression.type === LongType, 'Not an integer or long');
   },
 
   isFunction(value) {
-    doCheck(value.constructor === FunctionDeclaration, "Not a function");
+    doCheck(value.constructor === FunctionDeclaration, 'Not a function');
   },
 
   inFunction(context) {
-    doCheck(context.inFunction, "Not inside a function");
+    doCheck(context.inFunction, 'Not inside a function');
   },
 
-  // ALL CREDIT FOR SAME TYPE AND ASSIGNABLE TO CASPER AND SCRIPTOFINO
   isAssignableTo(exp, type) {
-    // console.log("HI");
-    // console.log(JSON.stringify(exp.type.type));
-    // console.log("hi");
-    // console.log(JSON.stringify(type));
+    console.log(`Is ${util.inspect(exp)} assignable to ${util.inspect(type)}`);
     doCheck(
-      JSON.stringify(exp.type.type) === JSON.stringify(type),
-      "Types are not compatible"
+      JSON.stringify(exp.type) == JSON.stringify(type) ||
+        (exp.type === IntType && type == LongType),
+      // (exp.constructor === NoneLiteral && type.constructor === IdType) ||
+      // (exp.constructor === EmptyListLiteral && type.constructor === ListType) ||
+      // (exp.constructor === EmptySetLiteral && type.constructor === SetType) ||
+      // type.constructor === AnyType,
+      'Type mismatch'
     );
   },
+
+  // MOVE TO VAREXP
+  //     check.isAssignableTo(
+  //       this.source[index],
+  //       id.constructor === SubscriptedExpression   a[e]
+  //         ? variable.type.memberType
+  //         : variable.type,
+  //       id.constructor === MemberExpression
+  //         ? variable.type.memberType
+  //         : variable.type
+  //     );
+
+  // if (id.constructor === SubscriptedExpression) {
+  //   let prim = new PrimitiveType(variable.type.type);
+  //   check.isAssignableTo(this.source[index], prim);
+  // } else if (id.constructor === MemberExpression) {
+  //   let prim = new PrimitiveType(variable.type.type);
+  //   check.isAssignableTo(this.source[index], prim);
+  // } else {
+  //   console.log("FUCKING MADE IT!");
+  //   this.source[index].type = this.source[index].type.analyze(context);
+
+  //   check.isAssignableTo(this.source[index], variable.type);
+  // }
 
   sameType(t1, t2) {
-    doCheck(
-      JSON.stringify(t1) === JSON.stringify(t2),
-      "Types are not compatible"
-    );
+    doCheck(JSON.stringify(t1) === JSON.stringify(t2), 'Types are not compatible');
   },
 
   isNotConstant(lvalue) {
     doCheck(
       !(lvalue.constructor === IdExp && lvalue.ref.constant),
-      "Assignment to constant variable"
+      'Assignment to constant variable'
     );
   },
 
@@ -119,10 +138,7 @@ module.exports = {
   },
 
   asyncAwait(calleeIsAsync, callIsWait) {
-    doCheck(
-      calleeIsAsync === callIsWait,
-      "Can only call async functions with await"
-    );
+    doCheck(calleeIsAsync === callIsWait, 'Can only call async functions with await');
   },
 
   // Same number of args and params; all types compatible
@@ -132,13 +148,10 @@ module.exports = {
       args.length === params.length,
       `Expected ${params.length} args in call, got ${args.length}`
     );
-    args.forEach(
-      (arg, i) =>
-        arg.id === params[i].id && this.isAssignableTo(arg, params[i].type)
-    );
+    args.forEach((arg, i) => arg.id === params[i].id && this.isAssignableTo(arg, params[i].type));
   },
 
   sameNumberOfInitializersAsVariables(expressions, ids) {
-    doCheck(expressions.length === ids.length, "Incorrect number of arguments");
+    doCheck(expressions.length === ids.length, 'Incorrect number of arguments');
   },
 };

@@ -1,1 +1,2 @@
-module.exports = class IntType {};
+const PrimitiveType = require('./primitive-type');
+module.exports = new PrimitiveType('digitz');
