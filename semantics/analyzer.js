@@ -83,6 +83,8 @@ ArrayExpression.prototype.analyze = function (context) {
     for (let i = 1; i < this.expression.length; i += 1) {
       check.sameType(this.expression[i].type, this.type.type);
     }
+  } else {
+    this.type = new ArrayType(NoneType);
   }
 };
 

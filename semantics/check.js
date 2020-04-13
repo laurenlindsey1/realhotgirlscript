@@ -7,7 +7,9 @@ const TupleType = require("../ast/tuple-type");
 const IdExp = require("../ast/identifier-expression");
 const FunctionDeclaration = require("../ast/function-declaration");
 const IntType = require("../ast/int-type");
-// const NoneType = require("../ast/none-type");
+const NoneLiteral = require("../ast/none-literal");
+const NoneType = require("../ast/none-type");
+const IdType = require("../ast/id-type");
 const BooleanType = require("../ast/boolean-type");
 const LongType = require("../ast/long-type");
 const StringType = require("../ast/string-type");
@@ -21,6 +23,27 @@ function doCheck(condition, message) {
 }
 
 module.exports = {
+  isEmptyDict(expression) {
+    expression.type === DictType && expression.expression.length === 0;
+  },
+
+  isEmptyTuple(expression) {
+    expression.type === TupleType && expression.expressions.length === 0;
+  },
+
+  isEmptyArray(expression) {
+    console.log("AM I TRUE BITCH?!");
+    console.log(expression.expression.length === 0);
+    doCheck(
+      expression.type.constructor === ArrayType &&
+        expression.expression.length === 0
+    );
+  },
+
+  isEmptySet(expression) {
+    expression.type === SetType && expression.expression.length === 0;
+  },
+
   isArrayType(type) {
     doCheck(type.constructor === ArrayType, "Not an array type");
   },
@@ -94,13 +117,19 @@ module.exports = {
   },
 
   isAssignableTo(exp, type) {
-    console.log(`Is ${util.inspect(exp)} assignable to ${util.inspect(type)}`);
+    console.log(
+      `Is ${util.inspect(exp.type)} assignable to ${util.inspect(type)}`
+    );
+    console.log("HELLO!");
+    console.log(this.isEmptyArray(exp));
     doCheck(
       JSON.stringify(exp.type) == JSON.stringify(type) ||
-        (exp.type === IntType && type == LongType),
-      // (exp.constructor === NoneLiteral && type.constructor === IdType) ||
-      // (exp.constructor === EmptyListLiteral && type.constructor === ListType) ||
-      // (exp.constructor === EmptySetLiteral && type.constructor === SetType) ||
+        (exp.type === IntType && type == LongType) ||
+        (exp.constructor === NoneLiteral && type.constructor === IdType) ||
+        this.isEmptyDict(exp) ||
+        this.isEmptyTuple(exp) ||
+        this.isEmptyArray(exp) ||
+        this.isEmptySet(exp),
       // type.constructor === AnyType,
       "Type mismatch"
     );
