@@ -86,6 +86,10 @@ module.exports = {
 
   // ALL CREDIT FOR SAME TYPE AND ASSIGNABLE TO CASPER AND SCRIPTOFINO
   isAssignableTo(exp, type) {
+    console.log("HI");
+    console.log(JSON.stringify(exp.type));
+    console.log("hi");
+    console.log(JSON.stringify(type));
     doCheck(
       JSON.stringify(exp.type) === JSON.stringify(type),
       "Types are not compatible"

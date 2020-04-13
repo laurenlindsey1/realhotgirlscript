@@ -40,6 +40,7 @@ const TupleType = require("../ast/tuple-type");
 const TupleExpression = require("../ast/tuple-expression");
 const UnaryExpression = require("../ast/unary-expression");
 const VariableDeclaration = require("../ast/variable-declaration");
+const Variable = require("../ast/variable");
 const WhileStatement = require("../ast/while-statement");
 
 const {
@@ -91,10 +92,10 @@ ArrayType.prototype.analyze = function (context) {
 };
 
 AssignmentStatement.prototype.analyze = function (context) {
-  this.source.analyze(context);
-  this.target.analyze(context);
-  check.isAssignableTo(this.source, this.target.type);
-  check.isNotConstant(this.target);
+  // this.source.analyze(context);
+  // this.target.analyze(context);
+  // check.isAssignableTo(this.source, this.target.type);
+  // check.isNotConstant(this.target);
 
   // from casper
   this.source.forEach((s) => s.analyze(context));
@@ -137,15 +138,15 @@ AssignmentStatement.prototype.analyze = function (context) {
         }
       }
     } else {
-      check.isAssignableTo(
-        this.source[index],
-        id.constructor === SubscriptedExpression
-          ? variable.type.memberType
-          : variable.type,
-        id.constructor === MemberExpression
-          ? variable.type.memberType
-          : variable.type
-      );
+      let toPass = undefined;
+      if (id.constructor === SubscriptedExpression) {
+        toPass = variable.type.memberType;
+      } else if (id.constructor === MemberExpression) {
+        toPass = variable.type.memberType;
+      } else {
+        toPass = variable.type;
+      }
+      check.isAssignableTo(this.source[index], toPass);
     }
   });
 };
@@ -278,9 +279,12 @@ Fraction.prototype.analyze = function (context) {
 };
 
 FunctionDeclaration.prototype.analyzeSignature = function (context) {
+  this.params = this.params.map((p) => new Parameter(p.type, p.id));
+  this.params.forEach((p) => p.analyze(context));
   this.type = this.type.analyze(context);
   this.bodyContext = context.createChildContextForFunctionBody();
   this.params.forEach((p) => p.analyze(this.bodyContext));
+  context.addVar(this.id, this);
 };
 
 FunctionDeclaration.prototype.analyze = function () {
@@ -295,6 +299,8 @@ IdType.prototype.analyze = function (context) {
 IdentifierDeclaration.prototype.analyze = function (context) {};
 
 IdentifierExpression.prototype.analyze = function (context) {
+  console.log("FUCK");
+  console.log(this.id);
   this.ref = context.lookupVar(this.id);
   this.type = this.ref.type;
 };
@@ -351,6 +357,7 @@ Parameter.prototype.analyze = function (context) {
     this.expression.analyze(context);
   }
   context.addVar(this.id, this);
+  console.log(context.variableDeclarations());
 };
 
 Program.prototype.analyze = function (context) {
@@ -451,11 +458,12 @@ UnaryExpression.prototype.analyze = function (context) {
 
 VariableDeclaration.prototype.analyze = function (context) {
   // this.type = this.type.analyze(context); xd this out because stuff was breaking
-  this.expressions.forEach((e) => check.isAssignableTo(e, this.type));
   check.sameNumberOfInitializersAsVariables(this.expressions, this.ids);
-  this.ids.forEach((id) => context.addVar(id, this));
-  // we added this after toal based on casper
-  const a = new AssignmentStatement(this.ids, this.exps);
+  this.variables = this.ids.map((id) => new Variable(this.type, id));
+  this.variables.forEach((variable) =>
+    context.addVar(variable.id.id, variable)
+  );
+  const a = new AssignmentStatement(this.ids, this.expressions);
   a.analyze(context);
 };
 
