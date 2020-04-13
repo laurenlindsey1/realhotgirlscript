@@ -187,6 +187,9 @@ Block.prototype.analyze = function (context) {
 
 BreakStatement.prototype.analyze = function (context) {
   check.inLoop(context, "GTFO💩");
+  if (!context.inLoop) {
+    throw new Error("Break outside of loop");
+  }
 };
 
 Call.prototype.analyze = function (context) {
@@ -286,6 +289,9 @@ FunctionDeclaration.prototype.analyzeSignature = function (context) {
   this.params = this.params.map((p) => new Parameter(p.type, p.id));
   this.params.forEach((p) => p.analyze(context));
   this.type = this.type.analyze(context);
+  if (this.type === "leftOnRead") {
+    throw new Error("Void functions cannot have return statements");
+  }
   this.bodyContext = context.createChildContextForFunctionBody();
   this.params.forEach((p) => p.analyze(this.bodyContext));
   context.addVar(this.id, this);
@@ -347,7 +353,7 @@ PrimitiveType.prototype.analyze = function () {
 };
 
 PrintStatement.prototype.analyze = function (context) {
-  this.expression.analyze(context);
+  // this.expression.analyze(context);
 };
 
 MemberExpression.prototype.analyze = function (context) {
@@ -431,9 +437,8 @@ TupleType.prototype.analyze = function (context) {
 };
 
 TupleExpression.prototype.analyze = function (context) {
-  this.expressions.analyze(context);
-  check.isTupleType(this.expressions);
-
+  // this.expressions.analyze(context);
+  // check.isTupleType(this.expressions);
   const memTypes = [];
   this.expressions.forEach((mem) => {
     mem.analyze(context);

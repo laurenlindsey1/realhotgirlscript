@@ -8,4 +8,4 @@ weOutHereTryinToFunction digitz largestNum(digitz x,  digitz y,  digitz z)$
     #
 #
 
-largestNum(digitz x: 2, digitz y: 4, digitz z: "shanaya")!!!
+largestNum(x: 2, y: 4, z: "shanaya")!!!
