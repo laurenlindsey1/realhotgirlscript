@@ -1,0 +1,16 @@
+boolz twoIsLessThanThree : 2 < 3 !!!
+boolz twoIsLessThanOrEqualToThree : 2 <= 3 !!!
+
+boolz twoIsNotEqualToThree : 2 != 3 !!!
+
+boolz trueOrFalse : trueShit || fraudulentAssBitch !!!
+
+boolz trueAndFalse : trueShit && fraudulentAssBitch !!!
+
+wordz toal : "super" + "duper" + "cool" !!!
+
+digitz six : 12 // 2 !!!
+digitz nine : 18 / 2 !!!
+digitz one : 3 % 2 !!!
+digitz ninetyNine : 9 * 11  !!!
+digitz eighteen : 20 - 2 !!!
