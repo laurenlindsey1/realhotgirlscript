@@ -129,16 +129,20 @@ AssignmentStatement.prototype.analyze = function (context) {
         case TupleType:
           this.source[index].type = new TupleType(variable.type.memberType);
           break;
-        default:
+        default: {
           // case DictType
           const keyType = variable.type.keyType;
           const valueType = variable.type.valueType;
           this.source[index].type = new DictType(keyType, valueType);
+        }
       }
     } else {
       check.isAssignableTo(
         this.source[index],
         id.constructor === SubscriptedExpression
+          ? variable.type.memberType
+          : variable.type,
+        id.constructor === MemberExpression
           ? variable.type.memberType
           : variable.type
       );
@@ -195,10 +199,6 @@ Case.prototype.analyze = function (context) {
   this.body.analyze(context);
 };
 
-//update class with analyze signature! see function declaration
-//use legal arguments check on all args and params
-// Syntax: class id "(" Params ")" Block
-// AST: id, params, body
 ClassDeclaration.prototype.analyze = function (context) {
   context.addClass(this.id, this);
   this.bodyContext = context.createChildContextForFunctionBody();
@@ -210,7 +210,7 @@ ClassDeclaration.prototype.analyze = function (context) {
 
 ClassicForLoop.prototype.analyze = function (context) {
   this.type.analyze(context);
-  this.initexpression.analyze(context); //analyze assigns a type
+  this.initexpression.analyze(context);
   check.isAssignableTo(this.initexpression, this.type);
   this.testExpression.analyze(context);
   check.isBoolean(this.testExpression, "Condition in for");
@@ -244,17 +244,19 @@ DictExpression.prototype.analyze = function (context) {
       this.expression[0].keyType,
       this.expression[0].valueType
     );
-    let keyValue = new KeyValueExpression(
-      this.expression[0].keyType,
-      this.expression[0].valueType
-    );
+    // do we need a new key value expression for this?
+    // let keyValue = new KeyValueExpression(
+    //   this.expression[0].keyType,
+    //   this.expression[0].valueType
+    // );
+    // keyValue.analyze(context);
     for (let i = 1; i < this.expression.length; i += 1) {
       check.sameType(this.expression[i].keyType, this.type.keyType);
       check.sameType(this.expression[i].valueType, this.type.valueType);
-      keyValue = new KeyValueExpression(
-        this.expression[i].keyType,
-        this.expression[i].valueType
-      );
+      // keyValue = new KeyValueExpression(
+      //   this.expression[i].keyType,
+      //   this.expression[i].valueType
+      // );
     }
   }
 };
@@ -275,10 +277,6 @@ Fraction.prototype.analyze = function (context) {
   check.isIntegerOrLong(this.digit);
 };
 
-// Function analysis is broken up into two parts in order to support (mutual)
-// recursion. First we have to do semantic analysis just on the signature
-// (including the return type). This is so other functions that may be declared
-// before this one have calls to this one checked.
 FunctionDeclaration.prototype.analyzeSignature = function (context) {
   this.type = this.type.analyze(context);
   this.bodyContext = context.createChildContextForFunctionBody();
@@ -293,15 +291,12 @@ IdType.prototype.analyze = function (context) {
   this.type = context.lookupClass(this.type);
 };
 
-//might not need this one
-IdentifierDeclaration.prototype.analyze = function (context) {
-  this.id.analyze(this.id);
-  check.isValidType(this.id, context);
-};
+// TOOK FROM CASPER
+IdentifierDeclaration.prototype.analyze = function (context) {};
 
 IdentifierExpression.prototype.analyze = function (context) {
-  this.id.analyze(this.id);
-  check.isValidType(this.id, context);
+  this.ref = context.lookupVar(this.id);
+  this.type = this.ref.type;
 };
 
 IfStatement.prototype.analyze = function (context) {
@@ -373,9 +368,9 @@ ReturnStatement.prototype.analyze = function (context) {
 SetExpression.prototype.analyze = function (context) {
   this.expression.forEach((m) => m.analyze(context));
   if (this.expression.length) {
-    this.type = new SetType(this.expression[0].setz);
+    this.type = new SetType(this.expression[0].type);
     for (let i = 1; i < this.expression.length; i += 1) {
-      check.sameType(this.expression[i].setz, this.type.type);
+      check.sameType(this.expression[i].type, this.type.type);
     }
   }
 };
@@ -403,7 +398,10 @@ SpreadForLoop.prototype.analyze = function (context) {
 SwitchStatement.prototype.analyze = function (context) {
   this.expression.analyze(context);
   this.cases.forEach((c) => {
+    // are we doing this portion correctly?/ is it recursively checking the way
+    // we think it is just by calling case/ do we even need the analyze then?
     const currCase = new Case(c.expression, c.body);
+    currCase.analyze(context);
   });
   if (this.alternate) {
     this.alternate = new DefaultCase(this.alternate.body);
@@ -454,10 +452,13 @@ UnaryExpression.prototype.analyze = function (context) {
 };
 
 VariableDeclaration.prototype.analyze = function (context) {
-  // this.type = this.type.analyze(context);
+  // this.type = this.type.analyze(context); xd this out because stuff was breaking
   this.expressions.forEach((e) => check.isAssignableTo(e, this.type));
   check.sameNumberOfInitializersAsVariables(this.expressions, this.ids);
   this.ids.forEach((id) => context.addVar(id, this));
+  // we added this after toal based on casper
+  const a = new AssignmentStatement(this.ids, this.exps);
+  a.analyze(context);
 };
 
 WhileStatement.prototype.analyze = function (context) {

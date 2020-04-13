@@ -1,6 +1,5 @@
 const util = require("util");
 
-// const { ArrayType, Func, RecordType, IdExp } = require('../ast');
 const ArrayType = require("../ast/array-type");
 const DictType = require("../ast/dict-type");
 const SetType = require("../ast/set-type");
@@ -8,13 +7,8 @@ const TupleType = require("../ast/tuple-type");
 const IdExp = require("../ast/identifier-expression");
 const FunctionDeclaration = require("../ast/function-declaration");
 
-const {
-  IntType,
-  LongType,
-  StringType,
-  BoolType,
-  NoneType,
-} = require("./builtins"); //standard functions?
+// not using nonetype so we didnt import it
+const { IntType, LongType, StringType, BoolType } = require("./builtins"); //standard functions?
 
 function doCheck(condition, message) {
   if (!condition) {
@@ -22,11 +16,8 @@ function doCheck(condition, message) {
   }
 }
 
-// add isDictType, isLongzType, etc.
 module.exports = {
-  // Is this type an array type?
   isArrayType(type) {
-    //array type = primitives + objects
     doCheck(type.constructor === ArrayType, "Not an array type");
   },
 
@@ -57,12 +48,6 @@ module.exports = {
 
   isSet(expression) {
     doCheck(expression.type.constructor === SetType, "Not a set");
-  },
-
-  // figure out
-  isValidType(expression, context) {
-    //primitives, objects, etc., anything
-    doCheck(expression.type in context.typeDeclarations, "Not a valid type");
   },
 
   isInteger(expression) {
@@ -99,24 +84,21 @@ module.exports = {
     doCheck(context.inFunction, "Not inside a function");
   },
 
-  // Are two types exactly the same?
-  sameType(e1, e2) {
-    doCheck(e1.type === e2.type, "Types must match exactly");
-  },
-
-  // Can we assign expression to a variable/param/field of type type?
-  isAssignableTo(expression, type) {
+  // ALL CREDIT FOR SAME TYPE AND ASSIGNABLE TO CASPER AND SCRIPTOFINO
+  isAssignableTo(exp, type) {
     doCheck(
-      expression.type === type ||
-        (expression.type === IntType && type == LongType),
-      `Expression of type ${util.format(
-        expression.type
-      )} not compatible with type ${util.format(type)}`
+      JSON.stringify(exp.type) === JSON.stringify(type),
+      "Types are not compatible"
     );
   },
 
-  // const x = 3
-  // x = 5
+  sameType(t1, t2) {
+    doCheck(
+      JSON.stringify(t1) === JSON.stringify(t2),
+      "Types are not compatible"
+    );
+  },
+
   isNotConstant(lvalue) {
     doCheck(
       !(lvalue.constructor === IdExp && lvalue.ref.constant),
