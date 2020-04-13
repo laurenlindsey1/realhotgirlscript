@@ -8,7 +8,7 @@
 
 // const { TypeDec } = require("../ast");
 
-const FunctionObject = require('../ast/function-object');
+const FunctionObject = require("../ast/function-object");
 
 const {
   standardFunctions,
@@ -17,9 +17,9 @@ const {
   StringType,
   BoolType,
   NoneType,
-} = require('./builtins');
+} = require("./builtins");
 
-require('./analyzer');
+require("./analyzer");
 
 // When doing semantic analysis we pass around context objects.
 //
@@ -112,10 +112,10 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-standardFunctions.forEach(f => {
+standardFunctions.forEach((f) => {
   Context.INITIAL.variableDeclarations[f.id] = f;
 });
-[IntType, LongType, StringType, BoolType, NoneType].forEach(type => {
+[IntType, LongType, StringType, BoolType, NoneType].forEach((type) => {
   Context.INITIAL.classDeclarations.set(type.name, type);
 });
 

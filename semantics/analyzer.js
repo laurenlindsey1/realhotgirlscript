@@ -139,18 +139,28 @@ AssignmentStatement.prototype.analyze = function (context) {
         }
       }
     } else {
-      if (id.constructor === SubscriptedExpression) {
-        let prim = new PrimitiveType(variable.type.type);
-        check.isAssignableTo(this.source[index], prim);
-      } else if (id.constructor === MemberExpression) {
-        let prim = new PrimitiveType(variable.type.type);
-        check.isAssignableTo(this.source[index], prim);
-      } else {
-        console.log("FUCKING MADE IT!");
-        this.source[index].type = this.source[index].type.analyze(context);
+      check.isAssignableTo(
+        this.source[index],
+        id.constructor === SubscriptedExpression
+          ? variable.type.memberType
+          : variable.type,
+        id.constructor === MemberExpression
+          ? variable.type.memberType
+          : variable.type
+      );
 
-        check.isAssignableTo(this.source[index], variable.type);
-      }
+      // if (id.constructor === SubscriptedExpression) {
+      //   let prim = new PrimitiveType(variable.type.type);
+      //   check.isAssignableTo(this.source[index], prim);
+      // } else if (id.constructor === MemberExpression) {
+      //   let prim = new PrimitiveType(variable.type.type);
+      //   check.isAssignableTo(this.source[index], prim);
+      // } else {
+      //   console.log("FUCKING MADE IT!");
+      //   this.source[index].type = this.source[index].type.analyze(context);
+
+      //   check.isAssignableTo(this.source[index], variable.type);
+      // }
     }
   });
 };
@@ -217,14 +227,14 @@ ClassDeclaration.prototype.analyze = function (context) {
 };
 
 ClassicForLoop.prototype.analyze = function (context) {
-  this.type.analyze(context);
+  const bodyContext = context.createChildContextForLoop();
+  this.type = this.type.analyze(context);
   this.initexpression.analyze(context);
   check.isAssignableTo(this.initexpression, this.type);
   this.testExpression.analyze(context);
   check.isBoolean(this.testExpression, "Condition in for");
   const variableToIncrement = context.lookupVar(this.updateid);
   check.isIntegerOrLong(variableToIncrement, "Increment in for");
-  const bodyContext = context.createChildContextForLoop();
   this.index = new VariableDeclaration(
     true,
     this.initexpression.type,
@@ -338,8 +348,8 @@ KeyValueExpression.prototype.analyze = function (context) {
 };
 
 PrimitiveType.prototype.analyze = function () {
-  console.log("fuck fuck fuck");
-  console.log(typeof this.value);
+  // console.log("fuck fuck fuck");
+  // console.log(typeof this.value);
   if (typeof this.value === "number") {
     this.type = IntType;
     this.type = LongType;
@@ -369,7 +379,7 @@ Parameter.prototype.analyze = function (context) {
     this.expression.analyze(context);
   }
   context.addVar(this.id, this);
-  console.log(context.variableDeclarations());
+  // console.log(context.variableDeclarations));
 };
 
 Program.prototype.analyze = function (context) {
