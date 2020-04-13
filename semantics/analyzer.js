@@ -381,8 +381,6 @@ SetType.prototype.analyze = function (context) {
 
 CallStatement.prototype.analyze = function (context) {
   this.call.analyze(context);
-  // Since this is called from a statement, the function probably should
-  // not have a return type, but it's ok bc Java and C throw it away too
 };
 
 SpreadForLoop.prototype.analyze = function (context) {

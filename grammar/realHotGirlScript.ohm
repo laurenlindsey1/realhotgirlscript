@@ -104,7 +104,6 @@ realHotGirlScript {
   dictDecl    =  "dictz" ~alnum
   tupleDecl   =  "tuplez" ~alnum
   false       =  "fraudulentAssBitch" ~alnum
-  let         =  "seeYa" ~alnum
   funcDecl    =  "weOutHereTryinToFunction" ~alnum
   return      =  "andThemsTheFacts" ~alnum
   break       =  "GTFO💩" ~alnum
@@ -138,7 +137,6 @@ realHotGirlScript {
               |  tupleDecl
               |  nonelit
               |  false
-              |  let
               |  funcDecl
               |  return
               |  break) ~idrest
