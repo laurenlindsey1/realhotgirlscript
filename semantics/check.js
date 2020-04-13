@@ -86,12 +86,12 @@ module.exports = {
 
   // ALL CREDIT FOR SAME TYPE AND ASSIGNABLE TO CASPER AND SCRIPTOFINO
   isAssignableTo(exp, type) {
-    console.log("HI");
-    console.log(JSON.stringify(exp.type));
-    console.log("hi");
-    console.log(JSON.stringify(type));
+    // console.log("HI");
+    // console.log(JSON.stringify(exp.type.type));
+    // console.log("hi");
+    // console.log(JSON.stringify(type));
     doCheck(
-      JSON.stringify(exp.type) === JSON.stringify(type),
+      JSON.stringify(exp.type.type) === JSON.stringify(type),
       "Types are not compatible"
     );
   },
@@ -139,9 +139,6 @@ module.exports = {
   },
 
   sameNumberOfInitializersAsVariables(expressions, ids) {
-    doCheck(
-      expressions.length === ids.length,
-      "Number of initializers not equal to number of variables"
-    );
+    doCheck(expressions.length === ids.length, "Incorrect number of arguments");
   },
 };
