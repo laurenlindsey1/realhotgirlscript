@@ -106,18 +106,19 @@ AssignmentStatement.prototype.analyze = function (context) {
 
   this.target.forEach((id, index) => {
     const variable =
-      id.constructor === SubscriptedExpression
-        ? context.lookupVar(id.id.id)
+      id.constructor === SubscriptedExpression ||
+      id.constructor === MemberExpression
+        ? context.lookupVar(id.id.varexp)
         : context.lookupVar(id.id);
     const variableType = variable.type.constructor;
     const emptyArrayorSetorTuple =
       (variableType === ArrayType ||
         variableType === SetType ||
         variableType === TupleType) &&
-      this.source[index].members &&
-      this.source[index].members.length === 0;
+      this.source[index].expressions &&
+      this.source[index].expressions.length === 0;
     const emptyDict =
-      variableType === DictType && this.source[index].exp.length === 0;
+      variableType === DictType && this.source[index].expression.length === 0;
 
     if (emptyArrayorSetorTuple || emptyDict) {
       switch (variable.type.constructor) {
@@ -138,15 +139,15 @@ AssignmentStatement.prototype.analyze = function (context) {
         }
       }
     } else {
-      let toPass = undefined;
       if (id.constructor === SubscriptedExpression) {
-        toPass = variable.type.memberType;
+        check.isAssignableTo(this.source[index], variable.type.type);
       } else if (id.constructor === MemberExpression) {
-        toPass = variable.type.memberType;
+        check.isAssignableTo(this.source[index], variable.type.type);
       } else {
-        toPass = variable.type;
+        console.log("FUCKING MADE IT!");
+        console.log(this.source[index]);
+        check.isAssignableTo(this.source[index], variable.type);
       }
-      check.isAssignableTo(this.source[index], toPass);
     }
   });
 };
