@@ -14,7 +14,6 @@ const BooleanType = require("../ast/boolean-type");
 const LongType = require("../ast/long-type");
 const StringType = require("../ast/string-type");
 // not using nonetype so we didnt import it
-// const { IntType, LongType, StringType, BoolType } = require("./builtins"); //standard functions?
 
 function doCheck(condition, message) {
   if (!condition) {
@@ -22,28 +21,35 @@ function doCheck(condition, message) {
   }
 }
 
+function isEmptyDictOrSet(expression) {
+  console.log(`THE SET EXPRESSION IS ${util.inspect(expression)}`);
+  if (
+    expression.type.constructor === DictType ||
+    expression.type.constructor === SetType
+  ) {
+    return expression.expression.length === 0;
+  }
+  return false;
+}
+
+function isEmptyTuple(expression) {
+  if (expression.type.constructor === TupleType) {
+    return expression.expressions.length === 0;
+  }
+  return false;
+}
+
+function isEmptyArray(expression) {
+  // console.log("AM I TRUE BITCH?!");
+  // console.log(expression.expression.length === 0);
+  // console.log(`UTIL EXPRESSION ${util.inspect(expression.expression)}`);
+  if (expression.type.constructor === ArrayType) {
+    return expression.expression.length === 0;
+  }
+  return false;
+}
+
 module.exports = {
-  isEmptyDict(expression) {
-    expression.type === DictType && expression.expression.length === 0;
-  },
-
-  isEmptyTuple(expression) {
-    expression.type === TupleType && expression.expressions.length === 0;
-  },
-
-  isEmptyArray(expression) {
-    console.log("AM I TRUE BITCH?!");
-    console.log(expression.expression.length === 0);
-    doCheck(
-      expression.type.constructor === ArrayType &&
-        expression.expression.length === 0
-    );
-  },
-
-  isEmptySet(expression) {
-    expression.type === SetType && expression.expression.length === 0;
-  },
-
   isArrayType(type) {
     doCheck(type.constructor === ArrayType, "Not an array type");
   },
@@ -60,7 +66,6 @@ module.exports = {
     doCheck(type.constructor === SetType, "Not a set type");
   },
 
-  // Is the type of this expression an array type?
   isArray(expression) {
     doCheck(expression.type.constructor === ArrayType, "Not an array");
   },
@@ -117,20 +122,14 @@ module.exports = {
   },
 
   isAssignableTo(exp, type) {
-    console.log(
-      `Is ${util.inspect(exp.type)} assignable to ${util.inspect(type)}`
-    );
-    console.log("HELLO!");
-    console.log(this.isEmptyArray(exp));
+    console.log(`EXP IS ${util.inspect(exp)}`);
     doCheck(
       JSON.stringify(exp.type) == JSON.stringify(type) ||
         (exp.type === IntType && type == LongType) ||
         (exp.constructor === NoneLiteral && type.constructor === IdType) ||
-        this.isEmptyDict(exp) ||
-        this.isEmptyTuple(exp) ||
-        this.isEmptyArray(exp) ||
-        this.isEmptySet(exp),
-      // type.constructor === AnyType,
+        isEmptyDictOrSet(exp) ||
+        isEmptyTuple(exp) ||
+        isEmptyArray(exp),
       "Type mismatch"
     );
   },

@@ -250,6 +250,8 @@ DictExpression.prototype.analyze = function (context) {
       //   this.expression[i].valueType
       // );
     }
+  } else {
+    this.type = new DictType(NoneType);
   }
 };
 
@@ -362,6 +364,8 @@ SetExpression.prototype.analyze = function (context) {
     for (let i = 1; i < this.expression.length; i += 1) {
       check.sameType(this.expression[i].type, this.type.type);
     }
+  } else {
+    this.type = new SetType(NoneType);
   }
 };
 
@@ -411,11 +415,15 @@ TupleExpression.prototype.analyze = function (context) {
   // this.expressions.analyze(context);
   // check.isTupleType(this.expressions);
   const memTypes = [];
-  this.expressions.forEach((mem) => {
-    mem.analyze(context);
-    memTypes.push(mem.type);
-  });
-  this.type = new TupleType(memTypes);
+  if (this.expression.length) {
+    this.expressions.forEach((mem) => {
+      mem.analyze(context);
+      memTypes.push(mem.type);
+    });
+    this.type = new TupleType(memTypes);
+  } else {
+    this.type = new SetType(NoneType);
+  }
 };
 
 UnaryExpression.prototype.analyze = function (context) {
