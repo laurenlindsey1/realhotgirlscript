@@ -140,12 +140,15 @@ AssignmentStatement.prototype.analyze = function (context) {
       }
     } else {
       if (id.constructor === SubscriptedExpression) {
-        check.isAssignableTo(this.source[index], variable.type.type);
+        let prim = new PrimitiveType(variable.type.type);
+        check.isAssignableTo(this.source[index], prim);
       } else if (id.constructor === MemberExpression) {
-        check.isAssignableTo(this.source[index], variable.type.type);
+        let prim = new PrimitiveType(variable.type.type);
+        check.isAssignableTo(this.source[index], prim);
       } else {
         console.log("FUCKING MADE IT!");
-        console.log(this.source[index]);
+        this.source[index].type = this.source[index].type.analyze(context);
+
         check.isAssignableTo(this.source[index], variable.type);
       }
     }
@@ -329,6 +332,8 @@ KeyValueExpression.prototype.analyze = function (context) {
 };
 
 PrimitiveType.prototype.analyze = function () {
+  console.log("fuck fuck fuck");
+  console.log(typeof this.value);
   if (typeof this.value === "number") {
     this.type = IntType;
     this.type = LongType;
