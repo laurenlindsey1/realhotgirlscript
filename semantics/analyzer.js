@@ -74,6 +74,7 @@ NumericLiteral.prototype.analyze = function () {
 
 Argument.prototype.analyze = function (context) {
   this.expression.analyze(context);
+  context.addVar(id, this);
 };
 
 ArrayExpression.prototype.analyze = function (context) {
@@ -274,7 +275,7 @@ Fraction.prototype.analyze = function (context) {
 FunctionDeclaration.prototype.analyzeSignature = function (context) {
   this.params = this.params.map((p) => new Parameter(p.type, p.id));
   this.params.forEach((p) => p.analyze(context));
-  this.type = this.type.analyze(context);
+  // this.type = this.type.analyze(context);
   if (this.type === "leftOnRead") {
     throw new Error("Void functions cannot have return statements");
   }
@@ -283,7 +284,9 @@ FunctionDeclaration.prototype.analyzeSignature = function (context) {
   context.addVar(this.id, this);
 };
 
-FunctionDeclaration.prototype.analyze = function () {
+FunctionDeclaration.prototype.analyze = function (context) {
+  console.log("IN FUNCDECL");
+  this.analyzeSignature(context);
   this.body.analyze(this.bodyContext);
 };
 
@@ -298,7 +301,9 @@ IdentifierDeclaration.prototype.analyze = function (context) {
 
 IdentifierExpression.prototype.analyze = function (context) {
   console.log("FUCK");
-  console.log(this.id);
+  console.log(`${util.inspect(this.id)}`);
+  console.log(`CONTEXT: ${util.inspect(context)}`);
+  // this.id.analyze(context);
   this.ref = context.lookupVar(this.id);
   this.type = this.ref.type;
 };
@@ -337,7 +342,7 @@ MemberExpression.prototype.analyze = function (context) {
 };
 
 Parameter.prototype.analyze = function (context) {
-  this.type = this.type.analyze(context);
+  // this.type = this.type.analyze(context);
   if (this.expression) {
     this.expression.analyze(context);
   }
