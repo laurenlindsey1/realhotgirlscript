@@ -279,7 +279,7 @@ FunctionDeclaration.prototype.analyzeSignature = function (context) {
   if (this.type === "leftOnRead") {
     throw new Error("Void functions cannot have return statements");
   }
-  this.bodyContext = context.createChildContextForFunctionBody();
+  this.bodyContext = context.createChildContextForFunctionBody(this);
   this.params.forEach((p) => p.analyze(this.bodyContext));
   context.addVar(this.id, this);
 };
@@ -309,17 +309,21 @@ IdentifierExpression.prototype.analyze = function (context) {
 };
 
 IfStatement.prototype.analyze = function (context) {
+  console.log("got past initial shit");
   this.tests.forEach((test) => {
     test.analyze(context);
     check.isBoolean(test);
+    console.log("properly analyzing tests");
   });
   this.consequents.forEach((block) => {
     const blockContext = context.createChildContextForBlock();
-    block.forEach((statement) => statement.analyze(blockContext));
+    console.log("properly analyzing block maybe?");
+    block.analyze(blockContext);
+    console.log("did we get here?");
   });
   if (this.alternate) {
     const alternateBlock = context.createChildContextForBlock();
-    this.alternate.forEach((s) => s.analyze(alternateBlock));
+    this.alternate.analyze(alternateBlock);
   }
 };
 
@@ -357,7 +361,12 @@ Program.prototype.analyze = function (context) {
 };
 
 ReturnStatement.prototype.analyze = function (context) {
+  console.log("got to return");
   this.expression.analyze(context);
+  console.log(
+    `HI WE RETURNING THIS EXPRESSION ${util.inspect(this.expression)}`
+  );
+  // SEE IF FUCKED INFUNCTION
   check.inFunction(context, "Return statement not in function");
   check.isAssignableTo(this.expression, context.currentFunction.type);
 };

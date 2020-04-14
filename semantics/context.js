@@ -7,6 +7,7 @@
  */
 
 // const { TypeDec } = require("../ast");
+const util = require("util");
 
 const FunctionObject = require("../ast/function-object");
 
@@ -46,6 +47,10 @@ class Context {
       classDeclarations: new Map(),
     });
   }
+
+  // setCurrentFunction(func) {
+  //   this.currentFunction = func;
+  // }
 
   createChildContextForFunctionBody(currentFunction) {
     // When entering a new function, we're not in a loop anymore
@@ -88,7 +93,7 @@ class Context {
   // context and searching "outward" through enclosing contexts if necessary.
   lookupVar(id) {
     console.log("IN LOOKUPVAR");
-    console.log(`${util.inspect(context.variableDeclarations.get(id))}`);
+    // console.log(`${util.inspect(context.variableDeclarations.get(id))}`);
     for (let context = this; context !== null; context = context.parent) {
       if (context.variableDeclarations.has(id)) {
         return context.variableDeclarations.get(id);

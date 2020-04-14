@@ -118,7 +118,7 @@ module.exports = {
   },
 
   inFunction(context) {
-    doCheck(context.inFunction, "Not inside a function");
+    doCheck(context.currentFunction, "Not inside a function");
   },
 
   isAssignableTo(exp, type) {
