@@ -43,7 +43,7 @@ const errors = {
 
 describe("The semantic analyzer", () => {
   fs.readdirSync(__dirname).forEach((name) => {
-    if (name.endsWith(".error")) {
+    if (name.endsWith(".errorz")) {
       test(`detected in ${name}`, (done) => {
         const program = parse(fs.readFileSync(`${__dirname}/${name}`, "utf-8"));
         const errorPattern = errors[name.slice(0, name.length - 6)];
@@ -53,7 +53,7 @@ describe("The semantic analyzer", () => {
         ).toThrow(errorPattern);
         done();
       });
-    } else if (name.endsWith(".hotgirl")) {
+    } else if (name.endsWith(".hotgirlz")) {
       test(`should analyze ${name} without errors`, (done) => {
         // For now, we are happy to know that these files pass semantic analysis.
         // We eventually need to check that the ASTs are properly decorated.
