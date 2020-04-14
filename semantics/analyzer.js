@@ -109,6 +109,7 @@ AssignmentStatement.prototype.analyze = function (context) {
 //CHECK AGAINST OHM EDITOR
 BinaryExpression.prototype.analyze = function (context) {
   console.log("IM THIS TYPE PLEEAZ");
+  console.log(`${util.inspect(this.left)}`);
   this.left.analyze(context);
   console.log("1");
   this.right.analyze(context);
@@ -203,20 +204,25 @@ ClassDeclaration.prototype.analyze = function (context) {
 
 ClassicForLoop.prototype.analyze = function (context) {
   const bodyContext = context.createChildContextForLoop();
-  this.type = this.type.analyze(context);
-  this.initexpression.analyze(context);
+  // this.type = this.type.analyze(context);
+  this.initexpression.analyze(bodyContext);
+  console.log("WE GOT TO CLASSIC FOR LOOP");
   check.isAssignableTo(this.initexpression, this.type);
-  this.testExpression.analyze(context);
-  check.isBoolean(this.testExpression, "Condition in for");
-  const variableToIncrement = context.lookupVar(this.updateid);
-  check.isIntegerOrLong(variableToIncrement, "Increment in for");
   this.index = new VariableDeclaration(
-    true,
+    false,
     this.initexpression.type,
     [this.initId],
     [this.initexpression]
   );
-  bodyContext.add(this.index);
+  console.log("BODY CONTEXT:");
+  bodyContext.addVar(this.index.ids[0], this.index);
+  console.log(`${util.inspect(bodyContext)}`);
+  this.testExpression.analyze(bodyContext);
+  console.log("did we break yet");
+  check.isBoolean(this.testExpression, "Condition in for");
+  console.log(`updateid: ${util.inspect(this.updateid)}`);
+  const variableToIncrement = bodyContext.lookupVar(this.updateid);
+  check.isIntegerOrLong(variableToIncrement, "Increment in for");
   this.body.analyze(bodyContext);
 };
 
@@ -311,6 +317,7 @@ IdentifierExpression.prototype.analyze = function (context) {
   console.log(`${util.inspect(this.id)}`);
   console.log(`CONTEXT: ${util.inspect(context)}`);
   // this.id.analyze(context);
+  console.log(`HI HI HI LOOKUP ${util.inspect(context.lookupVar(this.id))}`);
   this.ref = context.lookupVar(this.id);
   this.type = this.ref.type;
 };
