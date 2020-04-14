@@ -38,6 +38,7 @@ const errors = {
   // "var-redeclared-in-function": "Identifier already declared in this scope",
   // "void-function-with-return": "Void functions cannot have return statements",
   // "wordz-assigned-to-digitz": "Types are not compatible",
+  "unary-expression": "Not an IntType",
 };
 
 describe("The semantic analyzer", () => {

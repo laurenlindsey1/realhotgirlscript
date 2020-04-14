@@ -1,0 +1,2 @@
+dictz <wordz,wordz> stateCapitals: $#!!!
+stateCapitals: $ "California" ~ "Sacramento", "Nevada" ~ "Carson City", "Oregon" ~ "45"#!!!

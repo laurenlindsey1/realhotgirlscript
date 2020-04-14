@@ -350,7 +350,7 @@ KeyValueExpression.prototype.analyze = function (context) {
 
 PrintStatement.prototype.analyze = function (context) {
   console.log("hi?");
-  this.expression.analyze(context);
+  // this.expression.analyze(context);
 };
 
 MemberExpression.prototype.analyze = function (context) {
@@ -471,7 +471,7 @@ UnaryExpression.prototype.analyze = function (context) {
         check.isLong(this.operand);
         this.type = LongType;
       } catch (e) {
-        throw new Error("Not a IntType");
+        throw new Error("Not an IntType");
       }
     }
   }
