@@ -235,14 +235,21 @@ DefaultCase.prototype.analyze = function (context) {
 };
 
 DictExpression.prototype.analyze = function (context) {
-  this.expression.analyze(context);
-  check.isDictionary(this.expression);
+  this.expression.forEach((m) => m.analyze(context));
 
   if (this.expression.length) {
-    this.type = new DictType(
-      this.expression[0].keyType,
-      this.expression[0].valueType
-    );
+    // console.log(`heeeeyo ${this.expression.keyType}`);
+    // console.log(`heeeeyohi ${this.expression.valueType}`);
+    check.isKeyValueExpression(this.expression[0]);
+    let keyType = undefined;
+    let valueType = undefined;
+    if (this.expression[0].key) {
+      keyType = this.expression[0].key.type;
+    }
+    if (this.expression[0].value) {
+      valueType = this.expression[0].value.type;
+    }
+    this.type = new DictType(keyType, valueType);
     // do we need a new key value expression for this?
     // let keyValue = new KeyValueExpression(
     //   this.expression[0].keyType,
@@ -250,14 +257,14 @@ DictExpression.prototype.analyze = function (context) {
     // );
     // keyValue.analyze(context);
     for (let i = 1; i < this.expression.length; i += 1) {
-      check.sameType(this.expression[i].keyType, this.type.keyType);
-      check.sameType(this.expression[i].valueType, this.type.valueType);
+      check.isAssignableTo(this.expression[i], this.type);
       // keyValue = new KeyValueExpression(
       //   this.expression[i].keyType,
       //   this.expression[i].valueType
       // );
     }
   } else {
+    console.log("uh oh");
     this.type = new DictType(NoneType);
   }
 };
@@ -265,6 +272,7 @@ DictExpression.prototype.analyze = function (context) {
 DictType.prototype.analyze = function (context) {
   this.keyType = this.keyType.analyze(context);
   this.valueType = this.valueType.analyze(context);
+  check.isDictionary(this);
 };
 
 //not sure if we need this or not, if tests work without it, remove later
@@ -343,9 +351,9 @@ IfStatement.prototype.analyze = function (context) {
 
 KeyValueExpression.prototype.analyze = function (context) {
   this.key.analyze(context);
-  check.isExpression(this.key, "Key is not an expression");
+  // check.isExpression(this.key, "Key is not an expression");
   this.value.analyze(context);
-  check.isExpression(this.value, "Value is not an expression");
+  // check.isExpression(this.value, "Value is not an expression");
 };
 
 PrintStatement.prototype.analyze = function (context) {
@@ -391,7 +399,7 @@ SetExpression.prototype.analyze = function (context) {
   if (this.expression.length) {
     this.type = new SetType(this.expression[0].type);
     for (let i = 1; i < this.expression.length; i += 1) {
-      check.sameType(this.expression[i].type, this.type.type);
+      check.isAssignableTo(this.expression[i], this.type.memberType);
     }
   } else {
     this.type = new SetType(NoneType);
@@ -445,12 +453,13 @@ TupleType.prototype.analyze = function (context) {
 TupleExpression.prototype.analyze = function (context) {
   // this.expressions.analyze(context);
   // check.isTupleType(this.expressions);
-  const memTypes = [];
-  if (this.expression.length) {
+  let memTypes = new Set();
+  if (this.expressions.length) {
     this.expressions.forEach((mem) => {
       mem.analyze(context);
-      memTypes.push(mem.type);
+      memTypes.add(mem.type);
     });
+    memTypes = [...memTypes];
     this.type = new TupleType(memTypes);
   } else {
     this.type = new SetType(NoneType);

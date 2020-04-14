@@ -14,6 +14,7 @@ const BooleanType = require("../ast/boolean-type");
 const LongType = require("../ast/long-type");
 const StringType = require("../ast/string-type");
 const ReturnStatement = require("../ast/return-statement");
+const KeyValueExpression = require("../ast/keyvalue-expression");
 // not using nonetype so we didnt import it
 
 function doCheck(condition, message) {
@@ -62,6 +63,13 @@ module.exports = {
 
   isDictType(type) {
     doCheck(type.constructor === DictType, "Not a dictionary type");
+  },
+
+  isKeyValueExpression(expression) {
+    doCheck(
+      expression.constructor === KeyValueExpression,
+      "Not a dictionary type"
+    );
   },
 
   isTupleType(type) {
