@@ -13,6 +13,7 @@ const IdType = require("../ast/id-type");
 const BooleanType = require("../ast/boolean-type");
 const LongType = require("../ast/long-type");
 const StringType = require("../ast/string-type");
+const ReturnStatement = require("../ast/return-statement");
 // not using nonetype so we didnt import it
 
 function doCheck(condition, message) {
@@ -49,7 +50,12 @@ function isEmptyArray(expression) {
   return false;
 }
 
+function isReturnType(type) {
+  return type.constructor === ReturnStatement;
+}
+
 module.exports = {
+  isReturnType,
   isArrayType(type) {
     doCheck(type.constructor === ArrayType, "Not an array type");
   },
@@ -121,7 +127,7 @@ module.exports = {
     doCheck(context.currentFunction, "Not inside a function");
   },
 
-  isAssignableTo(exp, type) {
+  isAssignableTo(exp, type, errorMessage = "Type mismatch") {
     console.log(`EXP IS ${util.inspect(exp)}`);
     console.log(
       `jsonify exp type ${JSON.stringify(exp.type)} ${JSON.stringify(type)}`
@@ -133,7 +139,7 @@ module.exports = {
         isEmptyDictOrSet(exp) ||
         isEmptyTuple(exp) ||
         isEmptyArray(exp),
-      "Type mismatch"
+      errorMessage
     );
   },
 

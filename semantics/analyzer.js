@@ -282,12 +282,19 @@ FunctionDeclaration.prototype.analyzeSignature = function (context) {
   this.bodyContext = context.createChildContextForFunctionBody(this);
   this.params.forEach((p) => p.analyze(this.bodyContext));
   context.addVar(this.id, this);
+  this.type = this.type === "leftOnRead" ? NoneType : this.type;
 };
 
 FunctionDeclaration.prototype.analyze = function (context) {
   console.log("IN FUNCDECL");
   this.analyzeSignature(context);
   this.body.analyze(this.bodyContext);
+  const returnStatement = this.body.statements.filter(
+    (b) => b.constructor === ReturnStatement
+  );
+  console.log(`BODY: ${util.inspect(this.body.statements)}`);
+  console.log(`RETURNSTATEMENT: ${util.inspect(returnStatement)}`);
+  check.isAssignableTo(returnStatement, this.type, "Missing return statement");
 };
 
 IdType.prototype.analyze = function (context) {
