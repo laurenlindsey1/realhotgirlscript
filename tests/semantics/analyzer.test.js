@@ -31,7 +31,7 @@ const errors = {
   // "setz-improper": "Types are not compatible",
   // "stayz-reassignment": "Types are not compatible",
   // "subscripted-nan": "Types are not compatible",
-  // "subscripted-wrong-type": "Types are not compatible",
+  "subscripted-wrong-type": "Not subscriptable",
   // "unary-wrong-type": "Types are not compatible",
   // "var-incorrect-type-reassignment": "Types are not compatible",
   // "var-not-declared": "Variable has not been declared",
@@ -42,7 +42,7 @@ const errors = {
 
 describe("The semantic analyzer", () => {
   fs.readdirSync(__dirname).forEach((name) => {
-    if (name.endsWith(".errorz")) {
+    if (name.endsWith(".error")) {
       test(`detected in ${name}`, (done) => {
         const program = parse(fs.readFileSync(`${__dirname}/${name}`, "utf-8"));
         const errorPattern = errors[name.slice(0, name.length - 6)];
@@ -52,7 +52,7 @@ describe("The semantic analyzer", () => {
         ).toThrow(errorPattern);
         done();
       });
-    } else if (name.endsWith(".hotgirlz")) {
+    } else if (name.endsWith(".hotgirl")) {
       test(`should analyze ${name} without errors`, (done) => {
         // For now, we are happy to know that these files pass semantic analysis.
         // We eventually need to check that the ASTs are properly decorated.

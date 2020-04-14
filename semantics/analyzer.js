@@ -349,7 +349,8 @@ KeyValueExpression.prototype.analyze = function (context) {
 };
 
 PrintStatement.prototype.analyze = function (context) {
-  // this.expression.analyze(context);
+  console.log("hi?");
+  this.expression.analyze(context);
 };
 
 MemberExpression.prototype.analyze = function (context) {
@@ -429,9 +430,11 @@ SwitchStatement.prototype.analyze = function (context) {
 };
 
 SubscriptedExpression.prototype.analyze = function (context) {
-  this.varexp.analyze(context);
+  console.log("HI!");
   this.varexp = context.lookupVar(this.varexp);
   this.subscript = context.lookupVar(this.subscript);
+  check.isNotSubscriptable(this.varexp);
+  this.varexp.analyze(context);
   this.subscript.analyze(context);
 };
 

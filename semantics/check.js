@@ -127,6 +127,16 @@ module.exports = {
     doCheck(context.currentFunction, "Not inside a function");
   },
 
+  isNotSubscriptable(varexp) {
+    console.log(`hiiiiii ${util.inspect(varexp.type)}`);
+    doCheck(
+      varexp.type !== IntType &&
+        varexp.type !== LongType &&
+        varexp.type !== BooleanType,
+      "Not subscriptable"
+    );
+  },
+
   isAssignableTo(exp, type, errorMessage = "Type mismatch") {
     console.log(`EXP IS ${util.inspect(exp)}`);
     console.log(
