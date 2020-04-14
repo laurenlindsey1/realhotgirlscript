@@ -477,7 +477,9 @@ UnaryExpression.prototype.analyze = function (context) {
 VariableDeclaration.prototype.analyze = function (context) {
   // this.type = this.type.analyze(context); xd this out because stuff was breaking
   check.sameNumberOfInitializersAsVariables(this.expressions, this.ids);
-  this.variables = this.ids.map((id) => new Variable(this.type, id));
+  this.variables = this.ids.map(
+    (id) => new Variable(this.constant, this.type, id)
+  );
   this.variables.forEach((variable) =>
     context.addVar(variable.id.id, variable)
   );
