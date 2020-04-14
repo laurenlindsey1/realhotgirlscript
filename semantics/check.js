@@ -123,6 +123,9 @@ module.exports = {
 
   isAssignableTo(exp, type) {
     console.log(`EXP IS ${util.inspect(exp)}`);
+    console.log(
+      `jsonify exp type ${JSON.stringify(exp.type)} ${JSON.stringify(type)}`
+    );
     doCheck(
       JSON.stringify(exp.type) == JSON.stringify(type) ||
         (exp.type === IntType && type == LongType) ||
@@ -195,9 +198,12 @@ module.exports = {
       args.length === params.length,
       `Expected ${params.length} args in call, got ${args.length}`
     );
+    console.log(`ARGS ${util.inspect(args)}`);
+    console.log(`PARAMS ${util.inspect(params)}`);
     args.forEach(
       (arg, i) =>
-        arg.id === params[i].id && this.isAssignableTo(arg, params[i].type)
+        arg.id === params[i].id &&
+        this.isAssignableTo(arg.expression, params[i].type)
     );
   },
 

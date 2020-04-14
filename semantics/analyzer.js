@@ -74,7 +74,7 @@ NumericLiteral.prototype.analyze = function () {
 
 Argument.prototype.analyze = function (context) {
   this.expression.analyze(context);
-  context.addVar(id, this);
+  // context.addVar(this.id, this);
 };
 
 ArrayExpression.prototype.analyze = function (context) {
