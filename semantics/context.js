@@ -9,8 +9,6 @@
 // const { TypeDec } = require("../ast");
 const util = require("util");
 
-const FunctionObject = require("../ast/function-object");
-
 const {
   standardFunctions,
   IntType,
@@ -108,14 +106,14 @@ class Context {
         return context.classDeclarations.get(id);
       }
     }
-    throw new Error(`Identifier ${id} has not been declared`);
+    throw new Error(`Class ${id} has not been declared`);
   }
 
-  assertIsFunction(entity) {
-    if (entity.constructor !== FunctionObject) {
-      throw new Error(`Call is not a function`);
-    }
-  }
+  // assertIsFunction(entity) {
+  //   if (entity.constructor !== FunctionObject) {
+  //     throw new Error(`Call is not a function`);
+  //   }
+  // }
 }
 
 Context.INITIAL = new Context();

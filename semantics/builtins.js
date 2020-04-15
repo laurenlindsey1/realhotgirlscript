@@ -1,10 +1,12 @@
-const Func = require('../ast/function-object');
-const Param = require('../ast/parameter');
-const IntType = require('../ast/int-type');
+const Func = require("../ast/function-declaration");
+const Param = require("../ast/parameter");
+const IntType = require("../ast/int-type");
 
-const standardFunctions = [new Func(IntType, 'square', [new Param(IntType, 's')])];
+const standardFunctions = [
+  new Func(IntType, "square", [new Param(IntType, "s")]),
+];
 
-standardFunctions.forEach(f => {
+standardFunctions.forEach((f) => {
   f.builtin = true;
 });
 

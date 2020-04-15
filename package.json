@@ -18,6 +18,7 @@
   "homepage": "https://github.com/laurenlindsey1/realhotgirlscript#readme",
   "dependencies": {
     "chai": "^4.2.0",
+    "deep-equal": "^2.0.2",
     "jest": "^25.1.0",
     "ohm-js": "^0.14.0",
     "yargs": "^15.1.0"

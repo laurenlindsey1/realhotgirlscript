@@ -1,5 +1,5 @@
-module.exports = class Fraction {
-    constructor(digit) {
-      Object.assign(this, { digit });
-    }
-  };
+// module.exports = class Fraction {
+//     constructor(digit) {
+//       Object.assign(this, { digit });
+//     }
+//   };

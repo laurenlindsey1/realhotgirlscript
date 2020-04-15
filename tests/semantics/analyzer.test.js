@@ -12,6 +12,7 @@ const Context = require("../../semantics/context");
 
 const errors = {
   // "arg-call-wrong-type": "Argument and parameter types do not match",
+  // "arrayz-improper": "Types are not compatible",
   // "break-outside-loop": "Break outside of loop",
   // "call-not-function": "Call is not a function",
   // "dictz-wrong": "Types are not compatible",
@@ -24,6 +25,7 @@ const errors = {
   // "incorrect-binary-exp": "Not an integer",
   // "incorrect-reassignments": "Types are not compatible",
   // "loop-error": "Types are not compatible",
+  // "member-expression-illegal", "Class andThatsOn has not been declared",
   // "mismatched-assignment-length": "Incorrect number of arguments",
   // "return-outside-of-function": "Return statement not in function",
   // "reused-var-declaration": "Identifier already declared in this scope",
@@ -43,7 +45,7 @@ const errors = {
 
 describe("The semantic analyzer", () => {
   fs.readdirSync(__dirname).forEach((name) => {
-    if (name.endsWith(".errorz")) {
+    if (name.endsWith(".error")) {
       test(`detected in ${name}`, (done) => {
         const program = parse(fs.readFileSync(`${__dirname}/${name}`, "utf-8"));
         const errorPattern = errors[name.slice(0, name.length - 6)];
@@ -53,7 +55,7 @@ describe("The semantic analyzer", () => {
         ).toThrow(errorPattern);
         done();
       });
-    } else if (name.endsWith(".hotgirlz")) {
+    } else if (name.endsWith(".hotgirl")) {
       test(`should analyze ${name} without errors`, (done) => {
         // For now, we are happy to know that these files pass semantic analysis.
         // We eventually need to check that the ASTs are properly decorated.
