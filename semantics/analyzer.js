@@ -82,7 +82,7 @@ ArrayExpression.prototype.analyze = function (context) {
   if (this.expression.length) {
     this.type = new ArrayType(this.expression[0].type);
     for (let i = 1; i < this.expression.length; i += 1) {
-      check.sameType(this.expression[i].type, this.type.type);
+      check.sameType(this.expression[i].type, this.type.memberType);
     }
   } else {
     this.type = new ArrayType(NoneType);
@@ -305,7 +305,15 @@ DictExpression.prototype.analyze = function (context) {
     // );
     // keyValue.analyze(context);
     for (let i = 1; i < this.expression.length; i += 1) {
-      check.isAssignableTo(this.expression[i], this.type);
+      //check key type
+      console.log(
+        `Comparing ${util.inspect(
+          this.expression[i].key.type
+        )} and ${util.inspect(this.type.keyType)}`
+      );
+      check.sameType(this.expression[i].key.type, this.type.keyType);
+      check.sameType(this.expression[i].value.type, this.type.valueType);
+      // check.isAssignableTo(this.expression[i], this.type);
       // keyValue = new KeyValueExpression(
       //   this.expression[i].keyType,
       //   this.expression[i].valueType
