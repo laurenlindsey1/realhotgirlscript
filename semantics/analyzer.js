@@ -214,42 +214,16 @@ BinaryExpression.prototype.analyze = function (context) {
 };
 
 Block.prototype.analyze = function (context) {
-  console.log("HERE?????");
   this.statements.forEach((stmt) => {
-    console.log(`STMT ${util.inspect(stmt)}`);
     stmt.analyze(context);
   });
 };
 
 BreakStatement.prototype.analyze = function (context) {
-  console.log("IN BREAK");
-  // try {
-  //   check.inLoop(context, "GTFO💩");
-  // } catch (e) {
-  //   if (!context.inSwitch) {
-  //     throw new Error("Cannot break outside of loop or switch");
-  //   }
-  // }
-
-  console.log(`InLoop ${context.inLoop} and InSwitch ${context.inSwitch}`);
-  console.log(`CONTEXT IN BREAK ${util.inspect(context)}`);
-
   if (!context.inLoop) {
     if (!context.inSwitch) {
-      console.log("AM I HERE????");
-      throw new Error("Break outside of loop or switch");
-    } else {
-      context.inSwitch = false;
-    }
-  }
-
-  if (!context.inSwitch) {
-    if (!context.inLoop) {
-      console.log("AM I HERE????");
       throw new Error("Break outside of loop or switch");
     }
-  } else {
-    context.inSwitch = false;
   }
 };
 
@@ -266,13 +240,7 @@ Call.prototype.analyze = function (context) {
 Case.prototype.analyze = function (context) {
   this.expression.analyze(context);
   this.type = this.expression.type;
-  console.log(`THIS.TYPE ${util.inspect(this.type)}`);
-
-  console.log(`CASE EXPRESSION: ${util.inspect(this.expression.type)}`);
-
-  // check.isBoolean(this.expression, "Expression for switch statement case");
   this.body.analyze(context);
-  console.log("HERE???");
 };
 
 ClassDeclaration.prototype.analyze = function (context) {
@@ -288,7 +256,6 @@ ClassicForLoop.prototype.analyze = function (context) {
   const bodyContext = context.createChildContextForLoop();
   // this.type = this.type.analyze(context);
   this.initexpression.analyze(bodyContext);
-  console.log("WE GOT TO CLASSIC FOR LOOP");
   check.isAssignableTo(this.initexpression, this.type);
   this.index = new VariableDeclaration(
     false,
@@ -296,13 +263,9 @@ ClassicForLoop.prototype.analyze = function (context) {
     [this.initId],
     [this.initexpression]
   );
-  // console.log("BODY CONTEXT:");
   bodyContext.addVar(this.index.ids[0], this.index);
-  console.log(`${util.inspect(bodyContext)}`);
   this.testExpression.analyze(bodyContext);
-  console.log("did we break yet");
   check.isBoolean(this.testExpression, "Condition in for");
-  console.log(`updateid: ${util.inspect(this.updateid)}`);
   const variableToIncrement = bodyContext.lookupVar(this.updateid);
   check.isIntegerOrLong(variableToIncrement, "Increment in for");
   this.body.analyze(bodyContext);
@@ -444,7 +407,6 @@ ReturnStatement.prototype.analyze = function (context) {
   check.inFunction(context, "Return statement not in function");
 
   if (context.currentFunction.type.name === "None") {
-    console.log("is void");
     throw new Error("Void functions cannot have return statements");
   }
   check.isAssignableTo(this.expression, context.currentFunction.type);
@@ -481,15 +443,12 @@ SpreadForLoop.prototype.analyze = function (context) {
 };
 
 SwitchStatement.prototype.analyze = function (context) {
-  context.inSwitch = true;
-  this.expression.analyze(context);
-  console.log(`SWITCH EXP: ${util.inspect(this.expression.ref.type)}`);
+  const bodyContext = context.createChildContextForSwitch();
+  bodyContext.inSwitch = true;
+  this.expression.analyze(bodyContext);
   this.cases.forEach((c) => {
-    // are we doing this portion correctly?/ is it recursively checking the way
-    // we think it is just by calling case/ do we even need the analyze then?
     let currCase = new Case(c.expression, c.body);
-    currCase.analyze(context);
-    console.log(`CURRCASE SWITCH: ${util.inspect(currCase.type)}`);
+    currCase.analyze(bodyContext);
     check.isAssignableTo(this.expression.ref, currCase.type);
   });
   if (this.alternate) {

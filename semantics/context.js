@@ -36,12 +36,17 @@ require("./analyzer");
 //   4. A map for looking up all identifiers declared in this context.
 
 class Context {
-  constructor({ parent = null, currentFunction = null, inLoop = false } = {}) {
+  constructor({
+    parent = null,
+    currentFunction = null,
+    inLoop = false,
+    inSwitch = false,
+  } = {}) {
     Object.assign(this, {
       parent,
       currentFunction,
       inLoop,
-      inSwitch: false,
+      inSwitch,
       variableDeclarations: new Map(),
     });
   }
@@ -61,15 +66,27 @@ class Context {
       parent: this,
       currentFunction: this.currentFunction,
       inLoop: true,
+      inSwitch: this.inSwitch,
     });
   }
 
-  createChildContextForBlock() {
-    // For a block, we have to retain both the function and loop settings.
+  createChildContextForSwitch() {
+    // When entering a switch body, just set the inSwitch field, retain others
     return new Context({
       parent: this,
       currentFunction: this.currentFunction,
       inLoop: this.inLoop,
+      inSwitch: true,
+    });
+  }
+
+  createChildContextForBlock() {
+    // For a block, we have to retain both the function, switch, and loop settings.
+    return new Context({
+      parent: this,
+      currentFunction: this.currentFunction,
+      inLoop: this.inLoop,
+      inSwitch: this.inSwitch,
     });
   }
 
