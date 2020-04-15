@@ -7,7 +7,7 @@
  */
 
 // const { TypeDec } = require("../ast");
-const util = require("util");
+const util = require('util');
 
 const {
   standardFunctions,
@@ -16,9 +16,9 @@ const {
   StringType,
   BoolType,
   NoneType,
-} = require("./builtins");
+} = require('./builtins');
 
-require("./analyzer");
+require('./analyzer');
 
 // When doing semantic analysis we pass around context objects.
 //
@@ -42,7 +42,6 @@ class Context {
       currentFunction,
       inLoop,
       variableDeclarations: new Map(),
-      classDeclarations: new Map(),
     });
   }
 
@@ -81,16 +80,16 @@ class Context {
   }
 
   addClass(id, entity) {
-    if (this.classDeclarations.has(id)) {
+    if (this.variableDeclarations.has(id)) {
       throw new Error(`Class identifier already declared in this scope`);
     }
-    this.classDeclarations.set(id, entity);
+    this.variableDeclarations.set(id, entity);
   }
 
   // Returns the entity bound to the given identifier, starting from this
   // context and searching "outward" through enclosing contexts if necessary.
   lookupVar(id) {
-    console.log("IN LOOKUPVAR");
+    console.log('IN LOOKUPVAR');
     // console.log(`${util.inspect(context.variableDeclarations.get(id))}`);
     for (let context = this; context !== null; context = context.parent) {
       if (context.variableDeclarations.has(id)) {
@@ -102,8 +101,8 @@ class Context {
 
   lookupClass(id) {
     for (let context = this; context !== null; context = context.parent) {
-      if (context.classDeclarations.has(id)) {
-        return context.classDeclarations.get(id);
+      if (context.variableDeclarations.has(id)) {
+        return context.variableDeclarations.get(id);
       }
     }
     throw new Error(`Class ${id} has not been declared`);
@@ -117,7 +116,7 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-standardFunctions.forEach((f) => {
+standardFunctions.forEach(f => {
   Context.INITIAL.variableDeclarations[f.id] = f;
 });
 

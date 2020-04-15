@@ -6,9 +6,9 @@
  * throwing the expected errors.
  */
 
-const fs = require("fs");
-const parse = require("../../syntax/parser");
-const Context = require("../../semantics/context");
+const fs = require('fs');
+const parse = require('../../syntax/parser');
+const Context = require('../../semantics/context');
 
 const errors = {
   // "arg-call-wrong-type": "Argument and parameter types do not match",
@@ -33,7 +33,7 @@ const errors = {
   // "setz-improper": "Types are not compatible",
   // "stayz-reassignment": "Types are not compatible",
   // "subscripted-nan": "Types are not compatible",
-  "subscripted-wrong-type": "Not subscriptable",
+  'subscripted-wrong-type': 'Not subscriptable',
   // "unary-wrong-type": "Types are not compatible",
   // "var-incorrect-type-reassignment": "Types are not compatible",
   // "var-not-declared": "Variable has not been declared",
@@ -43,23 +43,23 @@ const errors = {
   // "unary-expression": "Not an IntType",
 };
 
-describe("The semantic analyzer", () => {
-  fs.readdirSync(__dirname).forEach((name) => {
-    if (name.endsWith(".error")) {
-      test(`detected in ${name}`, (done) => {
-        const program = parse(fs.readFileSync(`${__dirname}/${name}`, "utf-8"));
+describe('The semantic analyzer', () => {
+  fs.readdirSync(__dirname).forEach(name => {
+    if (name.endsWith('.errorz')) {
+      test(`detected in ${name}`, done => {
+        const program = parse(fs.readFileSync(`${__dirname}/${name}`, 'utf-8'));
         const errorPattern = errors[name.slice(0, name.length - 6)];
         // eslint-disable-next-line no-undef
-        expect(() =>
-          program.analyze(Context.INITIAL.createChildContextForBlock())
-        ).toThrow(errorPattern);
+        expect(() => program.analyze(Context.INITIAL.createChildContextForBlock())).toThrow(
+          errorPattern
+        );
         done();
       });
-    } else if (name.endsWith(".hotgirl")) {
-      test(`should analyze ${name} without errors`, (done) => {
+    } else if (name.endsWith('.hotgirlz')) {
+      test(`should analyze ${name} without errors`, done => {
         // For now, we are happy to know that these files pass semantic analysis.
         // We eventually need to check that the ASTs are properly decorated.
-        const program = parse(fs.readFileSync(`${__dirname}/${name}`, "utf-8"));
+        const program = parse(fs.readFileSync(`${__dirname}/${name}`, 'utf-8'));
         program.analyze(Context.INITIAL.createChildContextForBlock());
         done();
       });
