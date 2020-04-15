@@ -94,6 +94,7 @@ ArrayType.prototype.analyze = function (context) {
 };
 
 AssignmentStatement.prototype.analyze = function (context) {
+  console.log("In assignment");
   this.source.forEach((s) => s.analyze(context));
   this.target.forEach((id) => id.analyze(context));
   if (this.target.length !== this.source.length) {
@@ -213,15 +214,42 @@ BinaryExpression.prototype.analyze = function (context) {
 };
 
 Block.prototype.analyze = function (context) {
+  console.log("HERE?????");
   this.statements.forEach((stmt) => {
+    console.log(`STMT ${util.inspect(stmt)}`);
     stmt.analyze(context);
   });
 };
 
 BreakStatement.prototype.analyze = function (context) {
-  check.inLoop(context, "GTFO💩");
+  console.log("IN BREAK");
+  // try {
+  //   check.inLoop(context, "GTFO💩");
+  // } catch (e) {
+  //   if (!context.inSwitch) {
+  //     throw new Error("Cannot break outside of loop or switch");
+  //   }
+  // }
+
+  console.log(`InLoop ${context.inLoop} and InSwitch ${context.inSwitch}`);
+  console.log(`CONTEXT IN BREAK ${util.inspect(context)}`);
+
   if (!context.inLoop) {
-    throw new Error("Break outside of loop");
+    if (!context.inSwitch) {
+      console.log("AM I HERE????");
+      throw new Error("Break outside of loop or switch");
+    } else {
+      context.inSwitch = false;
+    }
+  }
+
+  if (!context.inSwitch) {
+    if (!context.inLoop) {
+      console.log("AM I HERE????");
+      throw new Error("Break outside of loop or switch");
+    }
+  } else {
+    context.inSwitch = false;
   }
 };
 
@@ -237,8 +265,14 @@ Call.prototype.analyze = function (context) {
 
 Case.prototype.analyze = function (context) {
   this.expression.analyze(context);
-  check.isBoolean(this.expression, "Expression for switch statement case");
+  this.type = this.expression.type;
+  console.log(`THIS.TYPE ${util.inspect(this.type)}`);
+
+  console.log(`CASE EXPRESSION: ${util.inspect(this.expression.type)}`);
+
+  // check.isBoolean(this.expression, "Expression for switch statement case");
   this.body.analyze(context);
+  console.log("HERE???");
 };
 
 ClassDeclaration.prototype.analyze = function (context) {
@@ -406,16 +440,13 @@ Program.prototype.analyze = function (context) {
 };
 
 ReturnStatement.prototype.analyze = function (context) {
-  console.log("got to return");
   this.expression.analyze(context);
-  console.log(
-    `HI WE RETURNING THIS EXPRESSION ${util.inspect(this.expression)}`
-  );
-  if (this.type === "leftOnRead") {
+  check.inFunction(context, "Return statement not in function");
+
+  if (context.currentFunction.type.name === "None") {
+    console.log("is void");
     throw new Error("Void functions cannot have return statements");
   }
-  // SEE IF FUCKED INFUNCTION
-  check.inFunction(context, "Return statement not in function");
   check.isAssignableTo(this.expression, context.currentFunction.type);
 };
 
@@ -450,12 +481,16 @@ SpreadForLoop.prototype.analyze = function (context) {
 };
 
 SwitchStatement.prototype.analyze = function (context) {
+  context.inSwitch = true;
   this.expression.analyze(context);
+  console.log(`SWITCH EXP: ${util.inspect(this.expression.ref.type)}`);
   this.cases.forEach((c) => {
     // are we doing this portion correctly?/ is it recursively checking the way
     // we think it is just by calling case/ do we even need the analyze then?
-    const currCase = new Case(c.expression, c.body);
+    let currCase = new Case(c.expression, c.body);
     currCase.analyze(context);
+    console.log(`CURRCASE SWITCH: ${util.inspect(currCase.type)}`);
+    check.isAssignableTo(this.expression.ref, currCase.type);
   });
   if (this.alternate) {
     this.alternate = new DefaultCase(this.alternate.body);

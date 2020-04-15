@@ -41,6 +41,7 @@ class Context {
       parent,
       currentFunction,
       inLoop,
+      inSwitch: false,
       variableDeclarations: new Map(),
     });
   }

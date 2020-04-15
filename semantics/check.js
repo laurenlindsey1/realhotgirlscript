@@ -159,6 +159,7 @@ module.exports = {
     console.log(
       `jsonify exp type ${JSON.stringify(exp.type)} ${JSON.stringify(type)}`
     );
+    console.log(`CHECKING ${JSON.stringify(exp.type) == JSON.stringify(type)}`);
     doCheck(
       JSON.stringify(exp.type) == JSON.stringify(type) ||
         (exp.type === IntType && type == LongType) ||
