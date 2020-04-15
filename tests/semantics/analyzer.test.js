@@ -6,60 +6,61 @@
  * throwing the expected errors.
  */
 
-const fs = require('fs');
-const parse = require('../../syntax/parser');
-const Context = require('../../semantics/context');
+const fs = require("fs");
+const parse = require("../../syntax/parser");
+const Context = require("../../semantics/context");
 
 const errors = {
-  // "arg-call-wrong-type": "Argument and parameter types do not match",
-  // "arrayz-improper": "Types are not compatible",
-  // "break-outside-loop": "Break outside of loop",
-  // "call-not-function": "Call is not a function",
-  // "dictz-wrong": "Types are not compatible",
-  // "digitz-plus-wordz": "Types are not compatible",
-  // "function-call-with-incorrect-args": "Incorrect function call",
-  // "function-no-return": "Missing return statement",
-  // "if-else-repeat": "Incorrect if/else usage",
-  // "if-not-boolz": "Not a boolean",
-  // "incompatible-func-return-types": "Types are not compatible",
-  // "incorrect-binary-exp": "Not an integer",
-  // "incorrect-reassignments": "Types are not compatible",
-  // "loop-error": "Types are not compatible",
-  // "member-expression-illegal", "Class andThatsOn has not been declared",
-  // "mismatched-assignment-length": "Incorrect number of arguments",
-  // "return-outside-of-function": "Return statement not in function",
-  // "reused-var-declaration": "Identifier already declared in this scope",
-  // "setz-assigned-to-boolz": "Types are not compatible",
-  // "setz-improper": "Types are not compatible",
-  // "stayz-reassignment": "Types are not compatible",
-  // "subscripted-nan": "Types are not compatible",
-  'subscripted-wrong-type': 'Not subscriptable',
-  // "unary-wrong-type": "Types are not compatible",
-  // "var-incorrect-type-reassignment": "Types are not compatible",
-  // "var-not-declared": "Variable has not been declared",
-  // "var-redeclared-in-function": "Identifier already declared in this scope",
-  // "void-function-with-return": "Void functions cannot have return statements",
-  // "wordz-assigned-to-digitz": "Types are not compatible",
-  // "unary-expression": "Not an IntType",
+  "arg-call-wrong-type": "Type mismatch",
+  "arrayz-improper": "Type mismatch",
+  "break-outside-loop": "Break outside of loop",
+  "call-not-function": "Not callable",
+  "dictz-wrong": "Type mismatch",
+  "digitz-plus-wordz": "Cannot concatenate unless string or integer",
+  "function-call-with-incorrect-args": "Expected 3 args in call, got 2",
+  "function-no-return": "Missing return statement",
+  "if-not-boolz": "Not a boolean",
+  "incompatible-func-return-types": "Type mismatch",
+  "incorrect-binary-exp": "Type mismatch",
+  "incorrect-reassignments": "Type mismatch",
+  "loop-error": "Type mismatch",
+  "member-expression-illegal": "Class andThatsOn has not been declared",
+  "mismatched-assignment-length": "Incorrect number of arguments",
+  "return-outside-of-function": "Not inside a function",
+  "reused-var-declaration": "Identifier already declared in this scope",
+  "setz-assigned-to-boolz": "Type mismatch",
+  "setz-improper": "Type mismatch",
+  "stayz-reassignment": "Assignment to constant variable",
+  "subscripted-nan": "Not an integer",
+  "subscripted-wrong-type": "Not subscriptable",
+  "tuplez-improper": "Type mismatch",
+  "unary-expression": "Type mismatch",
+  "unary-wrong-type": "Not a boolean",
+  "var-incorrect-type-reassignment": "Type mismatch",
+  "var-not-declared": "Identifier count has not been declared",
+  "var-out-of-function-scope": "Identifier message has not been declared",
+  "var-redeclared-in-function": "Identifier already declared in this scope",
+  "void-function-with-return": "Void functions cannot have return statements",
+  "wordz-assigned-to-digitz": "Type mismatch",
 };
 
-describe('The semantic analyzer', () => {
-  fs.readdirSync(__dirname).forEach(name => {
-    if (name.endsWith('.errorz')) {
-      test(`detected in ${name}`, done => {
-        const program = parse(fs.readFileSync(`${__dirname}/${name}`, 'utf-8'));
+describe("The semantic analyzer", () => {
+  fs.readdirSync(__dirname).forEach((name) => {
+    if (name.endsWith(".error")) {
+      test(`detected in ${name}`, (done) => {
+        const program = parse(fs.readFileSync(`${__dirname}/${name}`, "utf-8"));
         const errorPattern = errors[name.slice(0, name.length - 6)];
         // eslint-disable-next-line no-undef
-        expect(() => program.analyze(Context.INITIAL.createChildContextForBlock())).toThrow(
-          errorPattern
-        );
+        expect(() =>
+          program.analyze(Context.INITIAL.createChildContextForBlock())
+        ).toThrow(errorPattern);
         done();
       });
-    } else if (name.endsWith('.hotgirlz')) {
-      test(`should analyze ${name} without errors`, done => {
+    } else if (name.endsWith(".hotgirl")) {
+      test(`should analyze ${name} without errors`, (done) => {
         // For now, we are happy to know that these files pass semantic analysis.
         // We eventually need to check that the ASTs are properly decorated.
-        const program = parse(fs.readFileSync(`${__dirname}/${name}`, 'utf-8'));
+        const program = parse(fs.readFileSync(`${__dirname}/${name}`, "utf-8"));
         program.analyze(Context.INITIAL.createChildContextForBlock());
         done();
       });

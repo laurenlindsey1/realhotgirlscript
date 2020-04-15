@@ -200,7 +200,7 @@ BinaryExpression.prototype.analyze = function (context) {
         check.isString(this.right);
         this.type = StringType;
       } catch (e) {
-        throw new Error("can't concatenate unless string or integer");
+        throw new Error("Cannot concatenate unless string or integer");
       }
     }
   } else {
@@ -262,7 +262,7 @@ ClassicForLoop.prototype.analyze = function (context) {
     [this.initId],
     [this.initexpression]
   );
-  console.log("BODY CONTEXT:");
+  // console.log("BODY CONTEXT:");
   bodyContext.addVar(this.index.ids[0], this.index);
   console.log(`${util.inspect(bodyContext)}`);
   this.testExpression.analyze(bodyContext);
@@ -343,7 +343,7 @@ IdentifierDeclaration.prototype.analyze = function (context) {
 IdentifierExpression.prototype.analyze = function (context) {
   console.log("FUCK");
   console.log(`${util.inspect(this.id)}`);
-  console.log(`CONTEXT: ${util.inspect(context)}`);
+  // console.log(`CONTEXT: ${util.inspect(context)}`);
   // this.id.analyze(context);
   console.log(`HI HI HI LOOKUP ${util.inspect(context.lookupVar(this.id))}`);
   this.ref = context.lookupVar(this.id);
@@ -463,10 +463,17 @@ SwitchStatement.prototype.analyze = function (context) {
 };
 
 SubscriptedExpression.prototype.analyze = function (context) {
-  console.log("HI!");
-  this.varexp = context.lookupVar(this.varexp);
-  this.subscript = context.lookupVar(this.subscript);
+  this.varexp = context.lookupVar(this.varexp.id);
+  console.log("IM HERE MAN");
+
+  console.log(`SUBSCRIPT ${util.inspect(this.subscript)}`);
+  // if (context.lookupVar(this.subscript)) {
+  //   this.subscript = context.lookupVar(this.subscript);
+  // } else if (context.lookupClass(this.subscript)) {
+  //   this.subscript = context.lookupClass(this.subscript);
+  // }
   check.isNotSubscriptable(this.varexp);
+  check.isInteger(this.subscript);
   this.varexp.analyze(context);
   this.subscript.analyze(context);
 };

@@ -7,7 +7,7 @@
  */
 
 // const { TypeDec } = require("../ast");
-const util = require('util');
+const util = require("util");
 
 const {
   standardFunctions,
@@ -16,9 +16,9 @@ const {
   StringType,
   BoolType,
   NoneType,
-} = require('./builtins');
+} = require("./builtins");
 
-require('./analyzer');
+require("./analyzer");
 
 // When doing semantic analysis we pass around context objects.
 //
@@ -89,8 +89,6 @@ class Context {
   // Returns the entity bound to the given identifier, starting from this
   // context and searching "outward" through enclosing contexts if necessary.
   lookupVar(id) {
-    console.log('IN LOOKUPVAR');
-    // console.log(`${util.inspect(context.variableDeclarations.get(id))}`);
     for (let context = this; context !== null; context = context.parent) {
       if (context.variableDeclarations.has(id)) {
         return context.variableDeclarations.get(id);
@@ -116,7 +114,7 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-standardFunctions.forEach(f => {
+standardFunctions.forEach((f) => {
   Context.INITIAL.variableDeclarations[f.id] = f;
 });
 
