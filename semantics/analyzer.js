@@ -75,11 +75,11 @@ Argument.prototype.analyze = function (context) {
 };
 
 ArrayExpression.prototype.analyze = function (context) {
-  this.expression.forEach((m) => m.analyze(context));
-  if (this.expression.length) {
-    this.type = new ArrayType(this.expression[0].type);
-    for (let i = 1; i < this.expression.length; i += 1) {
-      check.isAssignableTo(this.expression[i], this.type.memberType);
+  this.expressions.forEach((m) => m.analyze(context));
+  if (this.expressions.length) {
+    this.type = new ArrayType(this.expressions[0].type);
+    for (let i = 1; i < this.expressions.length; i += 1) {
+      check.isAssignableTo(this.expressions[i], this.type.memberType);
     }
   } else {
     this.type = new ArrayType(NoneType);
@@ -205,22 +205,22 @@ DefaultCase.prototype.analyze = function (context) {
 };
 
 DictExpression.prototype.analyze = function (context) {
-  this.expression.forEach((m) => m.analyze(context));
+  this.expressions.forEach((m) => m.analyze(context));
 
-  if (this.expression.length) {
-    check.isKeyValueExpression(this.expression[0]);
+  if (this.expressions.length) {
+    check.isKeyValueExpression(this.expressions[0]);
     let keyType = undefined;
     let valueType = undefined;
-    if (this.expression[0].key) {
-      keyType = this.expression[0].key.type;
+    if (this.expressions[0].key) {
+      keyType = this.expressions[0].key.type;
     }
-    if (this.expression[0].value) {
-      valueType = this.expression[0].value.type;
+    if (this.expressions[0].value) {
+      valueType = this.expressions[0].value.type;
     }
     this.type = new DictType(keyType, valueType);
-    for (let i = 1; i < this.expression.length; i += 1) {
-      check.isAssignableTo(this.expression[i].key, this.type.keyType);
-      check.isAssignableTo(this.expression[i].value, this.type.valueType);
+    for (let i = 1; i < this.expressions.length; i += 1) {
+      check.isAssignableTo(this.expressions[i].key, this.type.keyType);
+      check.isAssignableTo(this.expressions[i].value, this.type.valueType);
     }
   } else {
     this.type = new DictType(NoneType);
@@ -308,11 +308,11 @@ ReturnStatement.prototype.analyze = function (context) {
 };
 
 SetExpression.prototype.analyze = function (context) {
-  this.expression.forEach((m) => m.analyze(context));
-  if (this.expression.length) {
-    this.type = new SetType(this.expression[0].type);
-    for (let i = 1; i < this.expression.length; i += 1) {
-      check.isAssignableTo(this.expression[i], this.type.memberType);
+  this.expressions.forEach((m) => m.analyze(context));
+  if (this.expressions.length) {
+    this.type = new SetType(this.expressions[0].type);
+    for (let i = 1; i < this.expressions.length; i += 1) {
+      check.isAssignableTo(this.expressions[i], this.type.memberType);
     }
   } else {
     this.type = new SetType(NoneType);

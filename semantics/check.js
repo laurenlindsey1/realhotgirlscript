@@ -29,7 +29,7 @@ function isEmptyDictOrSet(expression) {
     expression.type.constructor === DictType ||
     expression.type.constructor === SetType
   ) {
-    return expression.expression.length === 0;
+    return expression.expressions.length === 0;
   }
   return false;
 }
@@ -41,9 +41,9 @@ function isEmptyTuple(expression) {
   return false;
 }
 
-function isEmptyArray(expression) {
-  if (expression.type.constructor === ArrayType) {
-    return expression.expression.length === 0;
+function isEmptyArray(expressions) {
+  if (expressions.type.constructor === ArrayType) {
+    return expressions.expressions.length === 0;
   }
   return false;
 }
