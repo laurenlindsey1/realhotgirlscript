@@ -13,6 +13,7 @@ const Call = require("../ast/call");
 const ClassDeclaration = require("../ast/class-declaration");
 const ContinueStatement = require("../ast/continue-statement");
 const DictExpression = require("../ast/dict-expression");
+const DefaultCase = require("../ast/default-case");
 const DictType = require("../ast/dict-type");
 const FunctionDeclaration = require("../ast/function-declaration");
 const IfStatement = require("../ast/if-statement");
@@ -23,7 +24,6 @@ const NumericLiteral = require("../ast/numeric-literal");
 const Print = require("../ast/print");
 const Program = require("../ast/program");
 const ReturnStatement = require("../ast/return-statement");
-const DefaultCase = require("../ast/default-case");
 const SetExpression = require("../ast/set-expression");
 const SetType = require("../ast/set-type");
 const StringType = require("../ast/string-type");
@@ -45,9 +45,8 @@ const StringLiteral = require("../ast/string-literal");
 const BooleanLiteral = require("../ast/boolean-literal");
 const IdType = require("../ast/id-type");
 const PrintStatement = require("../ast/print-statement");
-const Fraction = require("../ast/fraction");
-const Exponent = require("../ast/exponent");
 const NoneLiteral = require("../ast/none-literal");
+const MemberExpression = require("../ast/member-expression");
 
 const realHotGirlScript = ohm.grammar(
   fs.readFileSync("grammar/realHotGirlScript.ohm")
@@ -242,8 +241,8 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation("ast", {
     return new SubscriptedExpression(varexp.ast(), subscripted.ast());
   },
 
-  VarExp_member(varexp, _1, id) {
-    return new SubscriptedExpression(varexp.ast(), id.ast());
+  VarExp_member(varexp, _1, member) {
+    return new MemberExpression(varexp.ast(), member.ast());
   },
 
   VarExp_simple(id) {

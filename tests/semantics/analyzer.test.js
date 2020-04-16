@@ -24,7 +24,7 @@ const errors = {
   "incorrect-binary-exp": "Type mismatch",
   "incorrect-reassignments": "Type mismatch",
   "loop-error": "Type mismatch",
-  "member-expression-illegal": "Class andThatsOn has not been declared",
+  "member-expression-illegal": "Has no member expression",
   "mismatched-assignment-length": "Incorrect number of arguments",
   "return-outside-of-function": "Not inside a function",
   "reused-var-declaration": "Identifier already declared in this scope",
