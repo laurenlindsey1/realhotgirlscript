@@ -81,6 +81,8 @@ ArrayExpression.prototype.gen = function () {
 };
 
 AssignmentStatement.prototype.gen = function () { //not working
+  console.log("in assignment");
+  return `${this.target.gen()} = ${this.source.gen()}`;
   //poss add brackets
   // const targets = this.targets.map(t => t.gen());
   //   const sources = this.sources.map(s => s.gen());
@@ -120,7 +122,12 @@ CallStatement.prototype.gen = function () {
 };
 
 Case.prototype.gen = function () {
-  return `case ${this.expression}: ${this.body}`;
+  console.log("AM I HERE?\n");
+  console.log(`EXP IS: ${util.inspect(this.expression)}`);
+  console.log(`BODY IS: ${util.inspect(this.body)}`);
+  const exp = this.expression.gen();
+  const body = this.body.gen();
+  return `case ${exp}: ${body}`;
 };
 
 ClassDeclaration.prototype.gen = function () {
@@ -269,6 +276,7 @@ VariableDeclaration.prototype.gen = function () {
 };
 
 VariableExpression.prototype.gen = function () {
+  console.log("In varexp");
   return `let ${javaScriptId(this)} = ${this.id.gen()}`;
 };
 
