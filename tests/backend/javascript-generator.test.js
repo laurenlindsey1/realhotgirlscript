@@ -48,6 +48,32 @@ trueShit && trueShit!!!
 //     /for \(let i_(\d+) = 0; i_\1 <= 10; i_\1 \+= 1\) \{\s*console.log\("Hi Toal :\)"\);\s*\};/,
 //   ],
 
+  array: [
+    String.raw`
+    arrayz<digitz> g : [1,2,3]!!!
+  `,
+    /let g_(\d+) = \[\s*1,\s*2,\s*3\s*\];/,
+  ],
+
+  set: [
+    String.raw`
+    setz <digitz> names: $1, 2, 3#!!!
+  `,
+    /let names_(\d+) = new Set\(\[\s*1,\s*2,\s*3\s*\]\);/,
+  ],
+
+  dict: [
+    String.raw` dictz <wordz,wordz> d: $ "forney" ~ "hustler", "toal" ~ "wizard"#!!!`,
+    /let d_\d+ = \{\s*forney: "hustler",\s*toal: "wizard"\s*\};/,
+  ],
+  
+  tuple: [
+    String.raw`
+    tuplez<digitz, boolz> tup: (1,2,trueShit)!!!
+  `,
+    /let tup_(\d+) = \[\s*1,\s*2,\s*true\s*\];/,
+  ],
+
   ifStatement: [
     String.raw`iHaveSomethingToSay🙅🏾‍♀️ 4 < 10 $
     digitz x:10!!!
@@ -65,6 +91,27 @@ trueShit && trueShit!!!
   #`,
     /if \(1 < 2\) \{\s*1;\s*\} else if \(1 > 2\) \{\s*2;\s*\} else \{\s*3;\s*\};/,
   ],
+
+//   switch: [
+//       String.raw`
+//       digitz number: 0!!!
+// wordz day: ""!!!
+// shutUpGirlfriend😈 number $
+//   andWhatAboutIt👉 0 $
+//       day : "Sunday"!!!
+//       GTFO💩!!!
+//   #
+//   andWhatAboutIt👉 6  $
+//       day : "Saturday"!!!
+//       GTFO💩!!!
+//   #
+//   andLetMeDoMe🤑 $
+//       day : "Weekday"!!!
+//   #
+// #
+//       `,
+//       /let number_(\d+) = 0;\s*let day_(\d+) = "";\s*switch\(number_(1)\){case 0:\s*day_(2) = "Sunday";\s*break;\s*case 6:\s*day_(2) = "Saturday";\s*break;default:\s*day_(2) = "Weekday";\s*}/
+//   ]
 
 //   print: [
 //     String.raw`supLilBitch "hi"!!!`,

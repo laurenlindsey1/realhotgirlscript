@@ -53,7 +53,6 @@ function makeOp(op) {
   );
 }
 
-//no idea what this is
 const jsName = (() => {
   let lastId = 0;
   const map = new Map();
@@ -66,7 +65,6 @@ const jsName = (() => {
 })();
 
 function generateBlock(block) {
-  console.log("block: \n" + block);
   return block.map(s => `${s.gen()};`).join("");
 }
 
@@ -78,6 +76,8 @@ Argument.prototype.gen = function () {
 };
 
 ArrayExpression.prototype.gen = function () {
+  const jsMembers = this.expressions.map(expressions => expressions.gen());
+  return `[${jsMembers.join(",")}]`;
 };
 
 AssignmentStatement.prototype.gen = function () { //not working
@@ -120,13 +120,12 @@ CallStatement.prototype.gen = function () {
 };
 
 Case.prototype.gen = function () {
+  return `case ${this.expression}: ${this.body}`;
 };
 
 ClassDeclaration.prototype.gen = function () {
 };
 
-//(index, low, high, body
-//type, initId, initexpression, testExpression, updateid, incop, body
 ClassicForLoop.prototype.gen = function () {
   const preAssign = `let ${this.initId} = ${this.initId.gen()};`;
   const loopControl = `for (let ${this.initId} = ${this.initExpression}; ${this.testExpression}; ${this.updateid}${this.incop})`;
@@ -140,21 +139,33 @@ ContinueStatement.prototype.gen = function () {
 };
 
 DefaultCase.prototype.gen = function () {
+  return `default: ${this.body}`
 };
 
 DictExpression.prototype.gen = function () {
+  const formattedKeyValues = [];
+  const keyValues = this.expressions.map(kv => kv.gen());
+  for (let i = 0; i < this.expressions.length; i += 1) {
+    formattedKeyValues.push(keyValues[i]);
+  } 
+  return `{ ${formattedKeyValues.join(", ")} }`;
 };
 
 FunctionDeclaration.prototype.gen = function () {
 };
 
 IdType.prototype.gen = function () {
+  return javaScriptId(this.id);
+
 };
 
 IdentifierDeclaration.prototype.gen = function () {
+  return javaScriptId(this.id);
 };
 
 IdentifierExpression.prototype.gen = function () {
+  return javaScriptId(this.id);
+
 };
 
 IfStatement.prototype.gen = function () {
@@ -200,6 +211,8 @@ ReturnStatement.prototype.gen = function () {
 };
 
 SetExpression.prototype.gen = function () {
+    const jsMembers = this.expressions.map(expression => expression.gen());
+    return `new Set([${jsMembers}])`;
 };
 
 StringLiteral.prototype.gen = function () {
@@ -216,9 +229,16 @@ SubscriptedExpression.prototype.gen = function () {
 };
 
 SwitchStatement.prototype.gen = function() {
-}
+  const cases = this.cases.forEach((c) => {
+    c.gen();
+  });
+  const alternate = this.alternate.gen();
+  return `switch(${this.expression} { ${cases.join("")}${alternate}}`;
+};
 
 TupleExpression.prototype.gen = function () {
+  const jsMembers = this.expressions.map(expressions => expressions.gen());
+  return `[${jsMembers.join(",")}]`;
 };
 
 UnaryExpression.prototype.gen = function () {
@@ -249,6 +269,7 @@ VariableDeclaration.prototype.gen = function () {
 };
 
 VariableExpression.prototype.gen = function () {
+  return `let ${javaScriptId(this)} = ${this.id.gen()}`;
 };
 
 WhileStatement.prototype.gen = function () {
