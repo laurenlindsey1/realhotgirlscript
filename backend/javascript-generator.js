@@ -60,6 +60,8 @@ const jsName = (() => {
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
+    console.log(`v is: ${util.inspect(v)}`);
+    // return `${v}_${map.get(v)}`;
     return `${v.id}_${map.get(v)}`;
   };
 })();
@@ -100,7 +102,11 @@ AssignmentStatement.prototype.gen = function () { //not working
 };
 
 BinaryExpression.prototype.gen = function () {
+  console.log(`left: ${util.inspect(this.left)}`);
+  console.log(`op: ${util.inspect(this.op)}`);
+  console.log(`right: ${util.inspect(this.right)}`);
   return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
+  // return `(${jsName(this.left)} ${makeOp(this.op)} ${this.right.gen()})`;
 };
 
 Block.prototype.gen = function () {
@@ -126,15 +132,19 @@ BreakStatement.prototype.gen = function () {
 };
 
 Call.prototype.gen = function () {
+  const args = this.args.map(a => a.gen());
+  console.log(`this call: ${util.inspect(this)}`);
+  return `${jsName(this.id)}(${args.join(',')})`;
 };
 
 CallStatement.prototype.gen = function () {
+  return this.call.gen()
 };
 
 Case.prototype.gen = function () {
-  console.log("AM I HERE?\n");
-  console.log(`EXP IS: ${util.inspect(this.expression)}`);
-  console.log(`BODY IS: ${util.inspect(this.body)}`);
+  // console.log("AM I HERE?\n");
+  // console.log(`EXP IS: ${util.inspect(this.expression)}`);
+  // console.log(`BODY IS: ${util.inspect(this.body)}`);
   const exp = this.expression.gen();
   const body = this.body.gen();
   return `case ${exp}: ${body}`;
@@ -154,10 +164,11 @@ ClassicForLoop.prototype.gen = function () {
   const i = jsName(this.initId);
   const low = this.initexpression.gen();
   const test = this.testExpression.gen();
-  // const preAssign = `let ${this.initId} = ${this.initId.gen()};`;
-  const loopControl = `for (let ${i} = ${low}; ${test}; ${this.updateid}${this.incop})`;
+  // console.log(`test exp is ${util.inspect(test)}`);
+  const loopControl = `for (let ${i} = ${low}; ${test}; ${jsName(this.updateid)}${this.incop})`;
+  // this is super hacky and probs not the way to go
+  // const loopControl = `for (let ${i} = ${low}; ${this.testExpression.left.id}${makeOp(this.testExpression.op)}${this.testExpression.right.gen()}; ${this.updateid}${this.incop})`;
   const body = this.body.gen();
-  // return `${preAssign} ${loopControl} {${body}}`;
   return `${loopControl} {${body}}`;
 
 };
@@ -180,6 +191,12 @@ DictExpression.prototype.gen = function () {
 };
 
 FunctionDeclaration.prototype.gen = function () {
+  const name = jsName(this);
+  const params = this.params.map(jsName);
+  // "Void" functions do not have a JS return, others do
+  // const body = this.body.type ? makeReturn(this.body) : this.body.gen();
+  const body = this.body.gen();
+  return `function ${name} (${params.join(',')}) {${body}}`;
 };
 
 IdType.prototype.gen = function () {
@@ -188,13 +205,13 @@ IdType.prototype.gen = function () {
 };
 
 IdentifierDeclaration.prototype.gen = function () {
-  console.log("in id dec");
+  // console.log("in id dec");
   return jsName(this.id);
 };
 
 IdentifierExpression.prototype.gen = function () {
-  // return jsName(this.id);
-  return this.ref.gen(); 
+  return jsName(this.id);
+  // return this.ref.gen();
 
 
 };
