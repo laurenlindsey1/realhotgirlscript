@@ -193,7 +193,9 @@ IdentifierDeclaration.prototype.gen = function () {
 };
 
 IdentifierExpression.prototype.gen = function () {
-  return jsName(this.id);
+  // return jsName(this.id);
+  return this.ref.gen(); 
+
 
 };
 
