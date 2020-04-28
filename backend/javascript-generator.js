@@ -70,7 +70,7 @@ const jsName = (() => {
     // console.log("hiiiiii");
     if (v.id) {
       console.log("THESE ARE THE NAMES:");
-      console.log(`${util.inspect(map)}`);
+      // console.log(`${util.inspect(map)}`);
       return `${v.id}_${map.get(v)}`;
     }
     return `${v}_${map.get(v)}`;
@@ -290,14 +290,12 @@ SubscriptedExpression.prototype.gen = function () {
 };
 
 SwitchStatement.prototype.gen = function () {
-  const cases = this.cases.forEach((c) => {
-    console.log(`case.gen: ${c.gen()}\n`);
-    c.gen();
-  });
-  console.log(`alt: ${this.alternate.gen()}\n`);
-  console.log(`expression: ${this.expression.gen()}\n`);
+  let allCases = '';
+  this.cases.forEach((c) => {
+    allCases += c.gen();
+    });
   const alternate = this.alternate.gen();
-  return `switch(${this.expression} { ${cases.join("")}${alternate}}`;
+  return `switch(${this.expression.gen()}) { ${allCases}${alternate}}`;
 };
 
 TupleExpression.prototype.gen = function () {

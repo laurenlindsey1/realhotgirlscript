@@ -116,29 +116,28 @@ const fixture = {
 
   switch: [
     String.raw`
-            digitz number: 0!!!
+      digitz number: 0!!!
       wordz day: ""!!!
       shutUpGirlfriend😈 number $
         andWhatAboutIt👉 0 $
-        day : "Sunday"!!!
-        GTFO💩!!!
-    #
-    andWhatAboutIt👉 6  $
-        day : "Saturday"!!!
-        GTFO💩!!!
-    #
-    andLetMeDoMe🤑 $
-        day : "Weekday"!!!
-    #
-    #
+          day : "Sunday"!!!
+          GTFO💩!!!
+        #
+        andWhatAboutIt👉 6  $
+          day : "Saturday"!!!
+          GTFO💩!!!
+        #
+        andLetMeDoMe🤑 $
+          day: "Weekday"!!!
+        #
+      #
             `,
-    /let number_(\d+) = 0;\s*let day_(\d+) = "";\s*switch\(number_(1)\){case 0:\s*day_(2) = "Sunday";\s*break;\s*case 6:\s*day_(2) = "Saturday";\s*break;default:\s*day_(2) = "Weekday";\s*}/,
+    /let number_(\d+) = 0;\s*let day_(\d+) = "";\s*switch\s*\(number_(1)\)\s*{\s*case 0:\s*day_(2) = "Sunday";\s*break;\s*case 6:\s*day_(2) = "Saturday";\s*break;default:\s*let day_(2) = "Weekday";\s*};/,
   ],
 
   print: [
     String.raw`supLilBitch "hi"!!!`,
     /\s*console.log\("hi"\);\s*/,
-    // String.raw`console.log("hi");`,
   ],
 };
 
