@@ -48,25 +48,36 @@ const Context = require("../semantics/context");
 function makeOp(op) {
   return (
     //not sure if we need more of these, like for < etc.
-    { "BANGENERGY": "!", "-": "-", "+": "+", "&&": "&&", "||": "||", "==": "===", "!=": "!=" }[op]
-    || op
+    {
+      BANGENERGY: "!",
+      "-": "-",
+      "+": "+",
+      "&&": "&&",
+      "||": "||",
+      "==": "===",
+      "!=": "!=",
+    }[op] || op
   );
 }
 
 const jsName = (() => {
   let lastId = 0;
   const map = new Map();
-  return v => {
+  return (v) => {
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
-    if (v.id) { return `${v.id}_${map.get(v)}`; }
+    if (v.id) {
+      console.log("THESE ARE THE NAMES:");
+      console.log(`${util.inspect(map)}`);
+      return `${v.id}_${map.get(v)}`;
+    }
     return `${v}_${map.get(v)}`;
   };
 })();
 
 function generateBlock(block) {
-  return block.map(s => `${s.gen()};`).join("");
+  return block.map((s) => `${s.gen()};`).join("");
 }
 
 module.exports = function (exp) {
@@ -78,26 +89,17 @@ Argument.prototype.gen = function () {
 };
 
 ArrayExpression.prototype.gen = function () {
-  const jsMembers = this.expressions.map(expressions => expressions.gen());
+  const jsMembers = this.expressions.map((expressions) => expressions.gen());
   return `[${jsMembers.join(",")}]`;
 };
 
-AssignmentStatement.prototype.gen = function () { //not working
-  // console.log("in assignment");
-  //from casper
-  // const formattedIds = [];
-  // const exps = this.source.map(v => v.gen());
-  // for (let i = 0; i < this.target.length; i += 1) {
-  //   formattedIds.push(`${this.target[i].gen()} = ${exps[i]}`);
-  // }
-  // return `${formattedIds.join(", ")}`;
-
-  //poss add brackets
-  const targets = this.target.map(t => t.gen());
-  const sources = this.source.map(s => s.gen());
-  // console.log(`targets ${util.inspect(targets)}`);
-  // console.log(`sources ${util.inspect(sources)}`);
-  return `${targets} = ${sources}`;
+AssignmentStatement.prototype.gen = function () {
+  const formattedIds = [];
+  const sources = this.source.map((s) => s.gen());
+  for (let i = 0; i < this.target.length; i += 1) {
+    formattedIds.push(`${this.target[i].gen()} = ${sources[i]}`);
+  }
+  return `${formattedIds.join(", ")}`;
 };
 
 BinaryExpression.prototype.gen = function () {
@@ -108,18 +110,18 @@ Block.prototype.gen = function () {
   if (this.statements) {
     if (Array.isArray(this.statements)) {
       const statements = this.statements.map((s) => s.gen());
-      return `${statements.join(';')};`;
+      return `${statements.join(";")};`;
     }
     return `${this.statements.gen()}`;
   }
-  return '';
+  return "";
 };
 
 BooleanLiteral.prototype.gen = function () {
-  if (this.value === 'trueShit') {
-    return 'true';
+  if (this.value === "trueShit") {
+    return "true";
   }
-  return 'false';
+  return "false";
 };
 
 BreakStatement.prototype.gen = function () {
@@ -127,13 +129,13 @@ BreakStatement.prototype.gen = function () {
 };
 
 Call.prototype.gen = function () {
-  const args = this.args.map(a => a.gen());
+  const args = this.args.map((a) => a.gen());
   // console.log(`this call: ${util.inspect(this)}`);
-  return `${jsName(this.id)}(${args.join(',')})`;
+  return `${this.id.gen()}(${args.join(",")})`;
 };
 
 CallStatement.prototype.gen = function () {
-  return this.call.gen()
+  return this.call.gen();
 };
 
 Case.prototype.gen = function () {
@@ -145,17 +147,19 @@ Case.prototype.gen = function () {
   return `case ${exp}: ${body}`;
 };
 
-ClassDeclaration.prototype.gen = function () {
-};
+ClassDeclaration.prototype.gen = function () {};
 
 ClassicForLoop.prototype.gen = function () {
   const i = jsName(this.initId);
   const low = this.initexpression.gen();
-  const test = this.testExpression.gen().substring(1, this.testExpression.gen().length - 1); // removes parens around binary expression
-  const loopControl = `for (let ${i} = ${low}; ${test}; ${jsName(this.updateid)}${this.incop})`;
+  const test = this.testExpression
+    .gen()
+    .substring(1, this.testExpression.gen().length - 1); // removes parens around binary expression
+  const loopControl = `for (let ${i} = ${low}; ${test}; ${jsName(
+    this.updateid
+  )}${this.incop})`;
   const body = this.body.gen();
   return `${loopControl} {${body}}`;
-
 };
 
 ContinueStatement.prototype.gen = function () {
@@ -163,12 +167,12 @@ ContinueStatement.prototype.gen = function () {
 };
 
 DefaultCase.prototype.gen = function () {
-  return `default: ${this.body.gen()}`
+  return `default: ${this.body.gen()}`;
 };
 
 DictExpression.prototype.gen = function () {
   const formattedKeyValues = [];
-  const keyValues = this.expressions.map(kv => kv.gen());
+  const keyValues = this.expressions.map((kv) => kv.gen());
   for (let i = 0; i < this.expressions.length; i += 1) {
     formattedKeyValues.push(keyValues[i]);
   }
@@ -176,38 +180,50 @@ DictExpression.prototype.gen = function () {
 };
 
 FunctionDeclaration.prototype.gen = function () {
-  const name = jsName(this);
-  const params = this.params.map(jsName);
+  const name = jsName(this.id);
+  let asyncAddition = " ";
+  if (this.async) {
+    asyncAddition = " async ";
+  }
+  const params = this.params.map((p) => jsName(p));
   const body = this.body.gen();
-  return `function ${name} (${params.join(',')}) {${body}}`;
+  return `${asyncAddition}function ${name} (${params.join(",")}) {${body}}`;
 };
+
+// FunctionDeclaration.prototype.gen = function () {
+//   const name = jsName(this.id);
+//   let asyncAddition = " ";
+//   if (this.async) {
+//     asyncAddition = " async ";
+//   }
+//   return `function${asyncAddition}${this.id.gen()}(${this.function.params
+//     .map((p) => p.gen())
+//     .join(",")}) {
+//     ${generateBlock(this.function.body)}
+//   }`;
+// };
 
 IdType.prototype.gen = function () {
   return jsName(this.id);
-
 };
 
 IdentifierDeclaration.prototype.gen = function () {
   // console.log("in id dec");
   return jsName(this.id);
+  // return this.ref.gen();
 };
 
 IdentifierExpression.prototype.gen = function () {
-  return jsName(this.id);
-  // return this.ref.gen();
-
-
+  // return jsName(this.id);
+  return this.ref.gen();
 };
 
 IfStatement.prototype.gen = function () {
   const cases = this.tests.map((test, index) => {
     const prefix = index === 0 ? "if" : "} else if";
-    return `${prefix} ${test.gen()} {${
-      this.consequents[index].gen()}`;
+    return `${prefix} ${test.gen()} {${this.consequents[index].gen()}`;
   });
-  const alternate = this.alternate
-    ? `}else{${this.alternate.gen()}`
-    : "";
+  const alternate = this.alternate ? `}else{${this.alternate.gen()}` : "";
   return `${cases.join("")}${alternate}}`;
 };
 
@@ -227,22 +243,20 @@ NumericLiteral.prototype.gen = function () {
   return `${this.value}`;
 };
 
-Parameter.prototype.gen = function () {
-};
+Parameter.prototype.gen = function () {};
 
 PrintStatement.prototype.gen = function () {
   return `console.log(${this.expression.expression.gen()})`;
-}
+};
 
-Program.prototype.gen = function () {
-}
+Program.prototype.gen = function () {};
 
 ReturnStatement.prototype.gen = function () {
   return `return ${this.expression.gen()}`;
 };
 
 SetExpression.prototype.gen = function () {
-  const jsMembers = this.expressions.map(expression => expression.gen());
+  const jsMembers = this.expressions.map((expression) => expression.gen());
   return `new Set([${jsMembers}])`;
 };
 
@@ -250,8 +264,7 @@ StringLiteral.prototype.gen = function () {
   return `${this.value}`;
 };
 
-SpreadForLoop.prototype.gen = function () {
-};
+SpreadForLoop.prototype.gen = function () {};
 
 SubscriptedExpression.prototype.gen = function () {
   const base = this.varexp.gen();
@@ -271,7 +284,7 @@ SwitchStatement.prototype.gen = function () {
 };
 
 TupleExpression.prototype.gen = function () {
-  const jsMembers = this.expressions.map(expressions => expressions.gen());
+  const jsMembers = this.expressions.map((expressions) => expressions.gen());
   return `[${jsMembers.join(",")}]`;
 };
 
@@ -280,28 +293,35 @@ UnaryExpression.prototype.gen = function () {
 };
 
 Variable.prototype.gen = function () {
-  // console.log("In variable");
   const id = this.id.id === undefined ? this : this.id;
   return `${jsName(id)}`;
 };
+
+// VariableDeclaration.prototype.gen = function () {
+//   const formattedIds = [];
+//   const exps = this.exps.map(v => v.gen());
+//   for (let i = 0; i < this.ids.length; i += 1) {
+//     formattedIds.push(`${jsName(this.ids[i])} = ${exps[i]}`);
+//   }
+//   return `let ${formattedIds.join(", ")}`;
+// };
 
 VariableDeclaration.prototype.gen = function () {
   // console.log("In var dec");
   const formattedIds = [];
 
   if (this.const) {
-    const expressions = this.expressions.map(v => v.gen());
+    const expressions = this.expressions.map((v) => v.gen());
     for (let i = 0; i < this.ids.length; i += 1) {
       formattedIds.push(`${jsName(this.ids[i])} = ${expressions[i]}`);
     }
     return `const ${formattedIds.join(", ")}`;
   }
-  const expressions = this.expressions.map(v => v.gen());
+  const expressions = this.expressions.map((v) => v.gen());
   for (let i = 0; i < this.ids.length; i += 1) {
     formattedIds.push(`${jsName(this.ids[i])} = ${expressions[i]}`);
   }
   return `let ${formattedIds.join(", ")}`;
-
 };
 
 VariableExpression.prototype.gen = function () {

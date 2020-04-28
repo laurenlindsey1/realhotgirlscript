@@ -21,7 +21,9 @@
     "deep-equal": "^2.0.2",
     "jest": "^25.1.0",
     "ohm-js": "^0.14.0",
+    "prettier": "^2.0.5",
     "pretty-js": "^0.2.1",
+    "util": "^0.12.2",
     "yargs": "^15.1.0"
   },
   "devDependencies": {
