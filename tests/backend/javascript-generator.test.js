@@ -4,7 +4,7 @@ const Context = require("../../semantics/context");
 
 const fixture = {
   letandassign: [
-    String.raw`digitz x: 5 !!! x: 9 !!!`,
+    String.raw`digitz x: 5 !!! x: 9!!!`,
     /let x_(\d+) = 5;\s*x_\1 = 9;/,
   ],
 
@@ -17,22 +17,27 @@ const fixture = {
   ],
 
   binary: [
-    String.raw`2 <= 5!!! 4 != 12!!! trueShit && trueShit!!! "hello" + "World"!!! 2 + 10!!! (9 / 3) + ((2 * 6) % 4) - 1!!!`,
+    String.raw`2 <= 5!!!
+    4 != 12!!!
+    trueShit && trueShit!!!
+    "hello" + "World"!!!
+    2 + 10!!!
+    (9 / 3) + ((2 * 6) % 4) - 1!!!`,
     String.raw`(2 <= 5);
-      (4 != 12);
-      (true && true);
-      ("hello" + "World");
-      (2 + 10);
-      (((9 / 3) + ((2 * 6) % 4)) - 1);`,
-    // String.raw`2 <= 5!!!`,
-    // String.raw`(2 <= 5);`,
+(4 != 12);
+(true && true);
+("hello" + "World");
+(2 + 10);
+(((9 / 3) + ((2 * 6) % 4)) - 1);`,
   ],
 
   unary: [
-    String.raw`-2!!! +2!!! BANGENERGY trueShit!!!`,
+    String.raw`-2!!!
+    +2!!!
+    BANGENERGY trueShit!!!`,
     String.raw`(-2);
-      (+2);
-      (!true);`
+(+2);
+(!true);`
   ],
 
   variables: [
@@ -108,17 +113,17 @@ const fixture = {
   wordz day: ""!!!
   shutUpGirlfriend😈 number $
     andWhatAboutIt👉 0 $
-        day : "Sunday"!!!
-        GTFO💩!!!
-    #
-    andWhatAboutIt👉 6  $
-        day : "Saturday"!!!
-        GTFO💩!!!
-    #
-    andLetMeDoMe🤑 $
-        day : "Weekday"!!!
-    #
-  #
+    day : "Sunday"!!!
+    GTFO💩!!!
+#
+andWhatAboutIt👉 6  $
+    day : "Saturday"!!!
+    GTFO💩!!!
+#
+andLetMeDoMe🤑 $
+    day : "Weekday"!!!
+#
+# 
         `,
     /let number_(\d+) = 0;\s*let day_(\d+) = "";\s*switch\(number_(1)\){case 0:\s*day_(2) = "Sunday";\s*break;\s*case 6:\s*day_(2) = "Saturday";\s*break;default:\s*day_(2) = "Weekday";\s*}/
   ],

@@ -60,7 +60,7 @@ const jsName = (() => {
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
-    console.log(`v is: ${util.inspect(v)}`);
+    // console.log(`v is: ${util.inspect(v)}`);
     // return `${v}_${map.get(v)}`;
     return `${v.id}_${map.get(v)}`;
   };
@@ -84,7 +84,7 @@ ArrayExpression.prototype.gen = function () {
 };
 
 AssignmentStatement.prototype.gen = function () { //not working
-  console.log("in assignment");
+  // console.log("in assignment");
   //from casper
   // const formattedIds = [];
   // const exps = this.source.map(v => v.gen());
@@ -96,15 +96,15 @@ AssignmentStatement.prototype.gen = function () { //not working
   //poss add brackets
   const targets = this.target.map(t => t.gen());
   const sources = this.source.map(s => s.gen());
-  console.log(`targets ${util.inspect(targets)}`);
-  console.log(`sources ${util.inspect(sources)}`);
+  // console.log(`targets ${util.inspect(targets)}`);
+  // console.log(`sources ${util.inspect(sources)}`);
   return `${targets} = ${sources}`;
 };
 
 BinaryExpression.prototype.gen = function () {
-  console.log(`left: ${util.inspect(this.left)}`);
-  console.log(`op: ${util.inspect(this.op)}`);
-  console.log(`right: ${util.inspect(this.right)}`);
+  // console.log(`left: ${util.inspect(this.left)}`);
+  // console.log(`op: ${util.inspect(this.op)}`);
+  // console.log(`right: ${util.inspect(this.right)}`);
   return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
   // return `(${jsName(this.left)} ${makeOp(this.op)} ${this.right.gen()})`;
 };
@@ -133,7 +133,7 @@ BreakStatement.prototype.gen = function () {
 
 Call.prototype.gen = function () {
   const args = this.args.map(a => a.gen());
-  console.log(`this call: ${util.inspect(this)}`);
+  // console.log(`this call: ${util.inspect(this)}`);
   return `${jsName(this.id)}(${args.join(',')})`;
 };
 
@@ -178,7 +178,7 @@ ContinueStatement.prototype.gen = function () {
 };
 
 DefaultCase.prototype.gen = function () {
-  return `default: ${this.body}`
+  return `default: ${this.body.gen()}`
 };
 
 DictExpression.prototype.gen = function () {
@@ -278,8 +278,11 @@ SubscriptedExpression.prototype.gen = function () {
 
 SwitchStatement.prototype.gen = function () {
   const cases = this.cases.forEach((c) => {
+    console.log(`case.gen: ${c.gen()}\n`);
     c.gen();
   });
+  console.log(`alt: ${this.alternate.gen()}\n`);
+  console.log(`expression: ${this.expression.gen()}\n`);
   const alternate = this.alternate.gen();
   return `switch(${this.expression} { ${cases.join("")}${alternate}}`;
 };
@@ -294,13 +297,13 @@ UnaryExpression.prototype.gen = function () {
 };
 
 Variable.prototype.gen = function () {
-  console.log("In variable");
+  // console.log("In variable");
   const id = this.id.id === undefined ? this : this.id;
   return `${jsName(id)}`;
 };
 
 VariableDeclaration.prototype.gen = function () {
-  console.log("In var dec");
+  // console.log("In var dec");
   const formattedIds = [];
 
   if (this.const) {
@@ -319,7 +322,7 @@ VariableDeclaration.prototype.gen = function () {
 };
 
 VariableExpression.prototype.gen = function () {
-  console.log("In varexp");
+  // console.log("In varexp");
   return `let ${jsName(this)} = ${this.id.gen()}`;
 };
 
