@@ -67,7 +67,7 @@ const jsName = (() => {
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
-    // console.log("hiiiiii");s
+    // console.log("hiiiiii");
     if (v.id) {
       console.log("THESE ARE THE NAMES:");
       console.log(`${util.inspect(map)}`);
@@ -151,7 +151,16 @@ Case.prototype.gen = function () {
   return `case ${exp}: ${body}`;
 };
 
-ClassDeclaration.prototype.gen = function () {};
+ClassDeclaration.prototype.gen = function () {
+  let param = '';
+  if(this.params.length){
+    param = this.params.forEach((p) => {
+      p.gen();
+    });
+  }
+  const dec = `class ${jsName(this.id)} (${param})`
+  return `${dec} {${this.body.gen()}}`
+};
 
 ClassicForLoop.prototype.gen = function () {
   const i = jsName(this.initId);

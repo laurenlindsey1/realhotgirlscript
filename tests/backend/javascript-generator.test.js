@@ -18,34 +18,10 @@ const fixture = {
 
   class: [
     String.raw`ATTENTIONATTENTION🗣 fakeAssBitches () $
-    stringz worstQuality: "Being redundant and centrally irrelevant"!!!
+    wordz worstQuality: "Being redundant and centrally irrelevant"!!!
   #`,
-    /\s*class fakeAssBitches_(\d+)\(\)\s*{\s*let worstQuality_(\d+)\s*=\s*"Being redundant and centrally irrelevant";\s*}\s*/,
+    /class fakeAssBitches_(\d+)\(\) {\s*let worstQuality_(\d+) = "Being redundant and centrally irrelevant";\s*};/,
   ],
-  // \s*class fakeAssBitches_(\d+)\(\)\s*\{\s*c(\d+)\s*\=\s*"Being redundant and centrally irrelevant";\s*}\s*
-  // \s*async function hiMomma_(\d+)\(\)\s*{\s*let x_(\d+) = 10;\s*if\s*\(\s*x_\1\ < 10\s*\)\s*{\s*console.log\(\s*"You're less than 10 hoe"\s*\);\s*}\s*}\s*
-
-  // \s*async function hiMomma_(\d+)\(\)\s*{}\s*
-  // \s*let x_(\d+) = 10;\s*
-  // \s*if\s*\(\s*x\1\ < 10\s*\)\s*{\s*console.log\(\s*"You're less than 10 hoe"\s*\);\s*}
-  // \s*else if\s*\(\s*x\1\==10\s*\)\s*{\s*console.log\("10s 10s ACROSS THE BOARD"\);\s*}\s*
-  // \s*else\s*\{\s*console.log\(\s*"You're pretty thicc if you're greater than 10"\s*\);\s*}\s*
-  // \s*console.log\(\s*"I love myself"\s*\);\s*
-
-  // class fakeAssBitches_1() {
-  //   let worstQuality_1 = "Being redundant and centrally irrelevant";
-  //   async function hiMomma_1() {
-  //     let x_1 = 10;
-  //     if(x_1 < 10) {
-  //       console.log("You're less than 10 hoe");
-  //     } else if (x_1 == 10) {
-  //       console.log("10s 10s ACROSS THE BOARD");
-  //     } else {
-  //       console.log("You're pretty thicc if you're greater than 10");
-  //     }
-  //     console.log("I love myself");
-  //   }
-  // }
 
   binary: [
     String.raw`2 <= 5!!!
@@ -67,8 +43,8 @@ const fixture = {
       +2!!!
       BANGENERGY trueShit!!!`,
     String.raw`(-2);
-  (+2);
-  (!true);`,
+(+2);
+(!true);`,
   ],
 
   variables: [
