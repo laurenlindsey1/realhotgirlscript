@@ -133,8 +133,9 @@ BreakStatement.prototype.gen = function () {
 
 Call.prototype.gen = function () {
   const args = this.args.map((a) => a.gen());
-  // console.log(`this call: ${util.inspect(this)}`);
-  return `${this.id.gen()}(${args.join(",")})`;
+  console.log("CALLINNNG!");
+  console.log(`this call: ${util.inspect(this.id)}`);
+  return `${jsName(this.id.id)}(${args.join(",")})`;
 };
 
 CallStatement.prototype.gen = function () {
@@ -217,9 +218,10 @@ IdentifierDeclaration.prototype.gen = function () {
 };
 
 IdentifierExpression.prototype.gen = function () {
-  console.log(`${util.inspect(this)}`);
-  return jsName(this.ref.id);
-  // return this.id.gen();
+  if (this.ref !== undefined) {
+    return jsName(this.ref.id);
+  }
+  return jsName(this.id);
 };
 
 IfStatement.prototype.gen = function () {
@@ -250,6 +252,8 @@ NumericLiteral.prototype.gen = function () {
 Parameter.prototype.gen = function () {};
 
 PrintStatement.prototype.gen = function () {
+  console.log("PRINTIIIIING!");
+  console.log(`${util.inspect(this.expression.expression)}`);
   return `console.log(${this.expression.expression.gen()})`;
 };
 

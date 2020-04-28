@@ -250,8 +250,8 @@ IdentifierDeclaration.prototype.analyze = function (context) {
 };
 
 IdentifierExpression.prototype.analyze = function (context) {
-  console.log("over here!");
-  console.log(`${util.inspect(context.lookup(this.id))}`);
+  // console.log("over here!");
+  // console.log(`${util.inspect(context.lookup(this.id))}`);
   this.ref = context.lookup(this.id);
   this.type = this.ref.type;
 };
