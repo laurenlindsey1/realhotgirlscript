@@ -60,9 +60,8 @@ const jsName = (() => {
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
-    // console.log(`v is: ${util.inspect(v)}`);
-    // return `${v}_${map.get(v)}`;
-    return `${v.id}_${map.get(v)}`;
+    if (v.id) { return `${v.id}_${map.get(v)}`; }
+    return `${v}_${map.get(v)}`;
   };
 })();
 
@@ -102,11 +101,7 @@ AssignmentStatement.prototype.gen = function () { //not working
 };
 
 BinaryExpression.prototype.gen = function () {
-  // console.log(`left: ${util.inspect(this.left)}`);
-  // console.log(`op: ${util.inspect(this.op)}`);
-  // console.log(`right: ${util.inspect(this.right)}`);
   return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
-  // return `(${jsName(this.left)} ${makeOp(this.op)} ${this.right.gen()})`;
 };
 
 Block.prototype.gen = function () {
@@ -153,21 +148,11 @@ Case.prototype.gen = function () {
 ClassDeclaration.prototype.gen = function () {
 };
 
-//type,
-// initId,
-// initexpression,
-// testExpression,
-// updateid,
-// incop,
-// body
 ClassicForLoop.prototype.gen = function () {
   const i = jsName(this.initId);
   const low = this.initexpression.gen();
-  const test = this.testExpression.gen();
-  // console.log(`test exp is ${util.inspect(test)}`);
+  const test = this.testExpression.gen().substring(1, this.testExpression.gen().length - 1); // removes parens around binary expression
   const loopControl = `for (let ${i} = ${low}; ${test}; ${jsName(this.updateid)}${this.incop})`;
-  // this is super hacky and probs not the way to go
-  // const loopControl = `for (let ${i} = ${low}; ${this.testExpression.left.id}${makeOp(this.testExpression.op)}${this.testExpression.right.gen()}; ${this.updateid}${this.incop})`;
   const body = this.body.gen();
   return `${loopControl} {${body}}`;
 
@@ -193,8 +178,6 @@ DictExpression.prototype.gen = function () {
 FunctionDeclaration.prototype.gen = function () {
   const name = jsName(this);
   const params = this.params.map(jsName);
-  // "Void" functions do not have a JS return, others do
-  // const body = this.body.type ? makeReturn(this.body) : this.body.gen();
   const body = this.body.gen();
   return `function ${name} (${params.join(',')}) {${body}}`;
 };

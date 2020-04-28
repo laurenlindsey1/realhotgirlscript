@@ -10,9 +10,9 @@ const fixture = {
 
   argument: [
     String.raw`weOutHereTryinToFunction leftOnRead yourName(wordz name) $
-    supLilBitch "my name is " + name !!!
-  #
-  yourName(name: "lauren") !!!`,
+      supLilBitch "my name is " + name !!!
+    #
+    yourName(name: "lauren") !!!`,
     /function yourName_(\d+)\(name_(\d+)\) {\s*console.log\("my name is " \+ name_\2\);\s*\};\s*yourName_\1\("lauren"\);/,
   ],
 
@@ -42,15 +42,15 @@ const fixture = {
 
   variables: [
     String.raw`digitz z: 10!!!
-      wordz y: "hello!"!!!
-      boolz t: fraudulentAssBitch!!!`,
+        wordz y: "hello!"!!!
+        boolz t: fraudulentAssBitch!!!`,
     /let z_(\d+) = 10;\s*let y_(\d+) = "hello!";\s*let t_(\d+) = false;/
   ],
 
   whileLoopWithBreak: [
     String.raw`wylin🤪 trueShit  $
-      GTFO💩!!!
-    #`,
+        GTFO💩!!!
+      #`,
     /while \(true\) \{\s*break;\s*\};/,
   ],
 
@@ -60,7 +60,7 @@ const fixture = {
     supLilBitch "Hi Toal :)"!!!
   #
     `,
-    /for \(let i_(\d+) = 0; i_\1 <= 10; i_\1 \+= 1\) \{\s*console.log\("Hi Toal :\)"\);\s*\};/,
+    /for \(let i_(\d+) = 0; i_\1 <= 10; i_\1 \+\+\) \{\s*console.log\("Hi Toal :\)"\);\s*\};/,
   ],
 
   array: [
@@ -109,22 +109,22 @@ const fixture = {
 
   switch: [
     String.raw`
-        digitz number: 0!!!
-  wordz day: ""!!!
-  shutUpGirlfriend😈 number $
-    andWhatAboutIt👉 0 $
-    day : "Sunday"!!!
-    GTFO💩!!!
-#
-andWhatAboutIt👉 6  $
-    day : "Saturday"!!!
-    GTFO💩!!!
-#
-andLetMeDoMe🤑 $
-    day : "Weekday"!!!
-#
-# 
-        `,
+          digitz number: 0!!!
+    wordz day: ""!!!
+    shutUpGirlfriend😈 number $
+      andWhatAboutIt👉 0 $
+      day : "Sunday"!!!
+      GTFO💩!!!
+  #
+  andWhatAboutIt👉 6  $
+      day : "Saturday"!!!
+      GTFO💩!!!
+  #
+  andLetMeDoMe🤑 $
+      day : "Weekday"!!!
+  #
+  # 
+          `,
     /let number_(\d+) = 0;\s*let day_(\d+) = "";\s*switch\(number_(1)\){case 0:\s*day_(2) = "Sunday";\s*break;\s*case 6:\s*day_(2) = "Saturday";\s*break;default:\s*day_(2) = "Weekday";\s*}/
   ],
 
