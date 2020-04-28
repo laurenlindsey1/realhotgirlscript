@@ -217,6 +217,7 @@ IdentifierDeclaration.prototype.gen = function () {
 };
 
 IdentifierExpression.prototype.gen = function () {
+  console.log(`${util.inspect(this)}`);
   return jsName(this.ref.id);
   // return this.id.gen();
 };

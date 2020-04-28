@@ -1,38 +1,57 @@
-#!/usr/bin/env node
-
-const yargs = require("yargs"); //?
-
-
-const { argv } = require("yargs")
-  .usage("$0 [-a] [-o] [-i] [--target [x86|c|js]] filename")
-  .boolean(["a", "o", "i"])
-  .describe("a", "show abstract syntax tree after parsing then stop")
-  .describe("o", "do optimizations")
-  .describe("i", "generate and show the intermediate code then stop")
-  .describe("target", "generate code for x86, C, or JavaScript")
-  .default({ target: "js" })
-  .demand(1);
-
 const fs = require("fs");
 const util = require("util");
+const yargs = require("yargs");
 const parse = require("./syntax/parser");
-const Context = require("./semantics/context");
-const generate = require("./backend/javascript-generator");
+const analyze = require("./semantics/analyzer");
+const graphView = require("./semantics/viewer");
+// const optimize = require("./semantics/optimizer");
+// const generate = require("./backend/javascript-generator");
 
-fs.readFile(argv._[0], "utf-8", (error, text) => {
-  if (error) {
-    console.error(error);
-    return;
+// If compiling from a string, return the AST, IR, or compiled code as a string.
+function compile(sourceCode, { astOnly, frontEndOnly, shouldOptimize }) {
+  let program = parse(sourceCode);
+  if (astOnly) {
+    return util.inspect(program, { depth: null, compact: true });
   }
-  let program = parse(text);
-  if (argv.a) {
-    console.log(util.inspect(program, { depth: null }));
-    return;
+  analyze(program);
+  // if (shouldOptimize) {
+  //   optimize(program);
+  // }
+  if (frontEndOnly) {
+    return graphView(program);
   }
-  if (argv.i) {
-    console.log(graphView(program));
-    return;
-  }
-  program.gen();
+  // return generate(program);
+}
 
-});
+// If compiling from a file, write to standard output.
+function compileFile(filename, options) {
+  fs.readFile(filename, "utf-8", (error, sourceCode) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+    console.log(compile(sourceCode, options));
+  });
+}
+
+// Two nice functions if you'd like to embed a compiler in your own apps.
+module.exports = { compile, compileFile };
+
+// Run the compiler as a command line application.
+if (require.main === module) {
+  const { argv } = yargs
+    .usage("$0 [-a] [-o] [-i] filename")
+    .boolean(["a", "o", "i"])
+    .describe("a", "show abstract syntax tree after parsing then stop")
+    .describe("o", "do optimizations")
+    .describe(
+      "i",
+      "generate and show the decorated abstract syntax tree then stop"
+    )
+    .demand(1);
+  compileFile(argv._[0], {
+    astOnly: argv.a,
+    frontEndOnly: argv.i,
+    shouldOptimize: argv.o,
+  });
+}
