@@ -68,9 +68,9 @@ const jsName = (() => {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
     // console.log("hiiiiii");s
+    console.log(`v is: ${util.inspect(v)}`);
     if (v.id) {
-      console.log("THESE ARE THE NAMES:");
-      console.log(`${util.inspect(map)}`);
+      console.log(`THESE ARE THE NAMES: ${util.inspect(map)}`);
       return `${v.id}_${map.get(v)}`;
     }
     return `${v}_${map.get(v)}`;
@@ -99,8 +99,8 @@ AssignmentStatement.prototype.gen = function () {
   const sources = this.source.map((s) => s.gen());
   for (let i = 0; i < this.target.length; i += 1) {
     formattedIds.push(`${this.target[i].gen()} = ${sources[i]}`);
-    console.log("the assignment var is");
-    console.log(`${util.inspect(this.target[i])}`);
+    // console.log("the assignment var is");
+    // console.log(`${util.inspect(this.target[i])}`);
   }
   return `${formattedIds.join(", ")}`;
 };
@@ -150,7 +150,7 @@ Case.prototype.gen = function () {
   return `case ${exp}: ${body}`;
 };
 
-ClassDeclaration.prototype.gen = function () {};
+ClassDeclaration.prototype.gen = function () { };
 
 ClassicForLoop.prototype.gen = function () {
   const i = jsName(this.initId);
@@ -217,9 +217,9 @@ IdentifierDeclaration.prototype.gen = function () {
 };
 
 IdentifierExpression.prototype.gen = function () {
-  console.log(`${util.inspect(this)}`);
-  return jsName(this.ref.id);
-  // return this.id.gen();
+  console.log(`ID EXP: ${util.inspect(this)}`);
+  if (this.ref !== undefined) { return jsName(this.ref.id); }
+  return jsName(this.id);
 };
 
 IfStatement.prototype.gen = function () {
@@ -247,13 +247,13 @@ NumericLiteral.prototype.gen = function () {
   return `${this.value}`;
 };
 
-Parameter.prototype.gen = function () {};
+Parameter.prototype.gen = function () { };
 
 PrintStatement.prototype.gen = function () {
   return `console.log(${this.expression.expression.gen()})`;
 };
 
-Program.prototype.gen = function () {};
+Program.prototype.gen = function () { };
 
 ReturnStatement.prototype.gen = function () {
   return `return ${this.expression.gen()}`;
@@ -268,7 +268,7 @@ StringLiteral.prototype.gen = function () {
   return `${this.value}`;
 };
 
-SpreadForLoop.prototype.gen = function () {};
+SpreadForLoop.prototype.gen = function () { };
 
 SubscriptedExpression.prototype.gen = function () {
   const base = this.varexp.gen();
