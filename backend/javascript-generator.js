@@ -67,6 +67,7 @@ const jsName = (() => {
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
+    // console.log("hiiiiii");s
     if (v.id) {
       console.log("THESE ARE THE NAMES:");
       console.log(`${util.inspect(map)}`);
@@ -98,6 +99,8 @@ AssignmentStatement.prototype.gen = function () {
   const sources = this.source.map((s) => s.gen());
   for (let i = 0; i < this.target.length; i += 1) {
     formattedIds.push(`${this.target[i].gen()} = ${sources[i]}`);
+    console.log("the assignment var is");
+    console.log(`${util.inspect(this.target[i])}`);
   }
   return `${formattedIds.join(", ")}`;
 };
@@ -185,7 +188,7 @@ FunctionDeclaration.prototype.gen = function () {
   if (this.async) {
     asyncAddition = " async ";
   }
-  const params = this.params.map((p) => jsName(p));
+  const params = this.params.map((p) => jsName(p.id));
   const body = this.body.gen();
   return `${asyncAddition}function ${name} (${params.join(",")}) {${body}}`;
 };
@@ -214,8 +217,8 @@ IdentifierDeclaration.prototype.gen = function () {
 };
 
 IdentifierExpression.prototype.gen = function () {
-  // return jsName(this.id);
-  return this.ref.gen();
+  return jsName(this.ref.id);
+  // return this.id.gen();
 };
 
 IfStatement.prototype.gen = function () {
@@ -326,7 +329,7 @@ VariableDeclaration.prototype.gen = function () {
 
 VariableExpression.prototype.gen = function () {
   // console.log("In varexp");
-  return `let ${jsName(this)} = ${this.id.gen()}`;
+  return `let ${jsName(this.id)} = ${this.id.gen()}`;
 };
 
 WhileStatement.prototype.gen = function () {
