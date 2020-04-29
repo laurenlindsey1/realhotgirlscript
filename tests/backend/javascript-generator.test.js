@@ -30,21 +30,14 @@ const fixture = {
         "hello" + "World"!!!
         2 + 10!!!
         (9 / 3) + ((2 * 6) % 4) - 1!!!`,
-    String.raw`(2 <= 5);
-(4 != 12);
-(true && true);
-("hello" + "World");
-(2 + 10);
-(((9 / 3) + ((2 * 6) % 4)) - 1);`,
+    /\s*\(\s*2\s*<=\s*5\s*\);\s*\(\s*4\s*!=\s*12\s*\);\s*\(\s*true\s*&&\s*true\s*\);\s*\(\s*"hello"\s*\+\s*"World"\s*\);\s*\(\s*2\s*\+\s*10\s*\);\s*\(\s*\(\s*\(\s*9\s*\/\s*3\s*\)\s*\+\s*\(\s*\(\s*2\s*\*\s*6\s*\)\s*%\s*4\s*\)\s*\)\s*\-\s*1\s*\);\s*/,
   ],
 
   unary: [
     String.raw`-2!!!
           +2!!!
           BANGENERGY trueShit!!!`,
-    String.raw`(-2);
-(+2);
-(!true);`,
+    /\s*\(\s*\-2\s*\);\s*\(\s*\+2\s*\);\s*\(\s*\!true\s*\);\s*/,
   ],
 
   variables: [
@@ -144,10 +137,7 @@ const fixture = {
     /let number_(\d+) = 0;\s*let day_(\d+) = "";\s*switch \(number_(\1)\) {\s*case 0:\s*day_(\2) = "Sunday";\s*break;\s*case 6:\s*day_(\2) = "Saturday";\s*break;\s*default:\s*day_(\2) = "Weekday";\s*};\s*/,
   ],
 
-  print: [
-    String.raw`supLilBitch "hi"!!!`,
-    /\s*console.log\("hi"\);\s*/,
-  ],
+  print: [String.raw`supLilBitch "hi"!!!`, /\s*console.log\("hi"\);\s*/],
 };
 
 describe("The JavaScript generator", () => {
