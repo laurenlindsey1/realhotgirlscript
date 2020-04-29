@@ -64,15 +64,18 @@ const jsName = (() => {
   let lastId = 0;
   const map = new Map();
   return (v) => {
+    console.log(`V IS: ${util.inspect(v)}`);
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
+    console.log(`MAP: ${util.inspect(map)}`);
     // console.log("hiiiiii");
     if (v.id) {
       console.log("THESE ARE THE NAMES:");
-      // console.log(`${util.inspect(map)}`);
+      console.log(`JSNAME!! ${util.inspect(v)}`);
       return `${v.id}_${map.get(v)}`;
     }
+    console.log(`JSNAME!! ${util.inspect(v)}`);
     return `${v}_${map.get(v)}`;
   };
 })();
@@ -100,7 +103,8 @@ AssignmentStatement.prototype.gen = function () {
   for (let i = 0; i < this.target.length; i += 1) {
     formattedIds.push(`${this.target[i].gen()} = ${sources[i]}`);
     console.log("the assignment var is");
-    console.log(`${util.inspect(this.target[i])}`);
+    console.log(`target: ${util.inspect(this.target[i])}`);
+    console.log(`source: ${util.inspect(this.source[i])}`);
   }
   return `${formattedIds.join(", ")}`;
 };
@@ -145,7 +149,7 @@ CallStatement.prototype.gen = function () {
 Case.prototype.gen = function () {
   // console.log("AM I HERE?\n");
   // console.log(`EXP IS: ${util.inspect(this.expression)}`);
-  // console.log(`BODY IS: ${util.inspect(this.body)}`);
+  console.log(`Case body: ${util.inspect(this.body)}`);
   const exp = this.expression.gen();
   const body = this.body.gen();
   return `case ${exp}: ${body}`;
@@ -153,7 +157,7 @@ Case.prototype.gen = function () {
 
 ClassDeclaration.prototype.gen = function () {
   let param = '';
-  if(this.params.length){
+  if (this.params.length) {
     param = this.params.forEach((p) => {
       p.gen();
     });
@@ -180,6 +184,10 @@ ContinueStatement.prototype.gen = function () {
 };
 
 DefaultCase.prototype.gen = function () {
+  // const exp = this.expression.gen();
+  // const body = this.body.gen();
+  // return `case ${exp}: ${body}`;
+  console.log(`Default body: ${util.inspect(this.body)}`);
   return `default: ${this.body.gen()}`;
 };
 
@@ -221,15 +229,34 @@ IdType.prototype.gen = function () {
 };
 
 IdentifierDeclaration.prototype.gen = function () {
-  // console.log("in id dec");
+  console.log("in id dec");
+  console.log(`THIS.ID ${util.inspect(this.id)}`);
   return jsName(this.id);
   // return this.ref.gen();
 };
 
 IdentifierExpression.prototype.gen = function () {
   if (this.ref !== undefined) {
-    return jsName(this.ref.id);
+    if (this.ref.id !== undefined) {
+      if (this.ref.id.id !== undefined) {
+        console.log("IN THE SECOND IF!");
+        console.log(`ref.id.id ${util.inspect(this.ref.id.id)}`);
+        return jsName(this.ref.id.id);
+      } else {
+        console.log(`ref.id ${util.inspect(this.ref.id)}`);
+        return jsName(this.ref.id);
+      }
+    }
+  } else {
+    if (this.id !== undefined) {
+      if (this.id.id !== undefined) {
+        console.log(`id.id ${util.inspect(this.id.id)}`);
+        console.log("IN THE NESTED ELSE");
+        return jsName(this.id.id);
+      }
+    }
   }
+  console.log(`id ${util.inspect(this.id)}`);
   return jsName(this.id);
 };
 
@@ -258,7 +285,7 @@ NumericLiteral.prototype.gen = function () {
   return `${this.value}`;
 };
 
-Parameter.prototype.gen = function () {};
+Parameter.prototype.gen = function () { };
 
 PrintStatement.prototype.gen = function () {
   console.log("PRINTIIIIING!");
@@ -266,7 +293,7 @@ PrintStatement.prototype.gen = function () {
   return `console.log(${this.expression.expression.gen()})`;
 };
 
-Program.prototype.gen = function () {};
+Program.prototype.gen = function () { };
 
 ReturnStatement.prototype.gen = function () {
   return `return ${this.expression.gen()}`;
@@ -281,7 +308,7 @@ StringLiteral.prototype.gen = function () {
   return `${this.value}`;
 };
 
-SpreadForLoop.prototype.gen = function () {};
+SpreadForLoop.prototype.gen = function () { };
 
 SubscriptedExpression.prototype.gen = function () {
   const base = this.varexp.gen();
@@ -293,7 +320,7 @@ SwitchStatement.prototype.gen = function () {
   let allCases = '';
   this.cases.forEach((c) => {
     allCases += c.gen();
-    });
+  });
   const alternate = this.alternate.gen();
   return `switch(${this.expression.gen()}) { ${allCases}${alternate}}`;
 };
@@ -328,19 +355,19 @@ VariableDeclaration.prototype.gen = function () {
   if (this.const) {
     const expressions = this.expressions.map((v) => v.gen());
     for (let i = 0; i < this.ids.length; i += 1) {
-      formattedIds.push(`${jsName(this.ids[i])} = ${expressions[i]}`);
+      formattedIds.push(`${jsName(this.ids[i].id)} = ${expressions[i]}`);
     }
     return `const ${formattedIds.join(", ")}`;
   }
   const expressions = this.expressions.map((v) => v.gen());
   for (let i = 0; i < this.ids.length; i += 1) {
-    formattedIds.push(`${jsName(this.ids[i])} = ${expressions[i]}`);
+    formattedIds.push(`${jsName(this.ids[i].id)} = ${expressions[i]}`);
   }
   return `let ${formattedIds.join(", ")}`;
 };
 
 VariableExpression.prototype.gen = function () {
-  // console.log("In varexp");
+  console.log("In varexp");
   return `let ${jsName(this.id)} = ${this.id.gen()}`;
 };
 

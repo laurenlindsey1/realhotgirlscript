@@ -10,26 +10,26 @@ const fixture = {
 
   argument: [
     String.raw`weOutHereTryinToFunction leftOnRead yourName(wordz name) $
-        supLilBitch "my name is " + name !!!
-      #
-      yourName(name: "lauren") !!!`,
+          supLilBitch "my name is " + name !!!
+        #
+        yourName(name: "lauren") !!!`,
     /function yourName_(\d+)\(name_(\d+)\) {\s*console.log\(\("my name is " \+ name_\2\)\);\s*\};\s*yourName_\1\("lauren"\);/,
   ],
 
   class: [
     String.raw`ATTENTIONATTENTION🗣 fakeAssBitches () $
-    wordz worstQuality: "Being redundant and centrally irrelevant"!!!
-  #`,
+      wordz worstQuality: "Being redundant and centrally irrelevant"!!!
+    #`,
     /class fakeAssBitches_(\d+)\(\) {\s*let worstQuality_(\d+) = "Being redundant and centrally irrelevant";\s*};/,
   ],
 
   binary: [
     String.raw`2 <= 5!!!
-    4 != 12!!!
-    trueShit && trueShit!!!
-    "hello" + "World"!!!
-    2 + 10!!!
-    (9 / 3) + ((2 * 6) % 4) - 1!!!`,
+      4 != 12!!!
+      trueShit && trueShit!!!
+      "hello" + "World"!!!
+      2 + 10!!!
+      (9 / 3) + ((2 * 6) % 4) - 1!!!`,
     String.raw`(2 <= 5);
 (4 != 12);
 (true && true);
@@ -40,8 +40,8 @@ const fixture = {
 
   unary: [
     String.raw`-2!!!
-      +2!!!
-      BANGENERGY trueShit!!!`,
+        +2!!!
+        BANGENERGY trueShit!!!`,
     String.raw`(-2);
 (+2);
 (!true);`,
@@ -49,38 +49,38 @@ const fixture = {
 
   variables: [
     String.raw`digitz z: 10!!!
-          wordz y: "hello!"!!!
-          boolz t: fraudulentAssBitch!!!`,
+            wordz y: "hello!"!!!
+            boolz t: fraudulentAssBitch!!!`,
     /let z_(\d+) = 10;\s*let y_(\d+) = "hello!";\s*let t_(\d+) = false;/,
   ],
 
   whileLoopWithBreak: [
     String.raw`wylin🤪 trueShit  $
-          GTFO💩!!!
-        #`,
+            GTFO💩!!!
+          #`,
     /while \(true\) \{\s*break;\s*\};/,
   ],
 
   forLoop: [
     String.raw`
-      openHerUp🍑 digitz i: 0 🔥 i <= 10 🔥 i++ $
-      supLilBitch "Hi Toal :)"!!!
-    #
-      `,
+        openHerUp🍑 digitz i: 0 🔥 i <= 10 🔥 i++ $
+        supLilBitch "Hi Toal :)"!!!
+      #
+        `,
     /for \(let i_(\d+) = 0; i_\1 <= 10; i_\1 \+\+\) \{\s*console.log\("Hi Toal :\)"\);\s*\};/,
   ],
 
   array: [
     String.raw`
-        arrayz<digitz> g : [1,2,3]!!!
-      `,
+          arrayz<digitz> g : [1,2,3]!!!
+        `,
     /let g_(\d+) = \[\s*1,\s*2,\s*3\s*\];/,
   ],
 
   set: [
     String.raw`
-        setz <digitz> names: $1, 2, 3#!!!
-      `,
+          setz <digitz> names: $1, 2, 3#!!!
+        `,
     /let names_(\d+) = new Set\(\[\s*1,\s*2,\s*3\s*\]\);/,
   ],
 
@@ -91,26 +91,26 @@ const fixture = {
 
   tuple: [
     String.raw`
-        tuplez<digitz, boolz> tup: (1,2,trueShit)!!!
-      `,
+          tuplez<digitz, boolz> tup: (1,2,trueShit)!!!
+        `,
     /let tup_(\d+) = \[\s*1,\s*2,\s*true\s*\];/,
   ],
 
   ifStatement: [
     String.raw`iHaveSomethingToSay🙅🏾‍♀️ 4 < 10 $
-        digitz x:10!!!
-        #`,
+          digitz x:10!!!
+          #`,
     /if \(4 < 10\) \{\s*let x_(\d+) = 10;\s*\};/,
   ],
 
   ifElseIfElseStatement: [
     String.raw`iHaveSomethingToSay🙅🏾‍♀️ 1 < 2 $
-      1!!!
-      # becauseWhyyy😼 1 > 2 $
-      2!!!
-      # BECAUSEIMONFUCKINGVACATION👅 $
-      3!!!
-      #`,
+        1!!!
+        # becauseWhyyy😼 1 > 2 $
+        2!!!
+        # BECAUSEIMONFUCKINGVACATION👅 $
+        3!!!
+        #`,
     /if \(1 < 2\) \{\s*1;\s*\} else if \(1 > 2\) \{\s*2;\s*\} else \{\s*3;\s*\};/,
   ],
 
@@ -128,11 +128,11 @@ const fixture = {
           GTFO💩!!!
         #
         andLetMeDoMe🤑 $
-          day: "Weekday"!!!
+          day : "Weekday"!!!
         #
       #
             `,
-    /let number_(\d+) = 0;\s*let day_(\d+) = "";\s*switch\s*\(number_(1)\)\s*{\s*case 0:\s*day_(2) = "Sunday";\s*break;\s*case 6:\s*day_(2) = "Saturday";\s*break;default:\s*let day_(2) = "Weekday";\s*};/,
+    /let number_(\d+) = 0;\s*let day_(\d+) = "";\s*switch \(number_(\1)\) {\s*case 0:\s*day_(\2) = "Sunday";\s*break;\s*case 6:\s*day_(\2) = "Saturday";\s*break;\s*default:\s*day_(\2) = "Weekday";\s*};\s*/,
   ],
 
   print: [
