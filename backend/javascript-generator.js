@@ -2,7 +2,6 @@
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
 const prettyJs = require("pretty-js");
-const util = require("util");
 
 const Argument = require("../ast/argument");
 const ArrayExpression = require("../ast/array-expression");
@@ -297,16 +296,16 @@ Variable.prototype.gen = function () {
 VariableDeclaration.prototype.gen = function () {
   const formattedIds = [];
 
-  if (this.const) {
-    const expressions = this.expressions.map((v) => v.gen());
-    for (let i = 0; i < this.ids.length; i += 1) {
-      formattedIds.push(`${jsName(this.ids[i].id)} = ${expressions[i]}`);
-    }
-    return `const ${formattedIds.join(", ")}`;
-  }
   const expressions = this.expressions.map((v) => v.gen());
   for (let i = 0; i < this.ids.length; i += 1) {
-    formattedIds.push(`${jsName(this.ids[i].id)} = ${expressions[i]}`);
+    if (this.expressions[0].constructor === Call) {
+      formattedIds.push(`${jsName(this.ids[i].id)} = new ${expressions[i]}`);
+    } else {
+      formattedIds.push(`${jsName(this.ids[i].id)} = ${expressions[i]}`);
+    }
+  }
+  if (this.const) {
+    return `const ${formattedIds.join(", ")}`;
   }
   return `let ${formattedIds.join(", ")}`;
 };

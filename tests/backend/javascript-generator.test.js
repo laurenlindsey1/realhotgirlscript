@@ -19,8 +19,10 @@ const fixture = {
   class: [
     String.raw`ATTENTIONATTENTION🗣 fakeAssBitches () $
         wordz worstQuality: "Being redundant and centrally irrelevant"!!!
-      #`,
-    /class fakeAssBitches_(\d+)\(\) {\s*let worstQuality_(\d+) = "Being redundant and centrally irrelevant";\s*};/,
+      #
+      fakeAssBitches b: fakeAssBitches()!!!
+      supLilBitch b.worstQuality!!!`,
+    /class fakeAssBitches_(\d+)\(\) {\s*let worstQuality_(\d+) = "Being redundant and centrally irrelevant";\s*};\s*let b_(\d+) = new fakeAssBitches_(\1)\(\);\s*console.log\(b_(\3).worstQuality\);/,
   ],
 
 
