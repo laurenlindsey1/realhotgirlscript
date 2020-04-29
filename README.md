@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax pulls from some of the sayings that the members of the team have each used as they programmed throughout the years together, as well as references to pop culture icons, such as Megan thee Stallion, Rickey Thompson, and Trevor Wallace.
+Well, hello there 😈. This is RealHotGirlScript, a sexy, statically-typed, object-oriented, and esoteric programming language that truly puts the F-U in fun. RealHotGirlScript is meant to make you smile, laugh, and have a sense of confidence and joy as you create through computer programming. Its witty and hilarious syntax is inspired by some of the sayings that members of the team have each used while programming throughout the years as well as references to pop culture icons such as Megan thee Stallion, Rickey Thompson, and Trevor Wallace.
 
 RealHotGirlScript is brought to you by [KeAnna Anglin](https://github.com/keannaanglin "KeAnna's Github"),
 [Lauren Lindsey](https://github.com/laurenlindsey1 "Lauren's Github"), [Shanaya Nagendran](https://github.com/shanaya-n "Shanaya's Github"), and [Sage Strieker](https://github.com/Strieker "Sage's Github").
