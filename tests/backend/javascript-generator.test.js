@@ -23,6 +23,7 @@ const fixture = {
     /class fakeAssBitches_(\d+)\(\) {\s*let worstQuality_(\d+) = "Being redundant and centrally irrelevant";\s*};/,
   ],
 
+
   binary: [
     String.raw`2 <= 5!!!
         4 != 12!!!
@@ -65,9 +66,10 @@ const fixture = {
     String.raw`
           openHerUp🍑 digitz i: 0 🔥 i <= 10 🔥 i++ $
           supLilBitch "Hi Toal :)"!!!
+          keepItPushin !!!
         #
           `,
-    /for \(let i_(\d+) = 0; i_\1 <= 10; i_\1 \+\+\) \{\s*console.log\("Hi Toal :\)"\);\s*\};/,
+    /for \(let i_(\d+) = 0; i_\1 <= 10; i_\1 \+\+\) \{\s*console.log\("Hi Toal :\)"\);\s*continue;\s*\};/,
   ],
 
   spreadForLoop: [
@@ -82,8 +84,9 @@ const fixture = {
   array: [
     String.raw`
           arrayz<digitz> g : [1,2,3]!!!
+          supLilBitch g[0]!!!
         `,
-    /let g_(\d+) = \[\s*1,\s*2,\s*3\s*\];/,
+    /let g_(\d+) = \[\s*1,\s*2,\s*3\s*\];\s*console.log\(g_(\1)\[0\]\);/,
   ],
 
   set: [
