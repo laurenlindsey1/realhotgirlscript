@@ -10,26 +10,26 @@ const fixture = {
 
   argument: [
     String.raw`weOutHereTryinToFunction leftOnRead yourName(wordz name) $
-          supLilBitch "my name is " + name !!!
-        #
-        yourName(name: "lauren") !!!`,
+            supLilBitch "my name is " + name !!!
+          #
+          yourName(name: "lauren") !!!`,
     /function yourName_(\d+)\(name_(\d+)\) {\s*console.log\(\("my name is " \+ name_\2\)\);\s*\};\s*yourName_\1\("lauren"\);/,
   ],
 
   class: [
     String.raw`ATTENTIONATTENTION🗣 fakeAssBitches () $
-      wordz worstQuality: "Being redundant and centrally irrelevant"!!!
-    #`,
+        wordz worstQuality: "Being redundant and centrally irrelevant"!!!
+      #`,
     /class fakeAssBitches_(\d+)\(\) {\s*let worstQuality_(\d+) = "Being redundant and centrally irrelevant";\s*};/,
   ],
 
   binary: [
     String.raw`2 <= 5!!!
-      4 != 12!!!
-      trueShit && trueShit!!!
-      "hello" + "World"!!!
-      2 + 10!!!
-      (9 / 3) + ((2 * 6) % 4) - 1!!!`,
+        4 != 12!!!
+        trueShit && trueShit!!!
+        "hello" + "World"!!!
+        2 + 10!!!
+        (9 / 3) + ((2 * 6) % 4) - 1!!!`,
     String.raw`(2 <= 5);
 (4 != 12);
 (true && true);
@@ -40,8 +40,8 @@ const fixture = {
 
   unary: [
     String.raw`-2!!!
-        +2!!!
-        BANGENERGY trueShit!!!`,
+          +2!!!
+          BANGENERGY trueShit!!!`,
     String.raw`(-2);
 (+2);
 (!true);`,
@@ -49,25 +49,34 @@ const fixture = {
 
   variables: [
     String.raw`digitz z: 10!!!
-            wordz y: "hello!"!!!
-            boolz t: fraudulentAssBitch!!!`,
+              wordz y: "hello!"!!!
+              boolz t: fraudulentAssBitch!!!`,
     /let z_(\d+) = 10;\s*let y_(\d+) = "hello!";\s*let t_(\d+) = false;/,
   ],
 
   whileLoopWithBreak: [
     String.raw`wylin🤪 trueShit  $
-            GTFO💩!!!
-          #`,
+              GTFO💩!!!
+            #`,
     /while \(true\) \{\s*break;\s*\};/,
   ],
 
   forLoop: [
     String.raw`
-        openHerUp🍑 digitz i: 0 🔥 i <= 10 🔥 i++ $
-        supLilBitch "Hi Toal :)"!!!
-      #
-        `,
+          openHerUp🍑 digitz i: 0 🔥 i <= 10 🔥 i++ $
+          supLilBitch "Hi Toal :)"!!!
+        #
+          `,
     /for \(let i_(\d+) = 0; i_\1 <= 10; i_\1 \+\+\) \{\s*console.log\("Hi Toal :\)"\);\s*\};/,
+  ],
+
+  spreadForLoop: [
+    String.raw`
+      openHerUp🍑 [0 spreadThatThang🍯 10] $
+      supLilBitch "We love spreads"!!!
+    #
+    `,
+    /let min_(\d+) = 0;\s*let max_(\d+) = 10;\s*for \(let i = min_(\1); i <= max_(\2); i\s*\+\+\) \{\s*console.log\("We love spreads"\);\s*\}/,
   ],
 
   array: [

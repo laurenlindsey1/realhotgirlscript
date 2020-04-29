@@ -28,6 +28,7 @@ const MemberExpression = require("../ast/member-expression");
 const NoneLiteral = require("../ast/none-literal");
 const NumericLiteral = require("../ast/numeric-literal");
 const Parameter = require("../ast/parameter");
+const PrimitiveType = require("../ast/primitive-type");
 const PrintStatement = require("../ast/print-statement");
 const Program = require("../ast/program");
 const ReturnStatement = require("../ast/return-statement");
@@ -238,25 +239,9 @@ IdentifierDeclaration.prototype.gen = function () {
 IdentifierExpression.prototype.gen = function () {
   if (this.ref !== undefined) {
     if (this.ref.id !== undefined) {
-      if (this.ref.id.id !== undefined) {
-        console.log("IN THE SECOND IF!");
-        console.log(`ref.id.id ${util.inspect(this.ref.id.id)}`);
-        return jsName(this.ref.id.id);
-      } else {
-        console.log(`ref.id ${util.inspect(this.ref.id)}`);
-        return jsName(this.ref.id);
-      }
-    }
-  } else {
-    if (this.id !== undefined) {
-      if (this.id.id !== undefined) {
-        console.log(`id.id ${util.inspect(this.id.id)}`);
-        console.log("IN THE NESTED ELSE");
-        return jsName(this.id.id);
-      }
+      return jsName(this.ref.id.id);
     }
   }
-  console.log(`id ${util.inspect(this.id)}`);
   return jsName(this.id);
 };
 
@@ -308,7 +293,16 @@ StringLiteral.prototype.gen = function () {
   return `${this.value}`;
 };
 
-SpreadForLoop.prototype.gen = function () { };
+SpreadForLoop.prototype.gen = function () {
+  console.log(`MIN: ${util.inspect(new Variable(false, new PrimitiveType('digitz'), 'min'))}`);
+  const min = jsName(new Variable(false, new PrimitiveType('digitz'), 'min').id);
+  const max = jsName(new Variable(false, new PrimitiveType('digitz'), 'max').id);
+  console.log(`MAX: ${util.inspect(max)}`);
+  const preAssign = `let ${min} = ${this.min.gen()}; let ${max} = ${this.max.gen()};`;
+  const loopControl = `for (let i = ${min}; i <= ${max}; i++)`;
+  const body = this.body.gen();
+  return `${preAssign} ${loopControl} {${body}}`;
+};
 
 SubscriptedExpression.prototype.gen = function () {
   const base = this.varexp.gen();
