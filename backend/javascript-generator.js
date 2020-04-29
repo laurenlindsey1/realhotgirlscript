@@ -48,7 +48,6 @@ const Context = require("../semantics/context");
 
 function makeOp(op) {
   return (
-    //not sure if we need more of these, like for < etc.
     {
       BANGENERGY: "!",
       "-": "-",
@@ -65,18 +64,12 @@ const jsName = (() => {
   let lastId = 0;
   const map = new Map();
   return (v) => {
-    console.log(`V IS: ${util.inspect(v)}`);
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
-    console.log(`MAP: ${util.inspect(map)}`);
-    // console.log("hiiiiii");
     if (v.id) {
-      console.log("THESE ARE THE NAMES:");
-      console.log(`JSNAME!! ${util.inspect(v)}`);
       return `${v.id}_${map.get(v)}`;
     }
-    console.log(`JSNAME!! ${util.inspect(v)}`);
     return `${v}_${map.get(v)}`;
   };
 })();
@@ -103,9 +96,6 @@ AssignmentStatement.prototype.gen = function () {
   const sources = this.source.map((s) => s.gen());
   for (let i = 0; i < this.target.length; i += 1) {
     formattedIds.push(`${this.target[i].gen()} = ${sources[i]}`);
-    console.log("the assignment var is");
-    console.log(`target: ${util.inspect(this.target[i])}`);
-    console.log(`source: ${util.inspect(this.source[i])}`);
   }
   return `${formattedIds.join(", ")}`;
 };
@@ -138,8 +128,6 @@ BreakStatement.prototype.gen = function () {
 
 Call.prototype.gen = function () {
   const args = this.args.map((a) => a.gen());
-  console.log("CALLINNNG!");
-  console.log(`this call: ${util.inspect(this.id)}`);
   return `${jsName(this.id.id)}(${args.join(",")})`;
 };
 
@@ -148,9 +136,6 @@ CallStatement.prototype.gen = function () {
 };
 
 Case.prototype.gen = function () {
-  // console.log("AM I HERE?\n");
-  // console.log(`EXP IS: ${util.inspect(this.expression)}`);
-  console.log(`Case body: ${util.inspect(this.body)}`);
   const exp = this.expression.gen();
   const body = this.body.gen();
   return `case ${exp}: ${body}`;
@@ -185,10 +170,6 @@ ContinueStatement.prototype.gen = function () {
 };
 
 DefaultCase.prototype.gen = function () {
-  // const exp = this.expression.gen();
-  // const body = this.body.gen();
-  // return `case ${exp}: ${body}`;
-  console.log(`Default body: ${util.inspect(this.body)}`);
   return `default: ${this.body.gen()}`;
 };
 
@@ -212,28 +193,12 @@ FunctionDeclaration.prototype.gen = function () {
   return `${asyncAddition}function ${name} (${params.join(",")}) {${body}}`;
 };
 
-// FunctionDeclaration.prototype.gen = function () {
-//   const name = jsName(this.id);
-//   let asyncAddition = " ";
-//   if (this.async) {
-//     asyncAddition = " async ";
-//   }
-//   return `function${asyncAddition}${this.id.gen()}(${this.function.params
-//     .map((p) => p.gen())
-//     .join(",")}) {
-//     ${generateBlock(this.function.body)}
-//   }`;
-// };
-
 IdType.prototype.gen = function () {
   return jsName(this.id);
 };
 
 IdentifierDeclaration.prototype.gen = function () {
-  console.log("in id dec");
-  console.log(`THIS.ID ${util.inspect(this.id)}`);
   return jsName(this.id);
-  // return this.ref.gen();
 };
 
 IdentifierExpression.prototype.gen = function () {
@@ -273,8 +238,6 @@ NumericLiteral.prototype.gen = function () {
 Parameter.prototype.gen = function () { };
 
 PrintStatement.prototype.gen = function () {
-  console.log("PRINTIIIIING!");
-  console.log(`${util.inspect(this.expression.expression)}`);
   return `console.log(${this.expression.expression.gen()})`;
 };
 
@@ -294,10 +257,8 @@ StringLiteral.prototype.gen = function () {
 };
 
 SpreadForLoop.prototype.gen = function () {
-  console.log(`MIN: ${util.inspect(new Variable(false, new PrimitiveType('digitz'), 'min'))}`);
   const min = jsName(new Variable(false, new PrimitiveType('digitz'), 'min').id);
   const max = jsName(new Variable(false, new PrimitiveType('digitz'), 'max').id);
-  console.log(`MAX: ${util.inspect(max)}`);
   const preAssign = `let ${min} = ${this.min.gen()}; let ${max} = ${this.max.gen()};`;
   const loopControl = `for (let i = ${min}; i <= ${max}; i++)`;
   const body = this.body.gen();
@@ -333,17 +294,7 @@ Variable.prototype.gen = function () {
   return `${jsName(id)}`;
 };
 
-// VariableDeclaration.prototype.gen = function () {
-//   const formattedIds = [];
-//   const exps = this.exps.map(v => v.gen());
-//   for (let i = 0; i < this.ids.length; i += 1) {
-//     formattedIds.push(`${jsName(this.ids[i])} = ${exps[i]}`);
-//   }
-//   return `let ${formattedIds.join(", ")}`;
-// };
-
 VariableDeclaration.prototype.gen = function () {
-  // console.log("In var dec");
   const formattedIds = [];
 
   if (this.const) {
@@ -361,7 +312,6 @@ VariableDeclaration.prototype.gen = function () {
 };
 
 VariableExpression.prototype.gen = function () {
-  console.log("In varexp");
   return `let ${jsName(this.id)} = ${this.id.gen()}`;
 };
 
