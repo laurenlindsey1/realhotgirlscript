@@ -2,6 +2,7 @@
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
 const prettyJs = require('pretty-js');
+const util = require('util');
 
 const Argument = require('../ast/argument');
 const ArrayExpression = require('../ast/array-expression');
@@ -63,6 +64,7 @@ const jsName = (() => {
   let lastId = 0;
   const map = new Map();
   return v => {
+    console.log(`V: ${util.inspect(v)}`);
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
@@ -199,7 +201,11 @@ IdentifierDeclaration.prototype.gen = function () {
 IdentifierExpression.prototype.gen = function () {
   if (this.ref !== undefined) {
     if (this.ref.id !== undefined) {
-      return jsName(this.ref.id.id);
+      if (this.ref.id.id !== undefined) {
+        return jsName(this.ref.id.id);
+      } else {
+        return jsName(this.ref.id);
+      }
     }
   }
   return jsName(this.id);
@@ -230,13 +236,13 @@ NumericLiteral.prototype.gen = function () {
   return `${this.value}`;
 };
 
-Parameter.prototype.gen = function () {};
+Parameter.prototype.gen = function () { };
 
 PrintStatement.prototype.gen = function () {
   return `console.log(${this.expression.gen()})`;
 };
 
-Program.prototype.gen = function () {};
+Program.prototype.gen = function () { };
 
 ReturnStatement.prototype.gen = function () {
   return `return ${this.expression.gen()}`;

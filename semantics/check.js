@@ -101,8 +101,8 @@ module.exports = {
   isNotSubscriptable(expression) {
     doCheck(
       expression.type !== IntType &&
-        expression.type !== LongType &&
-        expression.type !== BooleanType,
+      expression.type !== LongType &&
+      expression.type !== BooleanType,
       'Not subscriptable'
     );
   },
@@ -114,9 +114,9 @@ module.exports = {
   hasMemberExpression(expression) {
     doCheck(
       expression.type !== IntType &&
-        expression.type !== LongType &&
-        expression.type !== BooleanType &&
-        expression.type !== StringType,
+      expression.type !== LongType &&
+      expression.type !== BooleanType &&
+      expression.type !== StringType,
       `Has no member expression`
     );
   },
@@ -124,11 +124,11 @@ module.exports = {
   isAssignableTo(exp, type, errorMessage = 'Type mismatch') {
     doCheck(
       JSON.stringify(exp.type) == JSON.stringify(type) ||
-        (exp.type === IntType && type == LongType) ||
-        (exp.constructor === NoneLiteral && type.constructor === IdType) ||
-        isEmptyDictOrSet(exp) ||
-        isEmptyTuple(exp) ||
-        isEmptyArray(exp),
+      (exp.type === IntType && type == LongType) ||
+      (exp.constructor === NoneLiteral && type.constructor === IdType) ||
+      isEmptyDictOrSet(exp) ||
+      isEmptyTuple(exp) ||
+      isEmptyArray(exp),
       errorMessage
     );
   },

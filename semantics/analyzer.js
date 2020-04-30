@@ -272,7 +272,7 @@ PrintStatement.prototype.analyze = function (context) {
 
 MemberExpression.prototype.analyze = function (context) {
   this.varexp.analyze(context);
-  check.hasMemberExpression(this.varexp.this.member);
+  check.hasMemberExpression(this.varexp, this.member);
   this.type = this.member.type;
 };
 
