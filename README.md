@@ -113,6 +113,27 @@ this is a multiline comment
 | hotlineBling💎               | await       |
 | GTFO💩                       | break       |
 
+## Types of Static Semantic Errors
+- Type mismatch
+- Assignment to constant variable
+- Continue can only be used in a loop
+- Can only call async functions with await
+- Expected a number of args in call, got a different number
+- Incorrect number of arguments
+- Has no member expression
+- Break outside of loop or switch
+- Not inside a function
+- Not subscriptable
+- Not callable
+- Not a function
+- Not a dictionary type
+- Not a string
+- Not a dictionary
+- Not an integer
+- Not a boolean
+- Not an integer or string
+- Not an integer or long
+
 ## Control Flow
 
 ### If Statements
