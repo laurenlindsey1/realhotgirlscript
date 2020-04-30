@@ -314,14 +314,6 @@ const astGenerator = realHotGirlScript.createSemantics().addOperation('ast', {
     return this.sourceString;
   },
 
-  // frac(_, digit) {
-  //   return new Fraction(this.sourceString);
-  // },
-
-  // eExpo(lettere, sign, digit) {
-  //   return new Exponent(lettere.ast(), sign.ast(), this.sourceString);
-  // },
-
   nonelit(_) {
     return new NoneLiteral();
   },

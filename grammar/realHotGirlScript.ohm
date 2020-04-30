@@ -153,7 +153,7 @@ realHotGirlScript {
   incremop 	  =  "++" | "--"
   addop       =  "+" | "-"
   relop       =  "<=" | "<" | "==" | "!="| ">=" | ">"
-  mulop       =  "*" | "//" | "/" | "%"
+  mulop       =  "*" | "/" | "%"
   prefixop    =  "-" | negate | "+"
   space      +=  " " | "\t" | comment
   comment     =  singleLnCmt (~"\n" any)*                      -- singleline

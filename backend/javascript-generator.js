@@ -52,13 +52,55 @@ function makeOp(op) {
       BANGENERGY: '!',
       '-': '-',
       '+': '+',
+      '*': '*',
+      '/': '/',
+      '%': '%',
       '&&': '&&',
       '||': '||',
       '==': '===',
-      '!=': '!=',
+      '!=': '!==',
+      '++': '++',
+      '--': '--',
+      '<': '<',
+      '<=': '<=',
+      '>': '>',
+      '>=': '>=',
     }[op] || op
   );
 }
+
+// const builtin = {
+//   exit([code]) {
+//     return `process.exit(${code})`;
+//   },
+//   len([s]) {
+//     return `${s}.length`;
+//   },
+//   substring([s, start, end]) {
+//     return `${s}.substring(${start}, ${end})`;
+//   },
+//   charAt([s, i]) {
+//     return `${s}.charAt(${i})`;
+//   },
+//   ord([c]) {
+//     return `${c}.charCodeAt(0)`;
+//   },
+//   abs([n]) {
+//     return `Math.abs(${n})`;
+//   },
+//   sqrt([n]) {
+//     return `Math.sqrt(${n})`;
+//   },
+//   pi() {
+//     return `Math.PI`;
+//   },
+//   random([s, e]) {
+//     return `Math.floor(Math.random() * (Math.max(${s}, ${e}) - Math.min(${s}, ${e}) + 1) + Math.min(${s}, ${e}))`;
+//   },
+//   pow([x, y]) {
+//     return `Math.pow(${x}, ${y})`;
+//   },
+// };
 
 const jsName = (() => {
   let lastId = 0;
