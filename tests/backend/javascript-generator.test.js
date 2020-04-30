@@ -143,6 +143,33 @@ const fixture = {
   ],
 
   print: [String.raw`supLilBitch "hi"!!!`, /\s*console.log\("hi"\);\s*/],
+
+  square: [
+    String.raw`digitz sixteen: square(num: 256)!!!`,
+    /let sixteen_\d+ = Math\.sqrt\(256\);/,
+  ],
+
+  exit: [
+    String.raw`exit(code: 0)!!!`,
+    String.raw`process.exit(0);`,
+  ],
+
+  length: [
+    String.raw`wordz s: "apple"!!!
+digitz slength: length(str: s)!!!`,
+    /let s_(\d+) = "apple";\s*let slength_(\d+) = s_\1.length;/,
+  ],
+
+  charAt: [
+    String.raw`wordz alpha: "abcde"!!!
+  wordz a: charAt(char: alpha, index: 0)!!!`,
+    /let alpha_(\d+) = "abcde";\s*let a_\d+ = alpha_\1\.charAt\(0\);/,
+  ],
+
+  absVal: [
+    String.raw`digitz ten: absVal(num: -10)!!!`,
+    /let ten_\d+ = Math\.abs\(\(-10\)\);/,
+  ],
 };
 
 describe("The JavaScript generator", () => {

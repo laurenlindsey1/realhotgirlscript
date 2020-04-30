@@ -70,8 +70,12 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-standardFunctions.forEach(f => {
-  Context.INITIAL.variableDeclarations[f.id] = f;
+const functions = [...standardFunctions,
+  //  stringFunctions, mathFunctions
+];
+
+functions.forEach((entity) => {
+  Context.INITIAL.add(entity.id, entity);
 });
 
 module.exports = Context;

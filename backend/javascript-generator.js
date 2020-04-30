@@ -69,38 +69,23 @@ function makeOp(op) {
   );
 }
 
-// const builtin = {
-//   exit([code]) {
-//     return `process.exit(${code})`;
-//   },
-//   len([s]) {
-//     return `${s}.length`;
-//   },
-//   substring([s, start, end]) {
-//     return `${s}.substring(${start}, ${end})`;
-//   },
-//   charAt([s, i]) {
-//     return `${s}.charAt(${i})`;
-//   },
-//   ord([c]) {
-//     return `${c}.charCodeAt(0)`;
-//   },
-//   abs([n]) {
-//     return `Math.abs(${n})`;
-//   },
-//   sqrt([n]) {
-//     return `Math.sqrt(${n})`;
-//   },
-//   pi() {
-//     return `Math.PI`;
-//   },
-//   random([s, e]) {
-//     return `Math.floor(Math.random() * (Math.max(${s}, ${e}) - Math.min(${s}, ${e}) + 1) + Math.min(${s}, ${e}))`;
-//   },
-//   pow([x, y]) {
-//     return `Math.pow(${x}, ${y})`;
-//   },
-// };
+const builtin = {
+  exit([code]) {
+    return `process.exit(${code})`;
+  },
+  length([str]) {
+    return `${str}.length`;
+  },
+  charAt([char, index]) {
+    return `${char}.charAt(${index})`;
+  },
+  absVal([num]) {
+    return `Math.abs(${num})`;
+  },
+  square([num]) {
+    return `Math.sqrt(${num})`;
+  },
+};
 
 const jsName = (() => {
   let lastId = 0;
@@ -170,6 +155,9 @@ BreakStatement.prototype.gen = function () {
 
 Call.prototype.gen = function () {
   const args = this.args.map(a => a.gen());
+  if (this.id.builtin) {
+    return builtin[this.id.id](args);
+  }
   return `${jsName(this.id.id)}(${args.join(',')})`;
 };
 
@@ -342,7 +330,11 @@ VariableDeclaration.prototype.gen = function () {
   const expressions = this.expressions.map(v => v.gen());
   for (let i = 0; i < this.ids.length; i += 1) {
     if (this.expressions[0].constructor === Call) {
-      formattedIds.push(`${jsName(this.ids[i].id)} = new ${expressions[i]}`);
+      if (this.expressions[0].id.builtin) {
+        formattedIds.push(`${jsName(this.ids[i].id)} = ${expressions[i]}`);
+      } else {
+        formattedIds.push(`${jsName(this.ids[i].id)} = new ${expressions[i]}`);
+      }
     } else {
       formattedIds.push(`${jsName(this.ids[i].id)} = ${expressions[i]}`);
     }
