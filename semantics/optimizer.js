@@ -1,0 +1,281 @@
+const Argument = require('../ast/argument');
+const ArrayExpression = require('../ast/array-expression');
+const ArrayType = require('../ast/array-type');
+const AssignmentStatement = require('../ast/assignment-statement');
+const Block = require('../ast/block');
+const BooleanLiteral = require('../ast/boolean-literal');
+const BinaryExpression = require('../ast/binary-expression');
+const BreakStatement = require('../ast/break-statement');
+const Call = require('../ast/call');
+const Case = require('../ast/case');
+const ClassDeclaration = require('../ast/class-declaration');
+const { ClassicForLoop, SpreadForLoop } = require('../ast/loop');
+const ContinueStatement = require('../ast/continue-statement');
+const DefaultCase = require('../ast/default-case');
+const DictExpression = require('../ast/dict-expression');
+const DictType = require('../ast/dict-type');
+const FunctionDeclaration = require('../ast/function-declaration');
+const IdentifierDeclaration = require('../ast/identifier-declaration');
+const IdentifierExpression = require('../ast/identifier-expression');
+const IdType = require('../ast/id-type');
+const IfStatement = require('../ast/if-statement');
+const KeyValueExpression = require('../ast/keyvalue-expression');
+const MemberExpression = require('../ast/member-expression');
+const NoneLiteral = require('../ast/none-literal');
+const NumericLiteral = require('../ast/numeric-literal');
+const Parameter = require('../ast/parameter');
+const PrintStatement = require('../ast/print-statement');
+const Program = require('../ast/program');
+const ReturnStatement = require('../ast/return-statement');
+const SetExpression = require('../ast/set-expression');
+const SetType = require('../ast/set-type');
+const StringLiteral = require('../ast/string-literal');
+const SubscriptedExpression = require('../ast/subscripted-expression');
+const SwitchStatement = require('../ast/switch-statement');
+const CallStatement = require('../ast/call-statement');
+const TupleType = require('../ast/tuple-type');
+const TupleExpression = require('../ast/tuple-expression');
+const UnaryExpression = require('../ast/unary-expression');
+const VariableDeclaration = require('../ast/variable-declaration');
+const Variable = require('../ast/variable');
+const WhileStatement = require('../ast/while-statement');
+
+module.exports = program => program.optimize();
+
+function isZero(e) {
+  return e instanceof Literal && e.value === 0;
+}
+
+function isOne(e) {
+  return e instanceof Literal && e.value === 1;
+}
+
+function bothLiterals(b) {
+  return b.left instanceof Literal && b.right instanceof Literal;
+}
+
+Argument.prototype.optimize = function() { 
+    return this;
+};
+
+ArrayExpression.prototype.optimize = function() { 
+  this.expression = this.expression.optimize();
+  return this;
+};
+
+ArrayType.prototype.optimize = function() { 
+  return this;
+};
+
+// TODO this could be diff since we can have multiple on the same line
+AssignmentStatement.prototype.optimize = function() { 
+  this.target = this.target.optimize();
+  this.source = this.source.optimize();
+  if (this.target === this.source) {
+    return null;
+  }
+  return this;
+};
+
+Block.prototype.optimize = function() { // TODO 
+    return this; 
+};
+
+BooleanLiteral.prototype.optimize = function() { 
+    return this;
+};
+
+BinaryExpression.prototype.optimize = function() {
+  this.left = this.left.optimize();
+  this.right = this.right.optimize();
+  if (this.op === '+' && isZero(this.right)) return this.left;
+  if (this.op === '+' && isZero(this.left)) return this.right;
+  if (this.op === '*' && isZero(this.right)) return new Literal(0);
+  if (this.op === '*' && isZero(this.left)) return new Literal(0);
+  if (this.op === '*' && isOne(this.right)) return this.left;
+  if (this.op === '*' && isOne(this.left)) return this.right;
+  if (bothLiterals(this)) {
+    const [x, y] = [this.left.value, this.right.value];
+    if (this.op === '+') return new Literal(x + y);
+    if (this.op === '*') return new Literal(x * y);
+    if (this.op === '/') return new Literal(x / y);
+  }
+  return this;
+};
+
+BreakStatement.prototype.optimize = function() { 
+  return this;
+};
+
+Call.prototype.optimize = function() {
+  this.args = this.args.map(a => a.optimize());
+  this.id = this.id.optimize();
+  return this;
+};
+
+CallStatement.prototype.optimize = function() { // TODO 
+    return this;
+};
+
+Case.prototype.optimize = function() { // TODO 
+    return this;
+};
+
+ClassDeclaration.prototype.optimize = function() { // TODO 
+    return this;
+};
+
+ClassicForLoop.prototype.optimize = function() { 
+    return this;
+};
+
+ContinueStatement.prototype.optimize = function() { 
+    return this;
+};
+
+DefaultCase.prototype.optimize = function() { // TODO 
+    return this;
+};
+
+DictExpression.prototype.optimize = function() { 
+    return this;
+};
+
+DictType.prototype.optimize = function() { 
+  return this;
+};
+
+FunctionDeclaration.prototype.optimize = function() {
+    if (this.body) {
+        this.body = this.body.optimize();
+      }
+      return this;
+};
+
+IdentifierDeclaration.prototype.optimize = function() { // TODO 
+    return this;
+};
+
+IdentifierExpression.prototype.optimize = function() { // TODO 
+    return this;
+};
+
+IdType.prototype.optimize = function() { // TODO 
+    return this;
+};
+
+IfStatement.prototype.optimize = function() {
+    this.tests = this.tests.optimize();
+    this.consequents = this.consequents.optimize();
+    this.alternate = this.alternate.optimize();
+    if (isZero(this.tests)) {
+      return this.alternate;
+    }
+    return this;
+};
+
+KeyValueExpression.prototype.optimize = function() { 
+    return this;
+};
+
+MemberExpression.prototype.optimize = function() {
+    this.varexp = this.varexp.optimize();
+    return this;
+};
+
+NoneLiteral.prototype.optimize = function() {  
+    return this;
+};
+
+NumericLiteral.prototype.optimize = function() {  
+    return this;
+};
+
+Parameter.prototype.optimize = function() {
+    // no action since we do not have defaults
+    return this;
+};
+
+PrintStatement.prototype.optimize = function() {  // TODO 
+    return this;
+};
+
+Program.prototype.optimize = function() {  
+  for (let i = 0; i < this.statements.length; i += 1) {
+    this.statements[i] = this.statements[i].optimize();
+  }
+  this.statements.filter(s => s !== null);
+  return this;
+};
+
+ReturnStatement.prototype.optimize = function() {  
+  this.expression = this.expression.optimize();
+  return this;
+};
+
+SetExpression.prototype.optimize = function() { 
+  for (let i = 0; i < this.expressions.length; i += 1) {
+    this.expressions[i] = this.expressions[i].optimize();
+  }
+  return this;
+};
+
+SetType.prototype.optimize = function() { 
+  return this;
+};
+
+SpreadForLoop.prototype.optimize = function() { // TODO
+  return this;
+};
+
+StringLiteral.prototype.optimize = function() {  
+    return this;
+};
+
+SubscriptedExpression.prototype.optimize = function() {
+  this.varexp = this.varexp.optimize();
+  this.subscript = this.subscript.optimize();
+  return this;
+};
+
+SwitchStatement.prototype.optimize = function() { // TODO 
+    return this;
+};
+
+TupleExpression.prototype.optimize = function() { // TODO 
+    return this;
+};
+
+TupleType.prototype.optimize = function() { 
+  return this;
+};
+
+UnaryExpression.prototype.optimize = function() {
+  this.operand = this.operand.optimize();
+  if (this.op === 'not') {
+    return (!this.operand.value);
+    // eslint-disable-next-line no-else-return
+  } else if (this.op === '-') {
+    return (-this.operand.value);
+  }
+  return this;
+};
+
+VariableDeclaration.prototype.optimize = function() {  // TODO 
+    return this;
+};
+
+Variable.prototype.optimize = function() {
+  this.init = this.init.optimize(); // TODO i don't think this is right
+  return this;
+};
+
+WhileStatement.prototype.optimize = function() {
+  this.expression = this.test.optimize();
+  if (this.expression instanceof Literal && !this.expression.value) {
+    // While-false is a no-operation, don't even need the body
+    return new NoneLiteral(); //TODO: or none type?
+  }
+  this.body = this.body.optimize();
+  return this;
+};

@@ -14,9 +14,9 @@ function compile(sourceCode, { astOnly, frontEndOnly, shouldOptimize }) {
     return util.inspect(program, { depth: null, compact: true });
   }
   analyze(program);
-  // if (shouldOptimize) {
-  //   optimize(program);
-  // }
+  if (shouldOptimize) {
+    optimize(program);
+  }
   if (frontEndOnly) {
     return graphView(program);
   }
