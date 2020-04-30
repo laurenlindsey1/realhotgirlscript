@@ -64,7 +64,6 @@ const jsName = (() => {
   let lastId = 0;
   const map = new Map();
   return v => {
-    console.log(`V: ${util.inspect(v)}`);
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }

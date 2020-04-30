@@ -1,3 +1,4 @@
+const util = require('util');
 const Argument = require('../ast/argument');
 const ArrayExpression = require('../ast/array-expression');
 const ArrayType = require('../ast/array-type');
@@ -344,12 +345,11 @@ SwitchStatement.prototype.analyze = function (context) {
 };
 
 SubscriptedExpression.prototype.analyze = function (context) {
-  //this.varexp = context.lookup(this.varexp.id);
   this.varexp.analyze(context);
   this.subscript.analyze(context);
   check.isNotSubscriptable(this.varexp);
   check.isInteger(this.subscript);
-  // TODO SET TYPE HERE
+  this.type = this.subscript.type;
 };
 
 TupleType.prototype.analyze = function (context) {

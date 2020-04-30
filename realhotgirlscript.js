@@ -4,7 +4,7 @@ const yargs = require("yargs");
 const parse = require("./syntax/parser");
 const analyze = require("./semantics/analyzer");
 const graphView = require("./semantics/viewer");
-const optimize = require("./semantics/optimizer");
+// const optimize = require("./semantics/optimizer");
 const generate = require("./backend/javascript-generator");
 
 // If compiling from a string, return the AST, IR, or compiled code as a string.
@@ -14,9 +14,9 @@ function compile(sourceCode, { astOnly, frontEndOnly, shouldOptimize }) {
     return util.inspect(program, { depth: null, compact: true });
   }
   analyze(program);
-  if (shouldOptimize) {
-    optimize(program);
-  }
+  // if (shouldOptimize) {
+  //   optimize(program);
+  // }
   if (frontEndOnly) {
     return graphView(program);
   }
