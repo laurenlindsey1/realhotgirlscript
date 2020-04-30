@@ -1,22 +1,18 @@
-const util = require("util");
-
-const ArrayType = require("../ast/array-type");
-const DictType = require("../ast/dict-type");
-const SetType = require("../ast/set-type");
-const TupleType = require("../ast/tuple-type");
-const IdExp = require("../ast/identifier-expression");
-const FunctionDeclaration = require("../ast/function-declaration");
-const ClassDeclaration = require("../ast/class-declaration");
-const IntType = require("../ast/int-type");
-const NoneLiteral = require("../ast/none-literal");
-const NoneType = require("../ast/none-type");
-const IdType = require("../ast/id-type");
-const BooleanType = require("../ast/boolean-type");
-const LongType = require("../ast/long-type");
-const StringType = require("../ast/string-type");
-const ReturnStatement = require("../ast/return-statement");
-const KeyValueExpression = require("../ast/keyvalue-expression");
-const Call = require("../ast/call");
+const ArrayType = require('../ast/array-type');
+const DictType = require('../ast/dict-type');
+const SetType = require('../ast/set-type');
+const TupleType = require('../ast/tuple-type');
+const IdExp = require('../ast/identifier-expression');
+const FunctionDeclaration = require('../ast/function-declaration');
+const ClassDeclaration = require('../ast/class-declaration');
+const IntType = require('../ast/int-type');
+const NoneLiteral = require('../ast/none-literal');
+const IdType = require('../ast/id-type');
+const BooleanType = require('../ast/boolean-type');
+const LongType = require('../ast/long-type');
+const StringType = require('../ast/string-type');
+const ReturnStatement = require('../ast/return-statement');
+const KeyValueExpression = require('../ast/keyvalue-expression');
 
 function doCheck(condition, message) {
   if (!condition) {
@@ -25,10 +21,7 @@ function doCheck(condition, message) {
 }
 
 function isEmptyDictOrSet(expression) {
-  if (
-    expression.type.constructor === DictType ||
-    expression.type.constructor === SetType
-  ) {
+  if (expression.type.constructor === DictType || expression.type.constructor === SetType) {
     return expression.expressions.length === 0;
   }
   return false;
@@ -55,51 +48,44 @@ function isReturnType(type) {
 module.exports = {
   isReturnType,
   isKeyValueExpression(expression) {
-    doCheck(
-      expression.constructor === KeyValueExpression,
-      "Not a dictionary type"
-    );
+    doCheck(expression.constructor === KeyValueExpression, 'Not a dictionary type');
   },
 
   isString(expression) {
-    doCheck(expression.type === StringType, "Not a string");
+    doCheck(expression.type === StringType, 'Not a string');
   },
 
   isDictionary(expression) {
-    doCheck(expression.type.constructor === DictType, "Not a dictionary");
+    doCheck(expression.type.constructor === DictType, 'Not a dictionary');
   },
 
   isInteger(expression) {
-    doCheck(expression.type === IntType, "Not an integer");
+    doCheck(expression.type === IntType, 'Not an integer');
   },
 
   isBoolean(expression) {
-    doCheck(expression.type === BooleanType, "Not a boolean");
+    doCheck(expression.type === BooleanType, 'Not a boolean');
   },
 
   isIntegerOrString(expression) {
     doCheck(
       expression.type === IntType || expression.type === StringType,
-      "Not an integer or string"
+      'Not an integer or string'
     );
   },
 
   isIntegerOrLong(expression) {
-    doCheck(
-      expression.type === IntType || expression.type === LongType,
-      "Not an integer or long"
-    );
+    doCheck(expression.type === IntType || expression.type === LongType, 'Not an integer or long');
   },
 
   isFunction(value) {
-    doCheck(value.constructor === FunctionDeclaration, "Not a function");
+    doCheck(value.constructor === FunctionDeclaration, 'Not a function');
   },
 
   isFunctionOrClass(value) {
     doCheck(
-      value.constructor === FunctionDeclaration ||
-        value.constructor === ClassDeclaration,
-      "Not callable"
+      value.constructor === FunctionDeclaration || value.constructor === ClassDeclaration,
+      'Not callable'
     );
     if (value.constructor === FunctionDeclaration) {
       return value.type;
@@ -109,7 +95,7 @@ module.exports = {
   },
 
   inFunction(context) {
-    doCheck(context.currentFunction, "Not inside a function");
+    doCheck(context.currentFunction, 'Not inside a function');
   },
 
   isNotSubscriptable(expression) {
@@ -117,8 +103,12 @@ module.exports = {
       expression.type !== IntType &&
         expression.type !== LongType &&
         expression.type !== BooleanType,
-      "Not subscriptable"
+      'Not subscriptable'
     );
+  },
+
+  breakMustAppearInLoopOrSwitch(context) {
+    doCheck(context.inLoop || context.inSwitch, 'Break outside of loop or switch');
   },
 
   hasMemberExpression(expression) {
@@ -131,7 +121,7 @@ module.exports = {
     );
   },
 
-  isAssignableTo(exp, type, errorMessage = "Type mismatch") {
+  isAssignableTo(exp, type, errorMessage = 'Type mismatch') {
     doCheck(
       JSON.stringify(exp.type) == JSON.stringify(type) ||
         (exp.type === IntType && type == LongType) ||
@@ -144,16 +134,13 @@ module.exports = {
   },
 
   sameType(t1, t2) {
-    doCheck(
-      JSON.stringify(t1.type) === JSON.stringify(t2.type),
-      "Type mismatch"
-    );
+    doCheck(JSON.stringify(t1.type) === JSON.stringify(t2.type), 'Type mismatch');
   },
 
   isNotConstant(lvalue) {
     doCheck(
       !(lvalue.constructor === IdExp && lvalue.ref.constant),
-      "Assignment to constant variable"
+      'Assignment to constant variable'
     );
   },
 
@@ -162,10 +149,7 @@ module.exports = {
   },
 
   asyncAwait(calleeIsAsync, callIsWait) {
-    doCheck(
-      !!calleeIsAsync === !!callIsWait,
-      "Can only call async functions with await"
-    );
+    doCheck(!!calleeIsAsync === !!callIsWait, 'Can only call async functions with await');
   },
 
   legalArguments(args, params) {
@@ -174,13 +158,11 @@ module.exports = {
       `Expected ${params.length} args in call, got ${args.length}`
     );
     args.forEach(
-      (arg, i) =>
-        arg.id === params[i].id &&
-        this.isAssignableTo(arg.expression, params[i].type)
+      (arg, i) => arg.id === params[i].id && this.isAssignableTo(arg.expression, params[i].type)
     );
   },
 
   sameNumberOfInitializersAsVariables(expressions, ids) {
-    doCheck(expressions.length === ids.length, "Incorrect number of arguments");
+    doCheck(expressions.length === ids.length, 'Incorrect number of arguments');
   },
 };

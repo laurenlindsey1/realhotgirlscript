@@ -6,26 +6,12 @@
  *   const Context = require('./semantics/context');
  */
 
-const util = require("util");
+const { standardFunctions } = require('./builtins');
 
-const {
-  standardFunctions,
-  IntType,
-  LongType,
-  StringType,
-  BoolType,
-  NoneType,
-} = require("./builtins");
-
-require("./analyzer");
+require('./analyzer');
 
 class Context {
-  constructor({
-    parent = null,
-    currentFunction = null,
-    inLoop = false,
-    inSwitch = false,
-  } = {}) {
+  constructor({ parent = null, currentFunction = null, inLoop = false, inSwitch = false } = {}) {
     Object.assign(this, {
       parent,
       currentFunction,
@@ -84,7 +70,7 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-standardFunctions.forEach((f) => {
+standardFunctions.forEach(f => {
   Context.INITIAL.variableDeclarations[f.id] = f;
 });
 

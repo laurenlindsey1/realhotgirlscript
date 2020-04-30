@@ -15,13 +15,12 @@ realHotGirlScript {
   SimpleStmt  =  const? Type DeclIds ":" Exps               -- varDecl
               |  VarExps ":" Exps                           -- assign
               |  Call                                       -- call
-              |  Print                                      -- print
+              |  print Exp                                  -- print
               |  break                                      -- break
               |  continue                                   -- continue
               |  return Exp?                                -- return
               |  Exp
   Block       =  "$" Stmt* "#"
-  Print 	     =  print Exp
   Case        =  case Exp Block
   DefaultCase =  default Block
   Exp         =  Exp "||" Exp1                              -- or
