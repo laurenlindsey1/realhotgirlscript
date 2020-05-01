@@ -1,9 +1,7 @@
 const Func = require("../ast/function-declaration");
 const Param = require("../ast/parameter");
 const IntType = require("../ast/int-type");
-const LongType = require("../ast/long-type");
 const StringType = require("../ast/string-type");
-const PrimitiveType = require("../ast/primitive-type");
 
 const standardFunctions = [
   new Func(null, "void", "exit", [new Param(IntType, "code", "0")]),

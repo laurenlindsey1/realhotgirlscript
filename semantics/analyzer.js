@@ -1,4 +1,3 @@
-const util = require('util');
 const Argument = require('../ast/argument');
 const ArrayExpression = require('../ast/array-expression');
 const ArrayType = require('../ast/array-type');

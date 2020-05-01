@@ -291,7 +291,10 @@ SpreadForLoop.prototype.gen = function () {
   const max = jsName(new Variable(false, new PrimitiveType('digitz'), 'max').id);
   const preAssign = `let ${min} = ${this.min.gen()}; let ${max} = ${this.max.gen()};`;
   const loopControl = `for (let i = ${min}; i <= ${max}; i++)`;
-  const body = this.body.gen();
+  let body = "";
+  if (this.body) {
+    body = this.body.gen();
+  }
   return `${preAssign} ${loopControl} {${body}}`;
 };
 
@@ -350,5 +353,10 @@ VariableExpression.prototype.gen = function () {
 };
 
 WhileStatement.prototype.gen = function () {
-  return `while (${this.expression.gen()}) { ${this.body.gen()} }`;
+  if (this.body) {
+    this.body = this.body.gen();
+  } else {
+    this.body = "";
+  }
+  return `while (${this.expression.gen()}) { ${this.body} }`;
 };
