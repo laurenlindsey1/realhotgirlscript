@@ -1,3 +1,5 @@
+const util = require('util');
+
 const Argument = require('../ast/argument');
 const ArrayExpression = require('../ast/array-expression');
 const ArrayType = require('../ast/array-type');
@@ -43,15 +45,26 @@ const WhileStatement = require('../ast/while-statement');
 module.exports = program => program.optimize();
 
 function isZero(e) {
-  return e instanceof Literal && e.value === 0;
+  return e instanceof NumericLiteral && e.value === 0;
 }
 
 function isOne(e) {
-  return e instanceof Literal && e.value === 1;
+  return e instanceof NumericLiteral && e.value === 1;
 }
 
 function bothLiterals(b) {
-  return b.left instanceof Literal && b.right instanceof Literal;
+  if(b.left instanceof NumericLiteral && b.right instanceof NumericLiteral){
+    return b.left instanceof NumericLiteral && b.right instanceof NumericLiteral;
+  }
+  else if( b.left instanceof BooleanLiteral && b.right instanceof BooleanLiteral){
+    b.left instanceof BooleanLiteral && b.right instanceof BooleanLiteral;
+  }
+  else if( b.left instanceof StringLiteral && b.right instanceof StringLiteral){
+    b.left instanceof StringLiteral && b.right instanceof StringLiteral;
+  }
+  else{
+  return b.left instanceof NoneLiteral && b.right instanceof NoneLiteral;
+  }
 }
 
 Argument.prototype.optimize = function() { 
@@ -59,7 +72,7 @@ Argument.prototype.optimize = function() {
 };
 
 ArrayExpression.prototype.optimize = function() { 
-  this.expression = this.expression.optimize();
+  this.expressions = this.expressions.map(e => e.optimize());
   return this;
 };
 
@@ -67,13 +80,17 @@ ArrayType.prototype.optimize = function() {
   return this;
 };
 
-// TODO this could be diff since we can have multiple on the same line
-AssignmentStatement.prototype.optimize = function() { 
-  this.target = this.target.optimize();
-  this.source = this.source.optimize();
-  if (this.target === this.source) {
-    return null;
-  }
+AssignmentStatement.prototype.optimize = function() { //TODO
+  this.target = this.target.map(e => e.optimize());
+  this.source = this.source.map(v => v.optimize());
+  this.target.forEach(t => {
+    this.source.forEach(s => {
+      if (this.target === this.source) {
+        this.target = null; 
+        this.source = null;
+      }
+    })
+  })
   return this;
 };
 
@@ -90,15 +107,18 @@ BinaryExpression.prototype.optimize = function() {
   this.right = this.right.optimize();
   if (this.op === '+' && isZero(this.right)) return this.left;
   if (this.op === '+' && isZero(this.left)) return this.right;
-  if (this.op === '*' && isZero(this.right)) return new Literal(0);
-  if (this.op === '*' && isZero(this.left)) return new Literal(0);
+  if (this.op === '*' && isZero(this.right)) return new NumericLiteral(0);
+  if (this.op === '*' && isZero(this.left)) return new NumericLiteral(0);
   if (this.op === '*' && isOne(this.right)) return this.left;
   if (this.op === '*' && isOne(this.left)) return this.right;
   if (bothLiterals(this)) {
     const [x, y] = [this.left.value, this.right.value];
-    if (this.op === '+') return new Literal(x + y);
-    if (this.op === '*') return new Literal(x * y);
-    if (this.op === '/') return new Literal(x / y);
+    if(this.left instanceof StringLiteral){
+      if (this.op === '+') return new StringLiteral(x + y);
+    }
+    if (this.op === '+') return new NumericLiteral(x + y);
+    if (this.op === '*') return new NumericLiteral(x * y);
+    if (this.op === '/') return new NumericLiteral(x / y);
   }
   return this;
 };
@@ -252,21 +272,20 @@ TupleType.prototype.optimize = function() {
 
 UnaryExpression.prototype.optimize = function() {
   this.operand = this.operand.optimize();
-  if (this.op === 'not') {
-    return (!this.operand.value);
+  if (this.op === 'BANGENERGY') {
+    return (new BooleanLiteral (!this.operand.value));
     // eslint-disable-next-line no-else-return
   } else if (this.op === '-') {
-    return (-this.operand.value);
+    return (new NumericLiteral(-this.operand.value));
   }
   return this;
 };
 
-VariableDeclaration.prototype.optimize = function() {  // TODO 
-    return this;
-};
+VariableDeclaration.prototype.optimize = function() {  
+  this.expressions.forEach(e => e.optimize()); 
+  return this;};
 
-Variable.prototype.optimize = function() {
-  this.init = this.init.optimize(); // TODO i don't think this is right
+Variable.prototype.optimize = function() { // TODO 
   return this;
 };
 
