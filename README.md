@@ -295,3 +295,16 @@ function largestNum(x, y, z) {
     }
 }
 ```
+
+## Optimizations
+- Arrays
+- Assignments
+- Binary and Unary Expressions
+- Function Calls
+- Function Declarations
+- If/Else Statements
+- Print Statements
+- Sets
+- Spread For Loops
+- While Loops
+- Function Bodies
