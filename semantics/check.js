@@ -41,22 +41,13 @@ function isEmptyArray(expressions) {
   return false;
 }
 
-function isReturnType(type) {
-  return type.constructor === ReturnStatement;
-}
-
 module.exports = {
-  isReturnType,
   isKeyValueExpression(expression) {
     doCheck(expression.constructor === KeyValueExpression, 'Not a dictionary type');
   },
 
   isString(expression) {
     doCheck(expression.type === StringType, 'Not a string');
-  },
-
-  isDictionary(expression) {
-    doCheck(expression.type.constructor === DictType, 'Not a dictionary');
   },
 
   isInteger(expression) {
@@ -76,10 +67,6 @@ module.exports = {
 
   isIntegerOrLong(expression) {
     doCheck(expression.type === IntType || expression.type === LongType, 'Not an integer or long');
-  },
-
-  isFunction(value) {
-    doCheck(value.constructor === FunctionDeclaration, 'Not a function');
   },
 
   isFunctionOrClass(value) {

@@ -149,7 +149,7 @@ BreakStatement.prototype.analyze = function (context) {
 
 Call.prototype.analyze = function (context) {
   this.id = context.lookup(this.id);
-  this.type = check.isFunctionOrClass(this.id, 'Attempt to call a non-function');
+  this.type = check.isFunctionOrClass(this.id);
   this.args.forEach(arg => arg.analyze(context));
   check.legalArguments(this.args, this.id.params);
   check.asyncAwait(this.id.async, this.wait);
@@ -222,7 +222,6 @@ DictExpression.prototype.analyze = function (context) {
 DictType.prototype.analyze = function (context) {
   this.keyType = this.keyType.analyze(context);
   this.valueType = this.valueType.analyze(context);
-  check.isDictionary(this);
 };
 
 FunctionDeclaration.prototype.analyze = function (context) {
