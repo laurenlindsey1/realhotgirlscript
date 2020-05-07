@@ -25,7 +25,6 @@ const IdType = require('../ast/id-type');
 const IfStatement = require('../ast/if-statement');
 const KeyValueExpression = require('../ast/keyvalue-expression');
 const MemberExpression = require('../ast/member-expression');
-const NoneLiteral = require('../ast/none-literal');
 const NumericLiteral = require('../ast/numeric-literal');
 const Parameter = require('../ast/parameter');
 const PrimitiveType = require('../ast/primitive-type');
@@ -43,8 +42,6 @@ const VariableDeclaration = require('../ast/variable-declaration');
 const VariableExpression = require('../ast/variable-expression');
 const Variable = require('../ast/variable');
 const WhileStatement = require('../ast/while-statement');
-
-const Context = require('../semantics/context');
 
 function makeOp(op) {
   return (
@@ -94,9 +91,6 @@ const jsName = (() => {
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
-    // if (v.id) {
-    //   return `${v.id}_${map.get(v)}`;
-    // }
     return `${v}_${map.get(v)}`;
   };
 })();
@@ -135,11 +129,11 @@ Block.prototype.gen = function () {
   if (this.statements) {
     if (Array.isArray(this.statements)) {
       const statements = this.statements.map(s => s.gen());
-      return `${statements.join(';')};`;
+      if (statements.length !== 0) {
+        return `${statements.join(';')};`;
+      }
     }
-    // return `${this.statements.gen()}`;
   }
-  // return '';
 };
 
 BooleanLiteral.prototype.gen = function () {
@@ -174,9 +168,8 @@ Case.prototype.gen = function () {
 ClassDeclaration.prototype.gen = function () {
   let param = '';
   if (this.params.length) {
-    param = this.params.forEach(p => {
-      p.gen();
-    });
+    console.log(`PARAM: ${util.inspect(this.params)}`);
+    param = this.params.map(p => p.gen());
   }
   const dec = `class ${jsName(this.id)} (${param})`;
   return `${dec} {${this.body.gen()}}`;
@@ -214,17 +207,17 @@ FunctionDeclaration.prototype.gen = function () {
   if (this.async) {
     asyncAddition = ' async ';
   }
-  const params = this.params.map(p => jsName(p.id));
+  const params = this.params.map(p => p.gen());
   const body = this.body.gen();
   return `${asyncAddition}function ${name} (${params.join(',')}) {${body}}`;
 };
 
 IdType.prototype.gen = function () {
-  // return jsName(this.id);
+  // Intentionally left blank
 };
 
 IdentifierDeclaration.prototype.gen = function () {
-  // return jsName(this.id);
+  // Intentionally left blank
 };
 
 IdentifierExpression.prototype.gen = function () {
@@ -254,18 +247,16 @@ KeyValueExpression.prototype.gen = function () {
 };
 
 MemberExpression.prototype.gen = function () {
-  return `${this.varexp.gen()}.${this.member}`;
-};
-
-NoneLiteral.prototype.gen = function () {
-  return `${this.value}`;
+  return `${this.varexp.gen()}.${jsName(this.member)}`;
 };
 
 NumericLiteral.prototype.gen = function () {
   return `${this.value}`;
 };
 
-Parameter.prototype.gen = function () { };
+Parameter.prototype.gen = function () {
+  return jsName(this.id);
+};
 
 PrintStatement.prototype.gen = function () {
   return `console.log(${this.expression.gen()})`;
@@ -323,8 +314,7 @@ UnaryExpression.prototype.gen = function () {
 };
 
 Variable.prototype.gen = function () {
-  // const id = this.id.id === undefined ? this : this.id;
-  // return `${jsName(id)}`;
+  // Intentionally left blank
 };
 
 VariableDeclaration.prototype.gen = function () {
@@ -349,11 +339,12 @@ VariableDeclaration.prototype.gen = function () {
 };
 
 VariableExpression.prototype.gen = function () {
-  return `let ${jsName(this.id)} = ${this.id.gen()}`;
+  // Intentionally left blank
 };
 
 WhileStatement.prototype.gen = function () {
-  if (this.body) {
+  console.log(`BODY: ${util.inspect(this.body)}`);
+  if (this.body.statements.length !== 0) {
     this.body = this.body.gen();
   } else {
     this.body = "";

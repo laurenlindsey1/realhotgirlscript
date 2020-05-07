@@ -186,7 +186,6 @@ KeyValueExpression.prototype.optimize = function () {
 };
 
 MemberExpression.prototype.optimize = function () {
-  this.varexp = this.varexp.optimize();
   return this;
 };
 
@@ -247,8 +246,6 @@ StringLiteral.prototype.optimize = function () {
 };
 
 SubscriptedExpression.prototype.optimize = function () {
-  this.varexp = this.varexp.optimize();
-  this.subscript = this.subscript.optimize();
   return this;
 };
 

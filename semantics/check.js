@@ -11,7 +11,6 @@ const IdType = require('../ast/id-type');
 const BooleanType = require('../ast/boolean-type');
 const LongType = require('../ast/long-type');
 const StringType = require('../ast/string-type');
-const ReturnStatement = require('../ast/return-statement');
 const KeyValueExpression = require('../ast/keyvalue-expression');
 
 function doCheck(condition, message) {
