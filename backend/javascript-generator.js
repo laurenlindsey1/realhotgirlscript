@@ -94,9 +94,9 @@ const jsName = (() => {
     if (!map.has(v)) {
       map.set(v, ++lastId); // eslint-disable-line no-plusplus
     }
-    if (v.id) {
-      return `${v.id}_${map.get(v)}`;
-    }
+    // if (v.id) {
+    //   return `${v.id}_${map.get(v)}`;
+    // }
     return `${v}_${map.get(v)}`;
   };
 })();
@@ -137,9 +137,9 @@ Block.prototype.gen = function () {
       const statements = this.statements.map(s => s.gen());
       return `${statements.join(';')};`;
     }
-    return `${this.statements.gen()}`;
+    // return `${this.statements.gen()}`;
   }
-  return '';
+  // return '';
 };
 
 BooleanLiteral.prototype.gen = function () {
@@ -220,11 +220,11 @@ FunctionDeclaration.prototype.gen = function () {
 };
 
 IdType.prototype.gen = function () {
-  return jsName(this.id);
+  // return jsName(this.id);
 };
 
 IdentifierDeclaration.prototype.gen = function () {
-  return jsName(this.id);
+  // return jsName(this.id);
 };
 
 IdentifierExpression.prototype.gen = function () {
@@ -323,8 +323,8 @@ UnaryExpression.prototype.gen = function () {
 };
 
 Variable.prototype.gen = function () {
-  const id = this.id.id === undefined ? this : this.id;
-  return `${jsName(id)}`;
+  // const id = this.id.id === undefined ? this : this.id;
+  // return `${jsName(id)}`;
 };
 
 VariableDeclaration.prototype.gen = function () {
@@ -342,7 +342,7 @@ VariableDeclaration.prototype.gen = function () {
       formattedIds.push(`${jsName(this.ids[i].id)} = ${expressions[i]}`);
     }
   }
-  if (this.const) {
+  if (this.constant) {
     return `const ${formattedIds.join(', ')}`;
   }
   return `let ${formattedIds.join(', ')}`;

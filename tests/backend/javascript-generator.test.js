@@ -25,6 +25,14 @@ const fixture = {
     /class fakeAssBitches_(\d+)\(\) {\s*let worstQuality_(\d+) = "Being redundant and centrally irrelevant";\s*};\s*let b_(\d+) = new fakeAssBitches_(\1)\(\);\s*console.log\(b_(\3).worstQuality\);/,
   ],
 
+  async: [
+    String.raw`sheWaits😩 weOutHereTryinToFunction leftOnRead hiMomma()$
+    supLilBitch "I love myself"!!!
+#
+hotlineBling💎 hiMomma()!!!`,
+    /async function hiMomma(\d+)\(\) {\s*console.log\("I love myself"\);\s*\};\s*hiMomma_\1();/
+  ],
+
 
   binary: [
     String.raw`2 <= 5!!!
@@ -46,8 +54,9 @@ const fixture = {
   variables: [
     String.raw`digitz z: 10!!!
               wordz y: "hello!"!!!
-              boolz t: fraudulentAssBitch!!!`,
-    /let z_(\d+) = 10;\s*let y_(\d+) = "hello!";\s*let t_(\d+) = false;/,
+              boolz t: fraudulentAssBitch!!!
+              stayz digitz r: 5!!!`,
+    /let z_(\d+) = 10;\s*let y_(\d+) = "hello!";\s*let t_(\d+) = false;\s*const r_(\d+) = 5;/,
   ],
 
   whileLoopWithBreak: [
